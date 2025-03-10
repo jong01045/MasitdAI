@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/jong01045/MasitdAI/static/css/main.646f327f.css",
+    "main.js": "/jong01045/MasitdAI/static/js/main.a0155a71.js",
+    "index.html": "/jong01045/MasitdAI/index.html",
+    "main.646f327f.css.map": "/jong01045/MasitdAI/static/css/main.646f327f.css.map",
+    "main.a0155a71.js.map": "/jong01045/MasitdAI/static/js/main.a0155a71.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.646f327f.css",
+    "static/js/main.a0155a71.js"
+  ]
+}
