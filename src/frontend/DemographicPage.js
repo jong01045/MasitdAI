@@ -28,7 +28,7 @@ function DemographicPage({ onBack, onNext }) {
         <div className="demographic-logo" onClick={onBack}>MasidtAI</div>
       </div>
 
-      <h2>Demographic Survey</h2>
+      <h1>Tell me about yourself!</h1>
       <form onSubmit={handleSubmit} className="demographic-form">
         <label>
           Age:
