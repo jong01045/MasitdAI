@@ -3,9 +3,32 @@ import React, { useState } from 'react';
 import './DemographicPage.css';
 
 function DemographicPage({ onBack, onNext, demographicData, updateDemographic}) {
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    const newData = { ...demographicData, [e.target.name]: e.target.value }
+    console.log("Change occured")
+    const { name, value } = e.target;
+    const newData = { ...demographicData, [name]: value }
+
+    let newErrors = { ...errors };
+
+    // Validate numeric fields (age, weight, height)
+    if (["age", "weight", "height"].includes(name)) {
+      if (value === "" || isNaN(value) || parseInt(value) <= 0) {
+        newErrors[name] = `Please enter a valid ${name}.`;
+      } else {
+        delete newErrors[name]; // Remove error if input is valid
+      }
+    }
+
+    if (name === "gender" && value === "") {
+      newErrors.gender = "Please select a gender.";
+    } else if (name === "gender") {
+      delete newErrors.gender;
+    }
+
+    setErrors(newErrors);
+
     updateDemographic(newData);
   };
 
