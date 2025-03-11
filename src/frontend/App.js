@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import './App.css';
-import DemographicPage from './DemographicPage';
+import SurveyContainer from './SurveyContainer';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('welcome');
 
   const handleStartNow = () => {
     console.log("Start Now clicked");
-    setCurrentPage('demographic');
+    setCurrentPage('survey');
   };
 
   const handleDownloadApp = () => {
@@ -35,8 +35,8 @@ function App() {
     console.log("Proceeding from demographic page...");
   };
 
-  if (currentPage === 'demographic') {
-    return <DemographicPage onBack={handleBack} onNext={handleNext} />;
+  if (currentPage === 'survey') {
+    return <SurveyContainer onBack={handleBack} onNext={handleNext} />;
   }
 
   return (
