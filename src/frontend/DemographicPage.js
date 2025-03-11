@@ -2,21 +2,16 @@
 import React, { useState } from 'react';
 import './DemographicPage.css';
 
-function DemographicPage({ onBack, onNext }) {
-  const [formData, setFormData] = useState({
-    age: '',
-    gender: '',
-    height: '',
-    weight: ''
-  });
+function DemographicPage({ onBack, onNext, demographicData, updateDemographic}) {
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const newData = { ...demographicData, [e.target.name]: e.target.value }
+    updateDemographic(newData);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Demographic Data Submitted:", formData);
+    console.log("Demographic Data Submitted:", demographicData);
     // Additional processing here if needed.
   };
 
@@ -32,11 +27,11 @@ function DemographicPage({ onBack, onNext }) {
       <form onSubmit={handleSubmit} className="demographic-form">
         <label>
           Age:
-          <input type="number" name="age" value={formData.age} onChange={handleChange} required />
+          <input type="number" name="age" value={demographicData?.age || ""} onChange={handleChange} required />
         </label>
         <label>
           Gender:
-          <select name="gender" value={formData.gender} onChange={handleChange} required>
+          <select name="gender" value={demographicData?.gender || ""} onChange={handleChange} required>
             <option value="">Select Gender</option>
             <option value="female">Female</option>
             <option value="male">Male</option>
@@ -45,13 +40,12 @@ function DemographicPage({ onBack, onNext }) {
         </label>
         <label>
           Height (cm):
-          <input type="number" name="height" value={formData.height} onChange={handleChange} required />
+          <input type="number" name="height" value={demographicData?.height || ""} onChange={handleChange} required />
         </label>
         <label>
           Weight (kg):
-          <input type="number" name="weight" value={formData.weight} onChange={handleChange} required />
+          <input type="number" name="weight" value={demographicData?.weight || ""} onChange={handleChange} required />
         </label>
-        <button type="submit" className="submit-button">Submit</button>
       </form>
 
       {/* Footer with Next button */}
