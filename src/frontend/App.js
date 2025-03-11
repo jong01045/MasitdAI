@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
+import DemographicPage from './DemographicPage';
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('welcome');
 
   const handleStartNow = () => {
     console.log("Start Now clicked");
-    // Add your action code here
+    setCurrentPage('demographic');
   };
 
   const handleDownloadApp = () => {
@@ -23,11 +25,25 @@ function App() {
     // Add your action code here
   };
 
+  const handleBack = () => {
+    console.log("Back to welcome page");
+    setCurrentPage('welcome');
+  };
+
+  const handleNext = () => {
+    console.log("Next button clicked");
+    console.log("Proceeding from demographic page...");
+  };
+
+  if (currentPage === 'demographic') {
+    return <DemographicPage onBack={handleBack} onNext={handleNext} />;
+  }
+
   return (
     <div className="App">
       {/* Top Banner */}
       <div className="top-banner">
-        <div className="banner-logo">MasidtAI</div>
+        <div className="banner-logo" onClick={handleBack}>MasidtAI</div>
         <div className="banner-icons">
           <div className="icon-search">🔍</div>
           <button className="login-button" onClick={handleSignIn}>Sign in</button>
