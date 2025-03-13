@@ -2,14 +2,32 @@
 import React, { useState } from 'react';
 import './GymExperiencePage.css';
 
-function GymExperiencePage({ onBack, onNext, gymExpData, updateGymExperience}) {
+function GymExperiencePage({ onBack, onNext, gymExpData, updateGymExperience, updateGymError}) {
 
-  const handleChange = (e) => updateGymExperience(e.target.value);
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    console.log(e.target.value);
+    updateGymExperience(e.target.value)
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log("Gym Experience Submitted:", experience);
-    onNext();
+
+    let newErrors = {};
+
+    if (gymExpData === "") {
+        newErrors["exp"] = `Please fill out experience.`;
+      } else {delete newErrors["exp"]}
+
+    if (Object.keys(newErrors).length > 0) {
+      console.log("Errors found:", newErrors);
+      setErrors(newErrors);
+    } else {
+      console.log("Gym Experience Submitted:", gymExpData);
+      onNext();
+    }
+
   };
 
   return (
@@ -35,6 +53,7 @@ function GymExperiencePage({ onBack, onNext, gymExpData, updateGymExperience}) {
         <label>
           <input type="radio" name="experience" value="pro" checked={gymExpData === 'pro'} onChange={handleChange} />
           Pro (4+ years)
+          {errors.exp && <p className="error-message">{errors.exp}</p>}
         </label>
       </form>
       <div className="gym-footer">

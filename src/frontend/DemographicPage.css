@@ -95,3 +95,9 @@
 .next-button:hover {
   background-color: #777;
 }
+
+.error-message {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}

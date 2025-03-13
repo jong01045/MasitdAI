@@ -2,40 +2,62 @@
 import React, { useState } from 'react';
 import './DemographicPage.css';
 
-function DemographicPage({ onBack, onNext, demographicData, updateDemographic}) {
+function DemographicPage({ onBack, onNext, demographicData, updateDemographic, updateDemoError}) {
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    console.log("Change occured")
-    const { name, value } = e.target;
-    const newData = { ...demographicData, [name]: value }
+    console.log("Change occured");
 
-    let newErrors = { ...errors };
+    const { name, value } = e.target;
+
+    console.log(e.target)
+    // Error check
+    let newErrors = {...errors};
 
     // Validate numeric fields (age, weight, height)
     if (["age", "weight", "height"].includes(name)) {
-      if (value === "" || isNaN(value) || parseInt(value) <= 0) {
+      if (isNaN(value) || parseInt(value) <= 0) {  //Checks for any not number or negative
         newErrors[name] = `Please enter a valid ${name}.`;
       } else {
         delete newErrors[name]; // Remove error if input is valid
       }
     }
 
-    if (name === "gender" && value === "") {
-      newErrors.gender = "Please select a gender.";
-    } else if (name === "gender") {
+    if (name === "gender") {
       delete newErrors.gender;
     }
 
     setErrors(newErrors);
+    updateDemoError(newErrors);
+    
+    const newData = { ...demographicData, [name]: value }
 
     updateDemographic(newData);
+    
+    
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Demographic Data Submitted:", demographicData);
-    // Additional processing here if needed.
+    
+    // // Additional processing here if needed.
+
+    let newErrors = {};
+
+    Object.entries(demographicData).forEach(([key, value]) => {
+      if (value === "") {
+        newErrors[key] = `Please fill out ${key}.`;
+      } 
+    });
+
+    if (Object.keys(newErrors).length > 0) {
+      console.log("Errors found:", newErrors);
+      setErrors(newErrors);
+    } else {
+      console.log("All fields are filled");
+      console.log("Demographic Data Submitted:", demographicData);
+      onNext();
+    }
   };
 
   return (
@@ -50,7 +72,13 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic}) 
       <form onSubmit={handleSubmit} className="demographic-form">
         <label>
           Age:
-          <input type="number" name="age" value={demographicData?.age || ""} onChange={handleChange} required />
+          <input type="number" name="age" value={demographicData?.age || ""} onChange={handleChange} required 
+          onKeyDown={(e) => {
+            if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
+              e.preventDefault();
+            }
+          }} />
+          {errors.age && <p className="error-message">{errors.age}</p>}
         </label>
         <label>
           Gender:
@@ -60,20 +88,33 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic}) 
             <option value="male">Male</option>
             <option value="other">Other</option>
           </select>
+          {errors.gender && <p className="error-message">{errors.gender}</p>}
         </label>
         <label>
           Height (cm):
-          <input type="number" name="height" value={demographicData?.height || ""} onChange={handleChange} required />
+          <input type="number" name="height" value={demographicData?.height || ""} onChange={handleChange} required 
+          onKeyDown={(e) => {
+            if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
+              e.preventDefault();
+            }
+          }} />
+          {errors.height && <p className="error-message">{errors.height}</p>}
         </label>
         <label>
           Weight (kg):
-          <input type="number" name="weight" value={demographicData?.weight || ""} onChange={handleChange} required />
+          <input type="number" name="weight" value={demographicData?.weight || ""} onChange={handleChange} required 
+          onKeyDown={(e) => {
+            if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
+              e.preventDefault();
+            }
+          }} />
+          {errors.weight && <p className="error-message">{errors.weight}</p>}
         </label>
       </form>
 
       {/* Footer with Next button */}
       <div className="demographic-footer">
-        <button className="next-button" onClick={onNext}>Next</button>
+        <button className="next-button" onClick={handleSubmit}>Next</button>
       </div>
     </div>
   );
