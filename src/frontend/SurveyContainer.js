@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DemographicPage from './DemographicPage';
 import GymExperiencePage from './GymExperiencePage';
+import GoalPage from './GoalPage'
 import './SurveyContainer.css';
 
 function SurveyContainer({onBack}) {
@@ -8,7 +9,6 @@ function SurveyContainer({onBack}) {
 
   const [showDots, setShowDots] = useState(false);
 
-  const totalPages = 9;
   const [visitedPages, setVisitedPages] = useState([0]);
 
   const handlePageChange = (pageIndex) => {
@@ -68,8 +68,18 @@ function SurveyContainer({onBack}) {
           <DemographicPage onBack={onBack} onNext={() => handlePageChange(1)} demographicData = {surveyData.demographic} updateDemographic={updateDemographic} updateDemoError = {updateDemoError} isEmptyObject = {isEmptyObject} />
         </div>
         <div className="survey-slide">
-          <GymExperiencePage onBack={() => handlePageChange(0)} onNext={submitSurvey} gymExpData = {surveyData.gymExperience} updateGymExperience={updateGymExperience} updateGymError = {updateGymError} isEmptyObject = {isEmptyObject} />
+          <GymExperiencePage onBack={() => handlePageChange(0)} onNext={() => handlePageChange(2)} gymExpData = {surveyData.gymExperience} updateGymExperience={updateGymExperience} updateGymError = {updateGymError} isEmptyObject = {isEmptyObject} />
         </div>
+        <div className="survey-slide">
+          <GoalPage 
+            onBack={() => handlePageChange(1)} 
+            onNext={(selectedGoals) => {
+              console.log("Goals received from GoalPage:", selectedGoals);
+              handlePageChange(3);  // Assuming GoalPage is your third slide
+            }}
+          />
+        </div>
+
       </div>
       <div className={`survey-dots ${showDots ? 'visible' : ''}`}>
         {visitedPages.slice(-4).map((page, idx) => (
