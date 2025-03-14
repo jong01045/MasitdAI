@@ -8,22 +8,13 @@ function SurveyContainer({onBack}) {
 
   const [showDots, setShowDots] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      // Show dots when scrolled down more than 100px
-      if (window.scrollY > 100) {
-        setShowDots(true);
-      } else {
-        setShowDots(false);
-      }
-    };
+  const totalPages = 9;
+  const [visitedPages, setVisitedPages] = useState([0]);
 
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  const handlePageChange = (pageIndex) => {
+    setCurrentPage(pageIndex);
+    setVisitedPages(prev => prev.includes(pageIndex) ? prev : [...prev, pageIndex]);
+  };
 
   const isEmptyObject = (obj) => Object.keys(obj).length === 0; //Helper function to check empty object
 
@@ -74,15 +65,20 @@ function SurveyContainer({onBack}) {
     <div className="survey-container">
       <div className="survey-slider" style={{ transform: `translateX(-${currentPage * 100}%)` }}>
         <div className="survey-slide">
-          <DemographicPage onBack={onBack} onNext={() => setCurrentPage(1)} demographicData = {surveyData.demographic} updateDemographic={updateDemographic} updateDemoError = {updateDemoError} isEmptyObject = {isEmptyObject} />
+          <DemographicPage onBack={onBack} onNext={() => handlePageChange(1)} demographicData = {surveyData.demographic} updateDemographic={updateDemographic} updateDemoError = {updateDemoError} isEmptyObject = {isEmptyObject} />
         </div>
         <div className="survey-slide">
-          <GymExperiencePage onBack={() => setCurrentPage(0)} onNext={submitSurvey} gymExpData = {surveyData.gymExperience} updateGymExperience={updateGymExperience} updateGymError = {updateGymError} isEmptyObject = {isEmptyObject} />
+          <GymExperiencePage onBack={() => handlePageChange(0)} onNext={submitSurvey} gymExpData = {surveyData.gymExperience} updateGymExperience={updateGymExperience} updateGymError = {updateGymError} isEmptyObject = {isEmptyObject} />
         </div>
       </div>
       <div className={`survey-dots ${showDots ? 'visible' : ''}`}>
-        <span className={`dot ${currentPage === 0 ? 'active' : ''}`} onClick={() => handleDotClick(0)}></span>
-        <span className={`dot ${currentPage === 1 ? 'active' : ''}`} onClick={() => handleDotClick(1)}></span>
+        {visitedPages.slice(-4).map((page, idx) => (
+          <span
+            key={page}
+            className={`dot ${currentPage === page ? 'active' : ''}`}
+            onClick={() => handleDotClick(page)}
+          />
+        ))}
       </div>
     </div>
   );
