@@ -83,6 +83,17 @@
   .next-button:hover {
     background-color: #777;
   }
+
+  .next-button:disabled {
+    background-color: #999;
+    color: #fff;
+    cursor: default; /* Use default arrow cursor */
+    opacity: 1;      /* No visual fading */
+  }
+
+  .next-button:not(:disabled):hover {
+    background-color: #999;
+  }
   
   .error-message {
     color: red;

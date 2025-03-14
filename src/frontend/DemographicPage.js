@@ -5,6 +5,13 @@ import './DemographicPage.css';
 function DemographicPage({ onBack, onNext, demographicData, updateDemographic, updateDemoError}) {
   const [errors, setErrors] = useState({});
 
+  const isFormValid =
+    demographicData.age &&
+    demographicData.gender &&
+    demographicData.height &&
+    demographicData.weight &&
+    Object.keys(errors).length === 0;
+
   const handleChange = (e) => {
     console.log("Change occured");
 
@@ -114,7 +121,7 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
 
       {/* Footer with Next button */}
       <div className="demographic-footer">
-        <button className="next-button" onClick={handleSubmit}>Next</button>
+        <button className="next-button" onClick={handleSubmit} disabled={!isFormValid} >Next</button>
       </div>
     </div>
   );

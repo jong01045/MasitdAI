@@ -30,6 +30,8 @@ function GymExperiencePage({ onBack, onNext, gymExpData, updateGymExperience, up
 
   };
 
+  const isFormValid = gymExpData !== "" && Object.keys(errors).length === 0;
+
   return (
     <div className="gym-experience-page">
       <div className="gym-header">
@@ -57,7 +59,7 @@ function GymExperiencePage({ onBack, onNext, gymExpData, updateGymExperience, up
         {errors.exp && <p className="error-message">{errors.exp}</p>}
       </form>
       <div className="gym-footer">
-        <button className="next-button" onClick={handleSubmit}>Next</button>
+        <button className="next-button" onClick={handleSubmit} disabled={!isFormValid} >Next</button>
       </div>
     </div>
   );

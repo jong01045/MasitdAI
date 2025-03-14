@@ -97,13 +97,22 @@
   font-size: 1rem;
 }
 
-.next-button:hover {
-  background-color: #777;
-}
-
 .error-message {
   color: red;
   font-size: 0.8rem;
   margin-top: 4px;
   margin-bottom: 1px;
+}
+
+.next-button:disabled {
+  background-color: #999;
+  cursor: default;
+}
+
+.next-button:not(:disabled):hover {
+  background-color: #555;
+}
+
+.next-button:hover {
+  background-color: #777;
 }
