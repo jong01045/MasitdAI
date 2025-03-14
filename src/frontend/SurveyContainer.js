@@ -1,10 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DemographicPage from './DemographicPage';
 import GymExperiencePage from './GymExperiencePage';
 import './SurveyContainer.css';
 
 function SurveyContainer({onBack}) {
   const [currentPage, setCurrentPage] = useState(0); // 0: Demographic, 1: Gym Experience
+
+  const [showDots, setShowDots] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show dots when scrolled down more than 100px
+      if (window.scrollY > 100) {
+        setShowDots(true);
+      } else {
+        setShowDots(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const isEmptyObject = (obj) => Object.keys(obj).length === 0; //Helper function to check empty object
 
@@ -61,7 +80,7 @@ function SurveyContainer({onBack}) {
           <GymExperiencePage onBack={() => setCurrentPage(0)} onNext={submitSurvey} gymExpData = {surveyData.gymExperience} updateGymExperience={updateGymExperience} updateGymError = {updateGymError} isEmptyObject = {isEmptyObject} />
         </div>
       </div>
-      <div className="survey-dots">
+      <div className={`survey-dots ${showDots ? 'visible' : ''}`}>
         <span className={`dot ${currentPage === 0 ? 'active' : ''}`} onClick={() => handleDotClick(0)}></span>
         <span className={`dot ${currentPage === 1 ? 'active' : ''}`} onClick={() => handleDotClick(1)}></span>
       </div>

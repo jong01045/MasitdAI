@@ -53,8 +53,8 @@ function GymExperiencePage({ onBack, onNext, gymExpData, updateGymExperience, up
         <label>
           <input type="radio" name="experience" value="pro" checked={gymExpData === 'pro'} onChange={handleChange} />
           Pro (4+ years)
-          {errors.exp && <p className="error-message">{errors.exp}</p>}
         </label>
+        {errors.exp && <p className="error-message">{errors.exp}</p>}
       </form>
       <div className="gym-footer">
         <button className="next-button" onClick={handleSubmit}>Next</button>
