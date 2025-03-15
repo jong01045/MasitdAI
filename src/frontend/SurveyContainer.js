@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DemographicPage from './DemographicPage';
 import GymExperiencePage from './GymExperiencePage';
 import GoalPage from './GoalPage'
+import BodyFocusPage from './BodyFocusPage';
 import './SurveyContainer.css';
 
 function SurveyContainer({onBack}) {
@@ -76,6 +77,15 @@ function SurveyContainer({onBack}) {
             onNext={(selectedGoals) => {
               console.log("Goals received from GoalPage:", selectedGoals);
               handlePageChange(3);  // Assuming GoalPage is your third slide
+            }}
+          />
+        </div>
+        <div className="survey-slide">
+          <BodyFocusPage
+            onBack={() => handlePageChange(2)}
+            onNext={(selectedParts) => {
+              console.log("Selected body parts:", selectedParts);
+              handlePageChange(4);  // Next page index
             }}
           />
         </div>
