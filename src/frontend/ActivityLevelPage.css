@@ -8,6 +8,7 @@
     flex-direction: column;
     align-items: center;
     position: relative;
+    padding-bottom: 5rem;
   }
   
   /* Aligns Back button far left and Logo far right */
@@ -102,9 +103,12 @@
   
   /* Footer (Next Button) */
   .activity-footer {
-    position: absolute;
-    bottom: 2rem;
-    right: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 2rem;
+    margin-top: 2rem; /* Adds space after main content */
+    position: relative; 
   }
   
   .next-button {

@@ -1,4 +1,4 @@
-.body-focus-page {
+.health-issue-page {
     background-color: #333;
     color: #fff;
     padding: 2rem;
@@ -11,13 +11,12 @@
     padding-bottom: 5rem;
   }
   
-  /* Aligns Back button far left and Logo far right */
-  .body-header {
+  /* Header */
+  .health-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 0 2rem;
     max-width: 1200px;
     margin-bottom: 2rem;
   }
@@ -36,7 +35,7 @@
     background-color: #777;
   }
   
-  .body-logo {
+  .health-logo {
     font-size: 2rem;
     font-weight: 700;
     cursor: pointer;
@@ -47,50 +46,78 @@
     margin-bottom: 2rem;
   }
   
-  .body-buttons-container {
+  /* Buttons Container */
+  .health-buttons-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-    max-width: 600px;
-    padding-bottom: 2rem;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 400px;
   }
   
-  .body-button {
+  /* Health Issue Button */
+  .health-button {
     background-color: #555;
     color: #fff;
     border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 25px;
+    padding: 1rem;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 1rem;
-    transition: background-color 0.3s ease;
-    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    transition: background-color 0.3s;
+    position: relative;
+    padding-left: 3rem; /* Space for checkbox */
   }
   
-  .body-button.selected {
+  .health-button.selected {
     background-color: #2ecc71;
   }
   
-  .body-button:hover {
+  .health-button:hover {
     background-color: #777;
   }
   
-  .body-diagram {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 2rem;
+  /* Special Styling for "None of the Above" */
+  .none-button {
+    background-color: #444;
+    border: 2px solid #888;
   }
   
-  .body-footer {
+  .none-button.selected {
+    background-color: #e74c3c; /* Red for exclusivity */
+    border-color: #c0392b;
+  }
+  
+  /* Checkbox Circle */
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    position: absolute;
+    left: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .checkmark {
+    color: #fff;
+    font-size: 1rem;
+  }
+  
+  /* Footer (Next Button) */
+  .health-footer {
     width: 100%;
     display: flex;
     justify-content: flex-end;
     padding: 1rem 2rem;
     margin-top: 2rem; /* Adds space after main content */
-    position: relative; 
+    position: relative;
   }
   
   .next-button {

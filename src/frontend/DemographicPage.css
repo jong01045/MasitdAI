@@ -6,6 +6,7 @@
   padding: 2rem;
   text-align: center;
   min-height: 100vh;
+  padding-bottom: 5rem;
 }
 
 .demographic-page h1 {
@@ -88,9 +89,12 @@
 }
 
 .demographic-footer {
+  width: 100%;
   display: flex;
   justify-content: flex-end;
-  margin-top: 2rem;
+  padding: 1rem 2rem;
+  margin-top: 2rem; /* Adds space after main content */
+  position: relative; 
 }
 
 .next-button {

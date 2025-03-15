@@ -105,12 +105,10 @@ h1 {
 .gym-footer {
   width: 100%;
   display: flex;
-  justify-content: flex-end; /* Pushes the button to the right */
-  padding-top: 2rem;
-  padding-right: 2rem;
+  justify-content: flex-end;
+  padding: 1rem 2rem;
+  margin-top: 2rem; /* Adds space after main content */
   position: relative;
-  /* bottom: 2rem; */
-  right: 2rem;
 }
 
 .next-button {

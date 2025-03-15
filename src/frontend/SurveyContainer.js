@@ -4,6 +4,8 @@ import GymExperiencePage from './GymExperiencePage';
 import GoalPage from './GoalPage'
 import BodyFocusPage from './BodyFocusPage';
 import ActivityLevelPage from './ActivityLevelPage';
+import HealthIssuePage from './HealthIssuePage';
+
 import './SurveyContainer.css';
 
 function SurveyContainer({onBack}) {
@@ -92,9 +94,18 @@ function SurveyContainer({onBack}) {
         </div>
         <div className="survey-slide">
           <ActivityLevelPage
-            onBack={() => handlePageChange(4)}
+            onBack={() => handlePageChange(3)}
             onNext={(selectedLevel) => {
               console.log("Selected activity level:", selectedLevel);
+              handlePageChange(5);  // Next page index
+            }}
+          />
+        </div>
+        <div className="survey-slide">
+          <HealthIssuePage
+            onBack={() => handlePageChange(4)}
+            onNext={(selectedIssues) => {
+              console.log("Selected health issues:", selectedIssues);
               handlePageChange(6);  // Next page index
             }}
           />
