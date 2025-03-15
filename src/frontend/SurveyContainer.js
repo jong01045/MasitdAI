@@ -3,6 +3,7 @@ import DemographicPage from './DemographicPage';
 import GymExperiencePage from './GymExperiencePage';
 import GoalPage from './GoalPage'
 import BodyFocusPage from './BodyFocusPage';
+import ActivityLevelPage from './ActivityLevelPage';
 import './SurveyContainer.css';
 
 function SurveyContainer({onBack}) {
@@ -89,7 +90,15 @@ function SurveyContainer({onBack}) {
             }}
           />
         </div>
-
+        <div className="survey-slide">
+          <ActivityLevelPage
+            onBack={() => handlePageChange(4)}
+            onNext={(selectedLevel) => {
+              console.log("Selected activity level:", selectedLevel);
+              handlePageChange(6);  // Next page index
+            }}
+          />
+        </div>
       </div>
       <div className={`survey-dots ${showDots ? 'visible' : ''}`}>
         {(() => {

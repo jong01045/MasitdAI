@@ -1,65 +1,52 @@
-// src/frontend/GymExperiencePage.js
-import React, { useState } from 'react';
-import './GymExperiencePage.css';
+import React, { useState } from "react";
+import "./GymExperiencePage.css";
 
-function GymExperiencePage({ onBack, onNext, gymExpData, updateGymExperience, updateGymError}) {
+const gymExperienceLevels = [
+  { title: "Beginner", subtitle: "(No Experience)", emoji: "🆕" },
+  { title: "Novice", subtitle: "(1 Year Experience)", emoji: "💪" },
+  { title: "Intermediate", subtitle: "(2+ Years Experience)", emoji: "🏋️" },
+  { title: "Pro", subtitle: "(4+ Years Experience)", emoji: "🔥" }
+];
 
-  const [errors, setErrors] = useState({});
-
-  const handleChange = (e) => {
-    console.log(e.target.value);
-    updateGymExperience(e.target.value)
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    let newErrors = {};
-
-    if (gymExpData === "") {
-        newErrors["exp"] = `Please fill out experience.`;
-      } else {delete newErrors["exp"]}
-
-    if (Object.keys(newErrors).length > 0) {
-      console.log("Errors found:", newErrors);
-      setErrors(newErrors);
-    } else {
-      console.log("Gym Experience Submitted:", gymExpData);
-      onNext();
-    }
-
-  };
-
-  const isFormValid = gymExpData !== "" && Object.keys(errors).length === 0;
+function GymExperiencePage({ onBack, onNext }) {
+  const [selectedExperience, setSelectedExperience] = useState(null);
 
   return (
     <div className="gym-experience-page">
+      {/* Header */}
       <div className="gym-header">
         <button className="back-button" onClick={onBack}>Back</button>
-        <div className="gym-logo" onClick={onBack}>MasidtAI</div>
+        <div className="gym-logo">MasidtAI</div>
       </div>
+
       <h1>What's Your Gym Experience?</h1>
-      <form onSubmit={handleSubmit} className="gym-form">
-        <label>
-          <input type="radio" name="experience" value="beginner" checked={gymExpData === 'beginner'} onChange={handleChange} />
-          Beginner (No experience)
-        </label>
-        <label>
-          <input type="radio" name="experience" value="novice" checked={gymExpData === 'novice'} onChange={handleChange} />
-          Novice (1 year)
-        </label>
-        <label>
-          <input type="radio" name="experience" value="intermediate" checked={gymExpData === 'intermediate'} onChange={handleChange} />
-          Intermediate (2+ years)
-        </label>
-        <label>
-          <input type="radio" name="experience" value="pro" checked={gymExpData === 'pro'} onChange={handleChange} />
-          Pro (4+ years)
-        </label>
-        {errors.exp && <p className="error-message">{errors.exp}</p>}
-      </form>
+
+      {/* Experience Selection Buttons */}
+      <div className="gym-buttons-container">
+        {gymExperienceLevels.map((level) => (
+          <button
+            key={level.title}
+            className={`gym-button ${selectedExperience === level.title ? "selected" : ""}`}
+            onClick={() => setSelectedExperience(level.title)}
+          >
+            <div className="gym-text">
+              <span className="gym-title">{level.title}</span>
+              <span className="gym-subtitle">{level.subtitle}</span>
+            </div>
+            <span className="gym-emoji">{level.emoji}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Next Button */}
       <div className="gym-footer">
-        <button className="next-button" onClick={handleSubmit} disabled={!isFormValid} >Next</button>
+        <button
+          className="next-button"
+          onClick={() => onNext(selectedExperience)}
+          disabled={!selectedExperience}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
