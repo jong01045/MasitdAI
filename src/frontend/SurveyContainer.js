@@ -92,13 +92,29 @@ function SurveyContainer({onBack}) {
 
       </div>
       <div className={`survey-dots ${showDots ? 'visible' : ''}`}>
-        {visitedPages.slice(-4).map((page, idx) => (
-          <span
-            key={page}
-            className={`dot ${currentPage === page ? 'active' : ''}`}
-            onClick={() => handleDotClick(page)}
-          />
-        ))}
+        {(() => {
+          const totalPages = 9; // Adjust dynamically based on the total survey pages
+          const dotsToShow = Math.min(visitedPages.length, totalPages); // Show only visited dots
+
+          let startPage = Math.max(0, currentPage - 2); // Try to center currentPage
+          let endPage = startPage + 3; // Keep 4 dots max
+
+          if (dotsToShow <= 4) {
+            startPage = 0; // Show all visited dots when under 4 pages
+            endPage = dotsToShow - 1;
+          } else if (endPage >= dotsToShow) {
+            endPage = dotsToShow - 1;
+            startPage = Math.max(0, endPage - 3);
+          }
+
+          return visitedPages.slice(startPage, endPage + 1).map((page) => (
+            <span
+              key={page}
+              className={`dot ${currentPage === page ? 'active' : ''}`}
+              onClick={() => handleDotClick(page)}
+            />
+          ));
+        })()}
       </div>
     </div>
   );
