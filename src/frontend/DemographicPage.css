@@ -6,7 +6,6 @@
   padding: 2rem;
   text-align: center;
   min-height: 100vh;
-  padding-bottom: 5rem;
 }
 
 .demographic-page h1 {
@@ -50,12 +49,12 @@
   flex-direction: column;
   justify-content: center; /* Centers content properly */
   align-items: left;
-  gap: 1.5rem;
+  gap: 2rem;
   max-width: 600px;
   width: 100%;
   margin: auto;
-  padding-top: 2rem;
-  padding-bottom: 4rem; /* Creates space for Next button */
+  margin-top: 3rem;
+  margin-bottom: 2.7rem;
 }
 
 .demographic-form label {

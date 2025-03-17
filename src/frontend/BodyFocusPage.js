@@ -109,7 +109,6 @@ function BodyFocusPage({ onBack, onNext }) {
       </div>
 
       <h1>What body parts are you focusing?</h1>
-
       {/* Body part selection buttons */}
       <div className="body-buttons-container">
         {bodyParts.map((part) => (
@@ -125,8 +124,8 @@ function BodyFocusPage({ onBack, onNext }) {
 
       {/* Body diagram (Front & Back views) */}
       <div className="body-diagram">
-        <Model data={highlightedData} style={{ width: "200px", height: "300px" }} />
-        <Model type="posterior" data={highlightedData} style={{ width: "200px", height: "300px" }} />
+        <Model data={highlightedData} style={{ width: "150px", height: "225px" }} />
+        <Model type="posterior" data={highlightedData} style={{ width: "150px", height: "225px" }} />
       </div>
 
       {/* Next Button */}

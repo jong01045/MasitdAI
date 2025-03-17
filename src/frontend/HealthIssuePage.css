@@ -8,7 +8,6 @@
     flex-direction: column;
     align-items: center;
     position: relative;
-    padding-bottom: 5rem;
   }
   
   /* Header */
@@ -18,7 +17,7 @@
     align-items: center;
     width: 100%;
     max-width: 1200px;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
   
   .back-button {
@@ -43,16 +42,19 @@
   
   h1 {
     font-size: 2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
   
   /* Buttons Container */
   .health-buttons-container {
     display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 2.25rem; /* Space between buttons */
+    justify-content: center; /* Center align buttons */
     width: 100%;
-    max-width: 400px;
+    max-width: 450px; /* Adjust max width */
+    margin-top: 0.5rem;
+    margin-bottom: 1.15rem;
   }
   
   /* Health Issue Button */
@@ -70,7 +72,9 @@
     width: 100%;
     transition: background-color 0.3s;
     position: relative;
-    padding-left: 3rem; /* Space for checkbox */
+    padding-left: 3rem;
+    flex: 1;
+    min-width: 150px;
   }
   
   .health-button.selected {
@@ -115,7 +119,6 @@
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    padding: 1rem 2rem;
     margin-top: 2rem; /* Adds space after main content */
     position: relative;
   }
