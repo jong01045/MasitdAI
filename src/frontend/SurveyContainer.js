@@ -6,6 +6,8 @@ import BodyFocusPage from './BodyFocusPage';
 import ActivityLevelPage from './ActivityLevelPage';
 import HealthIssuePage from './HealthIssuePage';
 import EquipmentSelectionPage from './EquipmentSelectionPage';
+import WeeklyPlanPage from './WeeklyPlanPage';
+
 
 import './SurveyContainer.css';
 
@@ -32,7 +34,8 @@ function SurveyContainer({onBack}) {
   const [surveyData, setSurveyData] = useState({
     demographic: { age: '', gender: '', height: '', weight: '' },
     gymExperience: '',
-    selectedEquipment: []
+    selectedEquipment: [],
+    weeklyPlan: []
   });
 
   const updateDemographic = (data) => {
@@ -46,6 +49,11 @@ function SurveyContainer({onBack}) {
   const updateSelectedEquipment = (equipment) => {
     setSurveyData(prev => ({ ...prev, selectedEquipment: equipment }));
 };
+
+const updateWeeklyPlan = (selectedDays) => {
+  setSurveyData(prev => ({ ...prev, weeklyPlan: selectedDays }));
+};
+
 
   const [errors, setErrors] = useState({
     demographicError: {},
@@ -123,6 +131,16 @@ function SurveyContainer({onBack}) {
                     console.log("Selected equipment:", selectedEquipment);
                     updateSelectedEquipment(selectedEquipment);
                     handlePageChange(7); // Move to the next step
+                }}
+            />
+        </div>
+        <div className="survey-slide">
+            <WeeklyPlanPage
+                onBack={() => handlePageChange(6)} // Navigate back to EquipmentSelectionPage
+                onNext={(selectedDays) => {
+                    console.log("Selected workout days:", selectedDays);
+                    updateWeeklyPlan(selectedDays);
+                    handlePageChange(8); // Move to the next page
                 }}
             />
         </div>
