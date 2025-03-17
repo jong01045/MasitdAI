@@ -5,6 +5,7 @@ import GoalPage from './GoalPage'
 import BodyFocusPage from './BodyFocusPage';
 import ActivityLevelPage from './ActivityLevelPage';
 import HealthIssuePage from './HealthIssuePage';
+import EquipmentSelectionPage from './EquipmentSelectionPage';
 
 import './SurveyContainer.css';
 
@@ -30,7 +31,8 @@ function SurveyContainer({onBack}) {
 
   const [surveyData, setSurveyData] = useState({
     demographic: { age: '', gender: '', height: '', weight: '' },
-    gymExperience: ''
+    gymExperience: '',
+    selectedEquipment: []
   });
 
   const updateDemographic = (data) => {
@@ -40,6 +42,10 @@ function SurveyContainer({onBack}) {
   const updateGymExperience = (experience) => {
     setSurveyData(prev => ({ ...prev, gymExperience: experience}));
   };
+
+  const updateSelectedEquipment = (equipment) => {
+    setSurveyData(prev => ({ ...prev, selectedEquipment: equipment }));
+};
 
   const [errors, setErrors] = useState({
     demographicError: {},
@@ -109,6 +115,16 @@ function SurveyContainer({onBack}) {
               handlePageChange(6);  // Next page index
             }}
           />
+        </div>
+        <div className="survey-slide">
+            <EquipmentSelectionPage
+                onBack={() => handlePageChange(5)}  // Go back to HealthIssuePage
+                onNext={(selectedEquipment) => {
+                    console.log("Selected equipment:", selectedEquipment);
+                    updateSelectedEquipment(selectedEquipment);
+                    handlePageChange(7); // Move to the next step
+                }}
+            />
         </div>
       </div>
       <div className={`survey-dots ${showDots ? 'visible' : ''}`}>
