@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./ExercisePrefPage.css";
-import { Card, Button } from "@mui/material";
-import { Select, MenuItem } from "@mui/material";
+import { Card, Button, TextField, Autocomplete } from "@mui/material";
 import { motion } from "framer-motion";
 
 const muscleGroups = {
@@ -18,7 +17,6 @@ const ExercisePrefPage = ({ focusMuscleGroups = [], onBack, onNext }) => {
   const [selectedExercises, setSelectedExercises] = useState({});
 
   useEffect(() => {
-    // Normalize keys to prevent mismatches
     setSelectedExercises((prev) => {
       return Object.fromEntries(
         Object.entries(prev).filter(([muscle]) =>
@@ -44,23 +42,32 @@ const ExercisePrefPage = ({ focusMuscleGroups = [], onBack, onNext }) => {
         <div className="weekly-logo">MasidtAI</div>
       </div>
       <h1>Select Your Preferred Exercises</h1>
-      <div className="workout-grid">
+      <div className="workout-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', justifyContent: 'center', gap: '1.5rem', maxWidth: '900px', margin: '0 auto' }}>
         {(focusMuscleGroups || []).map((muscle) => (
-          <Card key={muscle} className="workout-card">
+          <Card key={muscle} className="workout-card" style={{ backgroundColor: '#444', border: '1px solid #666', borderRadius: '12px', padding: '1rem' }}>
             <div className="workout-emoji">{muscleGroups[muscle]?.emoji}</div>
-            <Select
-              value={""}
-              onChange={(event) => handleExerciseSelect(muscle, event.target.value)}
-              displayEmpty
-              fullWidth
-            >
-              <MenuItem value="" disabled>Select an exercise</MenuItem>
-              {(muscleGroups[muscle]?.exercises || []).map((exercise) => (
-                <MenuItem key={exercise} value={exercise}>
-                  {exercise}
-                </MenuItem>
-              ))}
-            </Select>
+            <Autocomplete
+              options={(muscleGroups[muscle]?.exercises || []).filter(exercise => !(selectedExercises[muscle] || []).includes(exercise))}
+              onChange={(event, newValue) => {
+                if (newValue) {
+                  handleExerciseSelect(muscle, newValue);
+                  setTimeout(() => {
+                    const inputElement = document.querySelector('.MuiAutocomplete-input');
+                    if (inputElement) inputElement.value = "";
+                  }, 0); // Reset search input
+                }
+              }} 
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Select an exercise"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ minHeight: '56px', fontSize: '1rem', minWidth: '250px', backgroundColor: '#777', color: '#fff', '& .MuiInputBase-root': { height: '56px', minWidth: '250px', backgroundColor: '#888' } }}
+                />
+              )}
+              freeSolo
+            />
             <motion.div className="border-l-2 border-gray-400 w-full my-2" />
             <div className="scroll-area">
               {(selectedExercises[muscle] || []).map((exercise) => (

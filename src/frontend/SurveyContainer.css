@@ -49,6 +49,10 @@
   .dot.active {
     background-color: #fff;
   }
+
+  .dot.temp-active {
+    background-color: rgba(255, 255, 255, 0.6); /* Light white to indicate temporary position */
+}
   
   html, body {
     margin: 0;

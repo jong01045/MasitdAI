@@ -12,6 +12,7 @@ import ExercisePrefPage from './ExercisePrefPage';
 
 
 import './SurveyContainer.css';
+import { current } from 'immer';
 
 function SurveyContainer({onBack}) {
   const [currentPage, setCurrentPage] = useState(0); // 0: Demographic, 1: Gym Experience
@@ -19,6 +20,8 @@ function SurveyContainer({onBack}) {
   const [showDots, setShowDots] = useState(false);
 
   const [visitedPages, setVisitedPages] = useState([0]);
+  
+  const [tempDotIndex, setTempDotIndex] = useState(null);
 
   const handlePageChange = (pageIndex) => {
     setCurrentPage(pageIndex);
@@ -30,8 +33,24 @@ function SurveyContainer({onBack}) {
   const handleDotClick = (index) => {
     console.log("User moved to page", index);
 
-    setCurrentPage(index);
-  }
+    const isMovingForward = index > currentPage;
+    const isMovingBackward = index < currentPage;
+
+    if (isMovingBackward) {
+        console.log("Hey! Backward")
+        setTempDotIndex(index); // Snap briefly to where the user clicked
+    } else if (isMovingForward) {
+        console.log("Hey! Forward")
+        setTempDotIndex(index); // Snap briefly forward
+    }
+
+    // After 150ms, move to the correct position
+    setTimeout(() => {
+        setCurrentPage(index);
+        setTempDotIndex(null); // Reset temporary position
+    }, 150);
+  };
+
 
   const [surveyData, setSurveyData] = useState({
     demographic: { age: '', gender: '', height: '', weight: '' },
@@ -169,20 +188,20 @@ const updateWeeklyPlan = (selectedDays) => {
           const dotsToShow = Math.min(visitedPages.length, totalPages); // Show only visited dots
 
           let startPage = Math.max(0, currentPage - 2); // Try to center currentPage
-          let endPage = startPage + 3; // Keep 4 dots max
+          let endPage = startPage + 4; // Keep 4 dots max
 
-          if (dotsToShow <= 4) {
+          if (dotsToShow <= 5) {
             startPage = 0; // Show all visited dots when under 4 pages
             endPage = dotsToShow - 1;
           } else if (endPage >= dotsToShow) {
             endPage = dotsToShow - 1;
-            startPage = Math.max(0, endPage - 3);
+            startPage = Math.max(0, endPage - 4);
           }
 
           return visitedPages.slice(startPage, endPage + 1).map((page) => (
             <span
               key={page}
-              className={`dot ${currentPage === page ? 'active' : ''}`}
+              className={`dot ${currentPage === page ? 'active' : ''} ${tempDotIndex === page ? 'temp-active' : ''}`}
               onClick={() => handleDotClick(page)}
             />
           ));
