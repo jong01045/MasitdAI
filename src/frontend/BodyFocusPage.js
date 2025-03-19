@@ -35,6 +35,19 @@ const hierarchy = {
   "Full Body": ["Legs", "Upper Body", "Quads", "Glutes and Hamstring", "Back", "Shoulder", "Chest", "Abs", "Arm"]
 };
 
+const filterObject = (obj) => {
+  if (Array.isArray(obj)) {
+      return obj.filter(item => {
+          if (item === "Full Body") return false; // Remove Full Body
+          if (item === "Upper Body") return false; // Remove Upper Body
+          if (item === "Legs") return false; // Remove Legs
+          return true; // Keep all other values
+      });
+  }
+
+  return obj; // If it's not an array, return as-is
+};
+
 const bodyParts = Object.keys(bodyPartsMap);
 
 function BodyFocusPage({ onBack, onNext }) {
@@ -130,7 +143,7 @@ function BodyFocusPage({ onBack, onNext }) {
 
       {/* Next Button */}
       <div className="body-footer">
-        <button className="next-button" onClick={() => onNext(selectedParts)} disabled={selectedParts.length === 0}>
+        <button className="next-button" onClick={() => onNext(filterObject(selectedParts))} disabled={selectedParts.length === 0}>
           Next
         </button>
       </div>

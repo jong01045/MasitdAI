@@ -7,6 +7,8 @@ import ActivityLevelPage from './ActivityLevelPage';
 import HealthIssuePage from './HealthIssuePage';
 import EquipmentSelectionPage from './EquipmentSelectionPage';
 import WeeklyPlanPage from './WeeklyPlanPage';
+import ExercisePrefPage from './ExercisePrefPage';
+
 
 
 import './SurveyContainer.css';
@@ -34,8 +36,10 @@ function SurveyContainer({onBack}) {
   const [surveyData, setSurveyData] = useState({
     demographic: { age: '', gender: '', height: '', weight: '' },
     gymExperience: '',
+    focusMuscleGroups: [],
     selectedEquipment: [],
-    weeklyPlan: []
+    weeklyPlan: [],
+    selectedExercises: {}
   });
 
   const updateDemographic = (data) => {
@@ -102,8 +106,11 @@ const updateWeeklyPlan = (selectedDays) => {
             onBack={() => handlePageChange(2)}
             onNext={(selectedParts) => {
               console.log("Selected body parts:", selectedParts);
+              setSurveyData(prev => ({ ...prev, focusMuscleGroups: selectedParts }));
+              console.log("focusMuscleGroups updated:", surveyData.focusMuscleGroups)
               handlePageChange(4);  // Next page index
             }}
+            focusMuscleGroups = {surveyData.focusMuscleGroups}
           />
         </div>
         <div className="survey-slide">
@@ -141,6 +148,17 @@ const updateWeeklyPlan = (selectedDays) => {
                     console.log("Selected workout days:", selectedDays);
                     updateWeeklyPlan(selectedDays);
                     handlePageChange(8); // Move to the next page
+                }}
+            />
+        </div>
+        <div className="survey-slide">
+            <ExercisePrefPage
+                focusMuscleGroups={surveyData.focusMuscleGroups}
+                onBack={() => handlePageChange(7)} // Adjust this index if needed
+                onNext={(selectedExercises) => {
+                    console.log("Selected exercises:", selectedExercises);
+                    setSurveyData(prev => ({ ...prev, selectedExercises }));
+                    handlePageChange(9); // Adjust this index for the next step
                 }}
             />
         </div>

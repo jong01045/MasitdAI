@@ -1,0 +1,75 @@
+/* Styling for the Workout Survey Page */
+.workout-survey-container {
+    background-color: #333;
+    color: #fff;
+    padding: 2rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.workout-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.workout-card {
+    background: #444;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.workout-emoji {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.select-container {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.scroll-area {
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #666;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: #222;
+}
+
+.exercise-button {
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin: 0.3rem;
+    transition: background-color 0.3s;
+}
+
+.exercise-button:hover {
+    background-color: #27ae60;
+}
+
+.exercise-button:active {
+    background-color: #1e8449;
+}
+
+@media (max-width: 768px) {
+    .workout-grid {
+        grid-template-columns: 1fr;
+    }
+}
