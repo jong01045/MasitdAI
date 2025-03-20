@@ -5,3 +5,4 @@ node_modules/
 .cache/
 .yarn/
 ProgressTrack.txt
+project_env
