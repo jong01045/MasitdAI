@@ -22,4 +22,38 @@
     overflow-y: auto;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
   }
+
+  /* Back Button (top-left) */
+.popup-back-button {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  /* Start Workout Button (bottom-right) */
+  .popup-start-button {
+    position: absolute;
+    bottom: 20px;
+    right: 24px;
+    background-color: #00b894;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .popup-start-button:hover {
+    background-color: #019874;
+  }
+  
   
