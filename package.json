@@ -4,6 +4,8 @@
   "description": "MasidAI dev",
   "main": "index.js",
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.4.8",
@@ -446,6 +448,7 @@
     "loose-envify": "^1.4.0",
     "lower-case": "^2.0.2",
     "lru-cache": "^5.1.1",
+    "lucide-react": "^0.483.0",
     "magic-string": "^0.25.9",
     "make-dir": "^3.1.0",
     "makeerror": "^1.0.12",

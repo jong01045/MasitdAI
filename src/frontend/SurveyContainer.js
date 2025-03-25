@@ -9,12 +9,10 @@ import EquipmentSelectionPage from './EquipmentSelectionPage';
 import WeeklyPlanPage from './WeeklyPlanPage';
 import ExercisePrefPage from './ExercisePrefPage';
 
-
-
 import './SurveyContainer.css';
 import { current } from 'immer';
 
-function SurveyContainer({onBack}) {
+function SurveyContainer({onBack, onComplete}) {
   const [currentPage, setCurrentPage] = useState(0); // 0: Demographic, 1: Gym Experience
 
   const [showDots, setShowDots] = useState(false);
@@ -177,7 +175,7 @@ const updateWeeklyPlan = (selectedDays) => {
                 onNext={(selectedExercises) => {
                     console.log("Selected exercises:", selectedExercises);
                     setSurveyData(prev => ({ ...prev, selectedExercises }));
-                    handlePageChange(9); // Adjust this index for the next step
+                    onComplete(); 
                 }}
             />
         </div>

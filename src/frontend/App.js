@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import SurveyContainer from './SurveyContainer';
+import MainChatPage from './MainChatPage';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('welcome');
@@ -35,8 +36,17 @@ function App() {
     console.log("Proceeding from demographic page...");
   };
 
+  const handleSurveyComplete = () => {
+    console.log("Survey Completed, Proceeding to the main chat")
+    setCurrentPage("mainchat")
+  }
+
   if (currentPage === 'survey') {
-    return <SurveyContainer onBack={handleBack} onNext={handleNext} />;
+    return <SurveyContainer onBack={handleBack} onNext={handleNext} onComplete={handleSurveyComplete} />;
+  }
+
+  if (currentPage === 'mainchat') {
+    return <MainChatPage />;
   }
 
   return (
