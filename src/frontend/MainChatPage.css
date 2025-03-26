@@ -240,7 +240,7 @@
 
   .sidebar {
     width: 260px;
-    background-color: #444;
+    /* background-color: #444; */
     color: white;
     height: 100vh;
     position: fixed;
@@ -290,7 +290,6 @@
 
   .sidebar-blur {
     filter: blur(2px);
-    /* pointer-events: none; */
   }
   
   .add-own-box {

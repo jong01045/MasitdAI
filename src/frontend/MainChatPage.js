@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import './MainChatPage.css';
 import MiniPopup from './MainChatPages/MiniPopup';
 import CreateWorkoutRoutine from './MainChatPages/CreateWorkoutRoutine';
+import Sidebar from './Components/Sidebar';
 
 import {
   DndContext,
@@ -20,7 +21,6 @@ import {
 
 import { CSS } from '@dnd-kit/utilities';
 
-
 const initialMuscles = [
   { id: '1', name: 'Chest', exercises: ['Bench Press', 'Incline Dumbbell', 'Cable Fly'] },
   { id: '2', name: 'Back', exercises: ['Pull Ups', 'Deadlift', 'Lat Pulldown'] },
@@ -34,7 +34,7 @@ const MainChatPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const textareaRef = useRef();
   const [showCreateWorkout, setShowCreateWorkout] = useState(false);
-
+  const closeSidebar = () => setSidebarOpen(false);
 
   const handleInput = () => {
     const el = textareaRef.current;
@@ -109,32 +109,23 @@ const MainChatPage = () => {
       </div>
     );
   };
-  
 
+  const isMobile = window.innerWidth < 768;
+  
   return (
     <div className="mainchat-wrapper">
-      <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <div className="sidebar-header">
-          <div className="sidebar-close-icon" onClick={toggleSidebar}>☰</div>
-          <div className="sidebar-search-icon">🔍</div>
-        </div>
-        <div className="sidebar-content">
-          <h3>Sidebar</h3>
-          <p>Some menu items or settings</p>
-        </div>
-      </div>
+      <Sidebar isOpen={sidebarOpen} onClose={toggleSidebar} />
       <div
         className={`mainchat-container 
-          ${sidebarOpen ? 'sidebar-opened' : ''} 
-          ${sidebarOpen && window.innerWidth < 768 ? 'sidebar-blur' : ''} 
+          ${sidebarOpen && !isMobile? 'sidebar-opened' : ''} 
+          ${sidebarOpen && isMobile ? 'sidebar-blur' : ''} 
           ${modalContent ? 'modal-blur' : ''}`}
         onClick={() => {
-          if (window.innerWidth < 768 && sidebarOpen) {
+          if (isMobile && sidebarOpen) {
             toggleSidebar();
           }
         }}
       >
-
         {/* HEADER */}
         <div className="chat-header">
           {/* Only show ☰ when on small screens */}
@@ -144,7 +135,6 @@ const MainChatPage = () => {
           <div className="chat-logo">MasidAI</div>
           <div className="user-icon">👤</div>
         </div>
-
         {/* SCROLLABLE MIDDLE PANE */}
         <div className="scroll-pane">
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -170,8 +160,6 @@ const MainChatPage = () => {
               </div>
             </SortableContext>
           </DndContext>
-
-          
         </div>
 
         {/* CHAT MESSAGES */}

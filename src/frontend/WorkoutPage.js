@@ -1,39 +1,39 @@
 import React, { useState } from 'react';
 import './WorkoutPage.css';
-import { ArrowLeft } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Sidebar from './Components/Sidebar';
 
 const WorkoutPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
   const location = useLocation();
-  const navigate = useNavigate();
 
   // Get the selected muscle group data
   const muscleGroup = location.state?.muscleGroup;
 
   const [activeTab, setActiveTab] = useState(muscleGroup?.exercises?.[0] || '');
 
+  const isMobile = window.innerWidth < 768;
+
   return (
     <div className="workout-wrapper">
-      {/* Sidebar */}
-      {sidebarOpen && <div className="sidebar-overlay" onClick={closeSidebar} />}
-      <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-        <div className="sidebar-header">
-          <div className="sidebar-close-icon" onClick={toggleSidebar}>☰</div>
-          <div className="sidebar-search-icon">🔍</div>
-        </div>
-        <div className="sidebar-content">
-          <p>Sidebar Content</p>
-        </div>
-      </div>
-
-      {/* Main Chat Page */}
-      <div className={`workout-container ${sidebarOpen ? 'sidebar-opened' : ''}`}>
+      {/* Sidebar */}     
+      <Sidebar isOpen={sidebarOpen} onClose={toggleSidebar} />
+      <div
+        className={`workout-container 
+          ${sidebarOpen && !isMobile ? 'sidebar-opened' : ''} 
+          ${sidebarOpen && isMobile ? 'sidebar-blur' : ''}`}
+        onClick={() => {
+          if (sidebarOpen && isMobile) {
+            setSidebarOpen(false);
+          }
+        }}
+      >
+        {/* Main Chat Page */}
         {/* Header */}
         <div className="chat-header">
-          {sidebarOpen < 768 && (
+          {!sidebarOpen && (
             <div className="sidebar-icon" onClick={toggleSidebar}>☰</div>
           )}
           <div className="chat-logo">MasidAI</div>
