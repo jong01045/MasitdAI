@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './MiniPopup.css';
+import ConfirmStartWorkout from './ConfirmStartWorkout';
 import { ArrowLeft, Play } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const MiniPopup = ({ muscleGroup, onClose }) => {
   const [visible, setVisible] = useState(false);
   const [exiting, setExiting] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (muscleGroup) {
@@ -45,10 +49,23 @@ const MiniPopup = ({ muscleGroup, onClose }) => {
         </div>
 
         {/* Start Workout button */}
-        <button className="popup-start-button">
+        <button className="popup-start-button" onClick={() => setShowConfirm(true)}>
           <Play size={16} style={{ marginRight: '6px' }} />
           Start Workout
         </button>
+        {showConfirm && (
+          <ConfirmStartWorkout
+            onConfirm={() => {
+              setShowConfirm(false);
+              console.log("Workout started! 🚀");
+              // You can later navigate to workout screen
+              navigate('/workout', {
+                state: { muscleGroup }
+              });              
+            }}
+            onCancel={() => setShowConfirm(false)}
+          />
+        )}
       </div>
     </div>
   );

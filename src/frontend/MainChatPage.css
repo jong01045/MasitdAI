@@ -67,6 +67,30 @@
     align-items: flex-end;
     gap: 8px;
   }
+
+  .chat-input::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .chat-input::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 10px;
+  }
+  
+  .chat-input::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 10px;
+  }
+  
+  .chat-input::-webkit-scrollbar-thumb:hover {
+    background: #777;
+  }
+  
+  /* Firefox support */
+  .chat-input {
+    scrollbar-width: thin;
+    scrollbar-color: #555 #2a2a2a;
+  }  
   
   .chat-send-button {
     background-color: #786767;
