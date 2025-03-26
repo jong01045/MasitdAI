@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import DemographicPage from './DemographicPage';
-import GymExperiencePage from './GymExperiencePage';
-import GoalPage from './GoalPage'
-import BodyFocusPage from './BodyFocusPage';
-import ActivityLevelPage from './ActivityLevelPage';
-import HealthIssuePage from './HealthIssuePage';
-import EquipmentSelectionPage from './EquipmentSelectionPage';
-import WeeklyPlanPage from './WeeklyPlanPage';
-import ExercisePrefPage from './ExercisePrefPage';
+import DemographicPage from './SurveyPages/DemographicPage';
+import GymExperiencePage from './SurveyPages/GymExperiencePage';
+import GoalPage from './SurveyPages/GoalPage'
+import BodyFocusPage from './SurveyPages/BodyFocusPage';
+import ActivityLevelPage from './SurveyPages/ActivityLevelPage';
+import HealthIssuePage from './SurveyPages/HealthIssuePage';
+import EquipmentSelectionPage from './SurveyPages/EquipmentSelectionPage';
+import WeeklyPlanPage from './SurveyPages/WeeklyPlanPage';
+import ExercisePrefPage from './SurveyPages/ExercisePrefPage';
 
 import './SurveyContainer.css';
 import { current } from 'immer';

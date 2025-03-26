@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import './MainChatPage.css';
-import MiniPopup from './MiniPopup';
+import MiniPopup from './MainChatPages/MiniPopup';
+import CreateWorkoutRoutine from './MainChatPages/CreateWorkoutRoutine';
 
 import {
   DndContext,
@@ -32,6 +33,8 @@ const MainChatPage = () => {
   const [message, setMessage] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const textareaRef = useRef();
+  const [showCreateWorkout, setShowCreateWorkout] = useState(false);
+
 
   const handleInput = () => {
     const el = textareaRef.current;
@@ -157,11 +160,19 @@ const MainChatPage = () => {
                     onClick={() => setModalContent(muscle)}
                   />
                 ))}
+                <div
+                  className="muscle-box add-own-box"
+                  onClick={() => setShowCreateWorkout(true)}
+                >
+                  <div className="add-icon">＋</div>
+                  <p className="add-text">Add your own workout</p>
+                </div>
               </div>
             </SortableContext>
           </DndContext>
-        </div>
 
+          
+        </div>
 
         {/* CHAT MESSAGES */}
         <div className="chat-body">
@@ -196,6 +207,10 @@ const MainChatPage = () => {
 
         {/* MODAL OVERLAY */}
         <MiniPopup muscleGroup={modalContent} onClose={() => setModalContent(null)} />
+        
+        {showCreateWorkout && (
+          <CreateWorkoutRoutine onClose={() => setShowCreateWorkout(false)} />
+        )}
       </div>
     </div>
   );

@@ -130,21 +130,22 @@
   
   .scroll-pane {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     overflow-x: auto;
     padding: 12px 16px;
     height: 150px;
     background-color: #333;
+    width: fit-content(100%);
   }
   
   .scroll-content {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 12px;
+    gap: 25px;
     height: 100%;
-    width: fit-content;
+    width: 100%;
   }
 
     /* SCROLLBAR STYLING for .scroll-pane */
@@ -268,4 +269,34 @@
     /* pointer-events: none; */
   }
   
+  .add-own-box {
+    background-color: transparent;
+    border: 2px dashed #777;
+    color: #ccc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 160px;
+    height: 100px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s ease, border 0.2s ease;
+    margin-left: 30px;
+  }
+  
+  .add-own-box:hover {
+    background-color: #2e2e2e;
+    border-color: #aaa;
+  }
+  
+  .add-icon {
+    font-size: 22px;
+    font-weight: bold;
+  }
+  
+  .add-text {
+    margin-top: 4px;
+    font-size: 13px;
+  }
   

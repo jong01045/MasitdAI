@@ -6,10 +6,11 @@
     height: 100%;
     background: rgba(10, 10, 10, 0.6);
     backdrop-filter: blur(4px);
-    z-index: 50;
+    z-index: 150;
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: fadeIn 0.25s ease-out;
   }
   
   .modal-content {
@@ -21,39 +22,26 @@
     max-height: 80%;
     overflow-y: auto;
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    position: relative; /* important for absolute buttons inside */
+    animation: slideUp 0.25s ease-out;
   }
 
-  /* Back Button (top-left) */
-.popup-back-button {
+  .fade-out {
+    animation: fadeOut 0.25s ease-in forwards;
+  }
+  
+  /* Content exit */
+  .slide-down {
+    animation: slideDown 0.25s ease-in forwards;
+  }
+
+  .popup-close-button {
     position: absolute;
     top: 16px;
-    left: 16px;
+    right: 16px;
     background: transparent;
     border: none;
-    font-size: 20px;
     color: white;
     cursor: pointer;
-    z-index: 10;
   }
-  
-  /* Start Workout Button (bottom-right) */
-  .popup-start-button {
-    position: absolute;
-    bottom: 20px;
-    right: 24px;
-    background-color: #00b894;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  
-  .popup-start-button:hover {
-    background-color: #019874;
-  }
-  
   
