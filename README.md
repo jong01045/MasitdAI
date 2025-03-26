@@ -80,10 +80,10 @@ MasidAI is an intelligent fitness assistant that delivers personalized workout r
 ![Focus Muscle](Screenshots/FocusMusclePage.jpg)
 ![Weekly Plan Page](Screenshots/WeeklyPlanPage.jpg)
 
-### Main Chat Page
+### Main Chat Page Demo
 ![Main Chat Demo](Screenshots/MainChatDemoPage.jpg)
 
-### Workout Start Page
+### Workout Start Page Demo
 ![Workout Pressed](Screenshots/PressWorkoutPage.jpg)
 ![Workout Chat Demo Page](Screenshots/WorkoutchatDemoPage.jpg)
 
