@@ -57,11 +57,8 @@ const MiniPopup = ({ muscleGroup, onClose }) => {
           <ConfirmStartWorkout
             onConfirm={() => {
               setShowConfirm(false);
-              console.log("Workout started! 🚀");
-              // You can later navigate to workout screen
-              navigate('/workout', {
-                state: { muscleGroup }
-              });              
+              onClose(); // Close the modal
+              navigate("/workout", { state: { muscleGroup } }); // ✅ Pass data to WorkoutPage
             }}
             onCancel={() => setShowConfirm(false)}
           />

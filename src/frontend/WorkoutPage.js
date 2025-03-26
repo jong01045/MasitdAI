@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './WorkoutPage.css';
 import { ArrowLeft } from 'lucide-react';
-import Sidebar from './Sidebar'; // if you extracted it
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const WorkoutPage = () => {
@@ -34,7 +33,7 @@ const WorkoutPage = () => {
       <div className={`workout-container ${sidebarOpen ? 'sidebar-opened' : ''}`}>
         {/* Header */}
         <div className="chat-header">
-          {window.innerWidth < 768 && (
+          {sidebarOpen < 768 && (
             <div className="sidebar-icon" onClick={toggleSidebar}>☰</div>
           )}
           <div className="chat-logo">MasidAI</div>

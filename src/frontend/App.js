@@ -1,59 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import './App.css';
 import SurveyContainer from './SurveyContainer';
 import MainChatPage from './MainChatPage';
+import WorkoutPage from './WorkoutPage';
 
-function App() {
-  const [currentPage, setCurrentPage] = useState('welcome');
+function WelcomePage() {
+  const navigate = useNavigate();
 
-  const handleStartNow = () => {
-    console.log("Start Now clicked");
-    setCurrentPage('survey');
-  };
-
-  const handleDownloadApp = () => {
-    console.log("Download App clicked");
-    // Add your action code here
-  };
-
-  const handleSignIn = () => {
-    console.log("Sign in button clicked");
-    // Add your action code here
-  };
-
-  const handleUserIcon = () => {
-    console.log("User icon clicked");
-    // Add your action code here
-  };
-
-  const handleBack = () => {
-    console.log("Back to welcome page");
-    setCurrentPage('welcome');
-  };
-
-  const handleNext = () => {
-    console.log("Next button clicked");
-    console.log("Proceeding from demographic page...");
-  };
-
-  const handleSurveyComplete = () => {
-    console.log("Survey Completed, Proceeding to the main chat")
-    setCurrentPage("mainchat")
-  }
-
-  if (currentPage === 'survey') {
-    return <SurveyContainer onBack={handleBack} onNext={handleNext} onComplete={handleSurveyComplete} />;
-  }
-
-  if (currentPage === 'mainchat') {
-    return <MainChatPage />;
-  }
+  const handleStartNow = () => navigate("/survey");
+  const handleDownloadApp = () => console.log("Download App clicked");
+  const handleSignIn = () => console.log("Sign in clicked");
+  const handleUserIcon = () => console.log("User icon clicked");
 
   return (
     <div className="App">
-      {/* Top Banner */}
       <div className="top-banner">
-        <div className="banner-logo" onClick={handleBack}>MasidtAI</div>
+        <div className="banner-logo" onClick={() => navigate('/')}>MasidtAI</div>
         <div className="banner-icons">
           <div className="icon-search">🔍</div>
           <button className="login-button" onClick={handleSignIn}>Sign in</button>
@@ -64,7 +27,6 @@ function App() {
         </div>
       </div>
 
-      {/* Hero Section */}
       <div className="hero-section">
         <h1>We Train Smart. We Find Top Resources. We Gather Tips from Pros.</h1>
         <p>
@@ -91,11 +53,32 @@ function App() {
         </div>
       </div>
 
-      {/* Additional Content */}
       <div className="extra-content">
         <p>Below the grey pane, the background is black. You can add more content here.</p>
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<WelcomePage />} />
+      <Route path="/survey" element={<SurveyContainerWrapper />} />
+      <Route path="/mainchat" element={<MainChatPage />} />
+      <Route path="/workout" element={<WorkoutPage />} />
+    </Routes>
+  );
+}
+
+function SurveyContainerWrapper() {
+  const navigate = useNavigate();
+
+  return (
+    <SurveyContainer
+      onBack={() => navigate("/")}
+      onComplete={() => navigate("/mainchat")}
+    />
   );
 }
 
