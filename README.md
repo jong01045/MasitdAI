@@ -114,6 +114,6 @@ If you're passionate about fitness, AI, or UI/UX — feel free to open a PR, fil
 ## 📬 Contact
 
 Made with ❤️ by [Owen JungHo Park]  
-📧 [jungho.careeremail@example.com]  
+📧 [jungho.career@gmail.com]  
 
 ---
