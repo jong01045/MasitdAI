@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import DemographicPage from './SurveyPages/DemographicPage';
 import GymExperiencePage from './SurveyPages/GymExperiencePage';
 import GoalPage from './SurveyPages/GoalPage'
@@ -10,10 +11,11 @@ import WeeklyPlanPage from './SurveyPages/WeeklyPlanPage';
 import ExercisePrefPage from './SurveyPages/ExercisePrefPage';
 
 import './SurveyContainer.css';
-import { current } from 'immer';
 
 function SurveyContainer({onBack, onComplete}) {
-  const [currentPage, setCurrentPage] = useState(0); // 0: Demographic, 1: Gym Experience
+  const navigate = useNavigate();
+  const { pageIndex } = useParams(); // from /survey/:pageIndex
+  const currentPage = parseInt(pageIndex || '0', 10);
 
   const [showDots, setShowDots] = useState(false);
 
@@ -22,7 +24,7 @@ function SurveyContainer({onBack, onComplete}) {
   const [tempDotIndex, setTempDotIndex] = useState(null);
 
   const handlePageChange = (pageIndex) => {
-    setCurrentPage(pageIndex);
+    navigate(`/survey/${pageIndex}`);
     setVisitedPages(prev => prev.includes(pageIndex) ? prev : [...prev, pageIndex]);
   };
 
@@ -44,8 +46,8 @@ function SurveyContainer({onBack, onComplete}) {
 
     // After 150ms, move to the correct position
     setTimeout(() => {
-        setCurrentPage(index);
-        setTempDotIndex(null); // Reset temporary position
+    navigate(`/survey/${index}`);
+    setTempDotIndex(null); // Reset temporary position
     }, 150);
   };
 

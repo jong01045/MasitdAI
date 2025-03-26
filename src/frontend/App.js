@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import './App.css';
 import SurveyContainer from './SurveyContainer';
 import MainChatPage from './MainChatPage';
@@ -64,21 +64,18 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<WelcomePage />} />
-      <Route path="/survey" element={<SurveyContainerWrapper />} />
+      {/* 🔁 Redirect /survey to /survey/0 */}
+      <Route path="/survey" element={<Navigate to="/survey/0" replace />} />
+      {/* 🧠 Survey with slide index */}
+      <Route path="/survey/:pageIndex" element={
+        <SurveyContainer
+          onBack={() => window.location.href = '/'}
+          onComplete={() => window.location.href = '/mainchat'}
+        />
+      } />
       <Route path="/mainchat" element={<MainChatPage />} />
       <Route path="/workout" element={<WorkoutPage />} />
     </Routes>
-  );
-}
-
-function SurveyContainerWrapper() {
-  const navigate = useNavigate();
-
-  return (
-    <SurveyContainer
-      onBack={() => navigate("/")}
-      onComplete={() => navigate("/mainchat")}
-    />
   );
 }
 
