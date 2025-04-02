@@ -6,3 +6,5 @@ node_modules/
 .yarn/
 ProgressTrack.txt
 project_env/
+.env
+.vscode/
