@@ -4,3 +4,8 @@ node_modules/
 .npm/
 .cache/
 .yarn/
+ProgressTrack.txt
+project_env/
+.env
+.vscode/
+ExtractYoutube.py
