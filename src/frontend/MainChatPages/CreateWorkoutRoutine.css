@@ -26,6 +26,24 @@
     animation: slideUp 0.25s ease-out;
   }
 
+  .modal-content::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .modal-content::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 10px;
+  }
+
+  .modal-content::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 10px;
+  }
+
+  .modal-content::-webkit-scrollbar-thumb:hover {
+    background: #777;
+  }
+
   .fade-out {
     animation: fadeOut 0.25s ease-in forwards;
   }
@@ -43,5 +61,213 @@
     border: none;
     color: white;
     cursor: pointer;
+  }
+  
+  .body-part-selection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .body-part-selection label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #2e2e2e;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .body-part-selection label:hover {
+    background-color: #3a3a3a;
+  }
+
+  .popup-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .cancel-button, .create-button, .confirm-button {
+    background-color: #444;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .cancel-button:hover, .create-button:hover, .confirm-button:hover {
+    background-color: #555;
+  }
+
+  .exercise-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1c1c1c;
+    padding: 20px;
+    border-radius: 12px;
+    color: #fff;
+    max-width: 80%;
+    max-height: 70%;
+    overflow-y: auto;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    z-index: 200;
+  }
+
+  .exercise-search {
+    margin-bottom: 20px;
+  }
+
+  .exercise-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .exercise-group {
+    margin-bottom: 15px;
+  }
+
+  .exercise-button {
+    background-color: #2e2e2e;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .exercise-button.selected {
+    background-color: #555;
+    color: #fff;
+    border: 2px solid #888;
+  }
+
+  .exercise-button:hover {
+    background-color: #3a3a3a;
+  }
+
+  .exercise-button.selected:hover {
+    background-color: #666;
+  }
+
+  .muscle-button {
+    background-color: #3a3a3a;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+    margin: 5px;
+  }
+
+  .muscle-button:hover {
+    background-color: #555;
+    transform: translateY(-2px);
+  }
+
+  .confirmation-popup {
+    background-color: #1c1c1c;
+    padding: 20px;
+    border-radius: 12px;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 200;
+  }
+
+  .confirmation-popup button {
+    background-color: #444;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin: 5px;
+  }
+
+  .confirmation-popup button:hover {
+    background-color: #555;
+  }
+
+  .exercise-pane {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #2e2e2e;
+    border-radius: 8px;
+  }
+
+  .exercise-pane::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .exercise-pane::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 10px;
+  }
+
+  .exercise-pane::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 10px;
+  }
+
+  .exercise-pane::-webkit-scrollbar-thumb:hover {
+    background: #777;
+  }
+
+  .exercise-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #444;
+    color: #fff;
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .exercise-item:hover {
+    background-color: #555;
+  }
+
+  .drag-handle {
+    cursor: grab;
+    margin-right: 10px;
+  }
+
+  .sets-dropdown {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+  }
+
+  .error-message {
+    background-color: #ffdddd;
+    color: #d8000c;
+    border: 1px solid #d8000c;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px 0;
+    text-align: center;
+    font-weight: bold;
   }
   

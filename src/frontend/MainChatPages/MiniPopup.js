@@ -4,10 +4,11 @@ import ConfirmStartWorkout from './ConfirmStartWorkout';
 import { ArrowLeft, Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const MiniPopup = ({ muscleGroup, onClose }) => {
+const MiniPopup = ({ muscleGroup, onClose, onDelete }) => {
   const [visible, setVisible] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +24,16 @@ const MiniPopup = ({ muscleGroup, onClose }) => {
       setVisible(false);
       onClose();
     }, 250); // Matches animation duration
+  };
+
+  const handleDelete = () => {
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = () => {
+    onDelete(muscleGroup.id);
+    setShowDeleteConfirm(false);
+    handleClose();
   };
 
   if (!visible || !muscleGroup) return null;
@@ -62,6 +73,19 @@ const MiniPopup = ({ muscleGroup, onClose }) => {
             }}
             onCancel={() => setShowConfirm(false)}
           />
+        )}
+
+        {/* Delete button */}
+        <button className="popup-delete-button" onClick={handleDelete}>
+          Delete
+        </button>
+
+        {showDeleteConfirm && (
+          <div className="confirmation-popup">
+            <p>Do you really want to delete this workout?</p>
+            <button onClick={confirmDelete}>Yes</button>
+            <button onClick={() => setShowDeleteConfirm(false)}>No</button>
+          </div>
         )}
       </div>
     </div>

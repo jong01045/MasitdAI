@@ -34,6 +34,8 @@ const MainChatPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const textareaRef = useRef();
   const [showCreateWorkout, setShowCreateWorkout] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [muscleToDelete, setMuscleToDelete] = useState(null);
   const closeSidebar = () => setSidebarOpen(false);
 
   const handleInput = () => {
@@ -69,6 +71,12 @@ const MainChatPage = () => {
     setSidebarOpen(!sidebarOpen);
   };
   
+  const handleDeleteMuscle = (muscleId) => {
+    console.log(`Deleting muscle group with ID: ${muscleId}`);
+    setTargetMuscles((prev) => prev.filter((muscle) => muscle.id !== muscleId));
+    setShowDeleteConfirmation(false);
+  };
+
   const SortableMuscleBox = ({ muscle, onClick }) => {
     const {
       attributes,
@@ -100,6 +108,11 @@ const MainChatPage = () => {
         >
           🟰
         </div>
+        <button className="delete-button" onClick={(e) => {
+          e.stopPropagation();
+          setMuscleToDelete(muscle.id);
+          setShowDeleteConfirmation(true);
+        }}>X</button>
         <h4>{muscle.name}</h4>
         <ul>
           {muscle.exercises.map((ex, i) => (
@@ -112,6 +125,18 @@ const MainChatPage = () => {
 
   const isMobile = window.innerWidth < 768;
   
+  const handleCreateWorkoutConfirm = (newWorkouts) => {
+    const combinedName = newWorkouts.map(workout => workout.muscle).join(', ');
+    const allExercises = newWorkouts.flatMap(workout => workout.exercises.map(ex => ex.name));
+    const newMuscle = {
+      id: `${targetMuscles.length + 1}`,
+      name: combinedName,
+      exercises: allExercises,
+    };
+    setTargetMuscles((prev) => [...prev, newMuscle]);
+    setShowCreateWorkout(false);
+  };
+
   return (
     <div className="mainchat-wrapper">
       <Sidebar isOpen={sidebarOpen} onClose={toggleSidebar} />
@@ -194,10 +219,22 @@ const MainChatPage = () => {
         </div>
 
         {/* MODAL OVERLAY */}
-        <MiniPopup muscleGroup={modalContent} onClose={() => setModalContent(null)} />
+        <MiniPopup 
+          muscleGroup={modalContent} 
+          onClose={() => setModalContent(null)} 
+          onDelete={handleDeleteMuscle}
+        />
         
         {showCreateWorkout && (
-          <CreateWorkoutRoutine onClose={() => setShowCreateWorkout(false)} />
+          <CreateWorkoutRoutine onClose={() => setShowCreateWorkout(false)} onConfirm={handleCreateWorkoutConfirm} />
+        )}
+
+        {showDeleteConfirmation && (
+          <div className="confirmation-popup">
+            <p>Do you really want to delete this workout?</p>
+            <button onClick={() => handleDeleteMuscle(muscleToDelete)}>Yes</button>
+            <button onClick={() => setShowDeleteConfirmation(false)}>No</button>
+          </div>
         )}
       </div>
     </div>
