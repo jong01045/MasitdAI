@@ -1,0 +1,75 @@
+.workout-wrapper {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .workout-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background-color: #2a2a2a;
+    color: white;
+  }
+  .workout-main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .workout-left-square {
+    width: 300px;
+    height: 300px;
+    background-color: #333;
+    margin: 24px;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+  
+  .workout-right-tabs {
+    flex: 1;
+    margin: 24px 24px 100px 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .tab-header {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .tab-button {
+    background: #444;
+    border: none;
+    padding: 8px 16px;
+    color: #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .tab-button.active {
+    background: #00b894;
+    color: #fff;
+  }
+  
+  .tab-content {
+    background: #333;
+    flex: 1;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  
+  .sidebar-opened {
+    margin-left: 260px;
+    transition: margin-left 0.3s ease;
+  }
+  
+  .sidebar-blur {
+    filter: blur(4px);
+    transition: filter 0.3s ease;
+  }
+  
