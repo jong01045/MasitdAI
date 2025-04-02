@@ -1,27 +1,39 @@
 /* src/frontend/SurveyContainer.css */
 .survey-container {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 100vh;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 100%;
+  min-height: 100vh;
   }
   
   .survey-slider {
     display: flex;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.3s ease-in-out;
     width: 100%; /* Two pages side by side */
   }
   
   .survey-slide {
     width: 100%;
     flex-shrink: 0;
+    min-height: 100vh;
   }
   
   .survey-dots {
     position: absolute;
-    bottom: 20px;
     left: 50%;
+    bottom: 0;
     transform: translateX(-50%);
+    margin: 20px 0;
+    z-index: 10;
+    background-color: rgba(255,255,255,0.2); /* subtle background */
+    padding: 8px 15px;
+    border-radius: 15px;
+    backdrop-filter: blur(5px); /* subtle blur effect */
+  }
+
+  .survey-dots.visible {
+    opacity: 1;
   }
   
   .dot {
@@ -37,6 +49,10 @@
   .dot.active {
     background-color: #fff;
   }
+
+  .dot.temp-active {
+    background-color: rgba(255, 255, 255, 0.6); /* Light white to indicate temporary position */
+}
   
   html, body {
     margin: 0;

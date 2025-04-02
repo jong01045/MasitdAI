@@ -24,7 +24,7 @@ body, html, #root {
 }
 
 .banner-logo {
-  font-size: 2.0rem;
+  font-size: 3.0rem;
   font-weight: 700;
   color: #fff;
 }
@@ -37,7 +37,7 @@ body, html, #root {
 
 .icon-search {
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 
@@ -47,7 +47,7 @@ body, html, #root {
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 50px; /* Pill-shaped */
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   cursor: pointer;
 }
 
@@ -58,7 +58,7 @@ body, html, #root {
 /* icon-user with tooltip */
 .icon-user {
   position: relative;
-  font-size: 1.2rem;
+  font-size: 2rem;
   cursor: pointer;
   color: #fff;
   z-index: 10;
@@ -91,7 +91,7 @@ body, html, #root {
 .hero-section {
   background-color: #333; /* Dark grey for the hero pane */
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 3rem 2rem;
   margin-bottom: 2rem; /* Creates spacing to show black background below */
 }
 
