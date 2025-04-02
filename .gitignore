@@ -1,0 +1,10 @@
+node_modules/
+.pnpm-store/
+.npm/
+.cache/
+.yarn/
+ProgressTrack.txt
+project_env/
+.env
+.vscode/
+ExtractYoutube.py
