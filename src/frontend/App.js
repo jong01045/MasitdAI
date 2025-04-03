@@ -1,17 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import './App.css';
 import SurveyContainer from './SurveyContainer';
 import MainChatPage from './MainChatPage';
 import WorkoutPage from './WorkoutPage';
+import LoginModal from './Components/LoginModal';
 
 function WelcomePage() {
   const navigate = useNavigate();
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [activeLoginTab, setActiveLoginTab] = useState('login');
 
-  const handleStartNow = () => navigate("/survey");
+  const handleStartNow = () => {
+    setActiveLoginTab('new');
+    setShowLoginModal(true);
+  };
+  
   const handleDownloadApp = () => console.log("Download App clicked");
-  const handleSignIn = () => console.log("Sign in clicked");
-  const handleUserIcon = () => console.log("User icon clicked");
+  
+  const handleSignIn = () => {
+    setActiveLoginTab('login');
+    setShowLoginModal(true);
+  };
+  
+  const handleUserIcon = () => {
+    setActiveLoginTab('login');
+    setShowLoginModal(true);
+  };
 
   return (
     <div className="App">
@@ -56,6 +71,13 @@ function WelcomePage() {
       <div className="extra-content">
         <p>Below the grey pane, the background is black. You can add more content here.</p>
       </div>
+
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={showLoginModal} 
+        onClose={() => setShowLoginModal(false)}
+        initialTab={activeLoginTab}
+      />
     </div>
   );
 }
