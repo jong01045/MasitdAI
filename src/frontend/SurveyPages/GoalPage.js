@@ -1,8 +1,13 @@
 // src/frontend/GoalPage.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './GoalPage.css';
+import ConfirmationModal from "../Components/ConfirmationModal";
 
 function GoalPage({ onBack, onNext }) {
+  const navigate = useNavigate();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  
   const goals = [
     "Improve fitness", "Build muscle", "Burn fat",
     "Increase endurance", "Boost mental strength", "Weight loss",
@@ -11,6 +16,14 @@ function GoalPage({ onBack, onNext }) {
   ];
 
   const [selectedGoals, setSelectedGoals] = useState([]);
+
+  const handleLogoClick = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmNavigation = () => {
+    navigate('/');
+  };
 
   const toggleGoal = (goal) => {
     setSelectedGoals(prev => 
@@ -27,7 +40,7 @@ function GoalPage({ onBack, onNext }) {
     <div className="goal-page">
       <div className="goal-header">
         <button className="back-button" onClick={onBack}>Back</button>
-        <div className="goal-logo" onClick={onBack}>MasidtAI</div>
+        <div className="goal-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
 
       <h1>Choose your goals</h1>
@@ -53,6 +66,13 @@ function GoalPage({ onBack, onNext }) {
           Next
         </button>
       </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={handleConfirmNavigation}
+      />
     </div>
   );
 }

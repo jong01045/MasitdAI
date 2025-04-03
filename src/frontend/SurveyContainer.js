@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import DemographicPage from './SurveyPages/DemographicPage';
 import GymExperiencePage from './SurveyPages/GymExperiencePage';
@@ -17,15 +17,23 @@ function SurveyContainer({onBack, onComplete}) {
   const { pageIndex } = useParams(); // from /survey/:pageIndex
   const currentPage = parseInt(pageIndex || '0', 10);
 
-  const [showDots, setShowDots] = useState(false);
+  const [showDots, setShowDots] = useState(true); // Set to true to show dots
 
   const [visitedPages, setVisitedPages] = useState([0]);
   
   const [tempDotIndex, setTempDotIndex] = useState(null);
 
+  // Log the current page for debugging
+  useEffect(() => {
+    console.log("Current page:", currentPage);
+    // Update visited pages on page change
+    setVisitedPages(prev => prev.includes(currentPage) ? prev : [...prev, currentPage]);
+  }, [currentPage]);
+
   const handlePageChange = (pageIndex) => {
+    console.log("Changing to page:", pageIndex);
     navigate(`/survey/${pageIndex}`);
-    setVisitedPages(prev => prev.includes(pageIndex) ? prev : [...prev, pageIndex]);
+    // Visited pages updated in useEffect to ensure it captures direct URL changes too
   };
 
   const isEmptyObject = (obj) => Object.keys(obj).length === 0; //Helper function to check empty object
@@ -46,8 +54,8 @@ function SurveyContainer({onBack, onComplete}) {
 
     // After 150ms, move to the correct position
     setTimeout(() => {
-    navigate(`/survey/${index}`);
-    setTempDotIndex(null); // Reset temporary position
+      navigate(`/survey/${index}`);
+      setTempDotIndex(null); // Reset temporary position
     }, 150);
   };
 
@@ -71,11 +79,11 @@ function SurveyContainer({onBack, onComplete}) {
 
   const updateSelectedEquipment = (equipment) => {
     setSurveyData(prev => ({ ...prev, selectedEquipment: equipment }));
-};
+  };
 
-const updateWeeklyPlan = (selectedDays) => {
-  setSurveyData(prev => ({ ...prev, weeklyPlan: selectedDays }));
-};
+  const updateWeeklyPlan = (selectedDays) => {
+    setSurveyData(prev => ({ ...prev, weeklyPlan: selectedDays }));
+  };
 
 
   const [errors, setErrors] = useState({
@@ -105,13 +113,13 @@ const updateWeeklyPlan = (selectedDays) => {
   return (
     <div className="survey-container">
       <div className="survey-slider" style={{ transform: `translateX(-${currentPage * 100}%)` }}>
-        <div className="survey-slide">
+        <div className={`survey-slide ${currentPage === 0 ? 'active' : ''}`}>
           <DemographicPage onBack={onBack} onNext={() => handlePageChange(1)} demographicData = {surveyData.demographic} updateDemographic={updateDemographic} updateDemoError = {updateDemoError} isEmptyObject = {isEmptyObject} />
         </div>
-        <div className="survey-slide">
+        <div className={`survey-slide ${currentPage === 1 ? 'active' : ''}`}>
           <GymExperiencePage onBack={() => handlePageChange(0)} onNext={() => handlePageChange(2)} gymExpData = {surveyData.gymExperience} updateGymExperience={updateGymExperience} updateGymError = {updateGymError} isEmptyObject = {isEmptyObject} />
         </div>
-        <div className="survey-slide">
+        <div className={`survey-slide ${currentPage === 2 ? 'active' : ''}`}>
           <GoalPage 
             onBack={() => handlePageChange(1)} 
             onNext={(selectedGoals) => {
@@ -120,7 +128,7 @@ const updateWeeklyPlan = (selectedDays) => {
             }}
           />
         </div>
-        <div className="survey-slide">
+        <div className={`survey-slide ${currentPage === 3 ? 'active' : ''}`}>
           <BodyFocusPage
             onBack={() => handlePageChange(2)}
             onNext={(selectedParts) => {
@@ -132,7 +140,7 @@ const updateWeeklyPlan = (selectedDays) => {
             focusMuscleGroups = {surveyData.focusMuscleGroups}
           />
         </div>
-        <div className="survey-slide">
+        <div className={`survey-slide ${currentPage === 4 ? 'active' : ''}`}>
           <ActivityLevelPage
             onBack={() => handlePageChange(3)}
             onNext={(selectedLevel) => {
@@ -141,7 +149,7 @@ const updateWeeklyPlan = (selectedDays) => {
             }}
           />
         </div>
-        <div className="survey-slide">
+        <div className={`survey-slide ${currentPage === 5 ? 'active' : ''}`}>
           <HealthIssuePage
             onBack={() => handlePageChange(4)}
             onNext={(selectedIssues) => {
@@ -150,7 +158,7 @@ const updateWeeklyPlan = (selectedDays) => {
             }}
           />
         </div>
-        <div className="survey-slide">
+        <div className={`survey-slide ${currentPage === 6 ? 'active' : ''}`}>
             <EquipmentSelectionPage
                 onBack={() => handlePageChange(5)}  // Go back to HealthIssuePage
                 onNext={(selectedEquipment) => {
@@ -160,7 +168,7 @@ const updateWeeklyPlan = (selectedDays) => {
                 }}
             />
         </div>
-        <div className="survey-slide">
+        <div className={`survey-slide ${currentPage === 7 ? 'active' : ''}`}>
             <WeeklyPlanPage
                 onBack={() => handlePageChange(6)} // Navigate back to EquipmentSelectionPage
                 onNext={(selectedDays) => {
@@ -170,7 +178,7 @@ const updateWeeklyPlan = (selectedDays) => {
                 }}
             />
         </div>
-        <div className="survey-slide">
+        <div className={`survey-slide ${currentPage === 8 ? 'active' : ''}`}>
             <ExercisePrefPage
                 focusMuscleGroups={surveyData.focusMuscleGroups}
                 onBack={() => handlePageChange(7)} // Adjust this index if needed

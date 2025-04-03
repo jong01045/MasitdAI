@@ -2,11 +2,17 @@ import React, { useState } from 'react';
 import './WorkoutPage.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Sidebar from './Components/Sidebar';
+import UserMenu from './Components/UserMenu';
 
 const WorkoutPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   const closeSidebar = () => setSidebarOpen(false);
+  const toggleUserMenu = () => setUserMenuOpen(!userMenuOpen);
+  const closeUserMenu = () => setUserMenuOpen(false);
+  
   const location = useLocation();
 
   // Get the selected muscle group data
@@ -28,6 +34,10 @@ const WorkoutPage = () => {
           if (sidebarOpen && isMobile) {
             setSidebarOpen(false);
           }
+          // Close user menu if clicking elsewhere
+          if (userMenuOpen) {
+            closeUserMenu();
+          }
         }}
       >
         {/* Main Chat Page */}
@@ -37,7 +47,10 @@ const WorkoutPage = () => {
             <div className="sidebar-icon" onClick={toggleSidebar}>☰</div>
           )}
           <div className="chat-logo">MasidAI</div>
-          <div className="user-icon">👤</div>
+          <div className="user-icon" onClick={toggleUserMenu}>👤</div>
+          
+          {/* User Menu */}
+          <UserMenu isOpen={userMenuOpen} onClose={closeUserMenu} />
         </div>
 
         {/* Main Content Area */}

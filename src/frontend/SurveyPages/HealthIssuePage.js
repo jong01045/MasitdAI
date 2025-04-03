@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./HealthIssuePage.css";
+import ConfirmationModal from "../Components/ConfirmationModal";
 
 const healthIssues = [
   { title: "Can't do jumps", id: "jumps" },
@@ -14,7 +16,17 @@ const healthIssues = [
 ];
 
 function HealthIssuePage({ onBack, onNext }) {
+  const navigate = useNavigate();
   const [selectedIssues, setSelectedIssues] = useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const handleLogoClick = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmNavigation = () => {
+    navigate('/');
+  };
 
   const toggleIssue = (id) => {
     if (id === "none") {
@@ -34,7 +46,7 @@ function HealthIssuePage({ onBack, onNext }) {
       {/* Header */}
       <div className="health-header">
         <button className="back-button" onClick={onBack}>Back</button>
-        <div className="health-logo">MasidtAI</div>
+        <div className="health-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
 
       <h1>Do you have any Health Issues?</h1>
@@ -61,6 +73,13 @@ function HealthIssuePage({ onBack, onNext }) {
           Next
         </button>
       </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={handleConfirmNavigation}
+      />
     </div>
   );
 }

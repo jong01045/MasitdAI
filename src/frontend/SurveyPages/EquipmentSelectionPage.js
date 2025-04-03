@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./EquipmentSelectionPage.css";
+import ConfirmationModal from "../Components/ConfirmationModal";
 
 const equipmentOptions = [
   { title: "Full gym", id: "full_gym" },
@@ -12,7 +14,17 @@ const equipmentOptions = [
 ];
 
 function EquipmentSelectionPage({ onBack, onNext }) {
+  const navigate = useNavigate();
   const [selectedEquipment, setSelectedEquipment] = useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const handleLogoClick = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmNavigation = () => {
+    navigate('/');
+  };
 
   const toggleEquipment = (id) => {
     if (id === "none") {
@@ -58,7 +70,7 @@ function EquipmentSelectionPage({ onBack, onNext }) {
     <div className="equipment-selection-page">
       <div className="equipment-header">
         <button className="back-button" onClick={onBack}>Back</button>
-        <div className="equipment-logo">MasidtAI</div>
+        <div className="equipment-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
 
       <h1>Select Available Equipment</h1>
@@ -83,6 +95,13 @@ function EquipmentSelectionPage({ onBack, onNext }) {
           Next
         </button>
       </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={handleConfirmNavigation}
+      />
     </div>
   );
 }

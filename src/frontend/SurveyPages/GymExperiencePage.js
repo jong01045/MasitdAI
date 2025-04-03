@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./GymExperiencePage.css";
+import ConfirmationModal from "../Components/ConfirmationModal";
 
 const gymExperienceLevels = [
   { title: "Beginner", subtitle: "(No Experience)", emoji: "🆕" },
@@ -9,14 +11,24 @@ const gymExperienceLevels = [
 ];
 
 function GymExperiencePage({ onBack, onNext }) {
+  const navigate = useNavigate();
   const [selectedExperience, setSelectedExperience] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const handleLogoClick = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmNavigation = () => {
+    navigate('/');
+  };
 
   return (
     <div className="gym-experience-page">
       {/* Header */}
       <div className="gym-header">
         <button className="back-button" onClick={onBack}>Back</button>
-        <div className="gym-logo">MasidtAI</div>
+        <div className="gym-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
 
       <h1>What's Your Gym Experience?</h1>
@@ -48,6 +60,13 @@ function GymExperiencePage({ onBack, onNext }) {
           Next
         </button>
       </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={handleConfirmNavigation}
+      />
     </div>
   );
 }

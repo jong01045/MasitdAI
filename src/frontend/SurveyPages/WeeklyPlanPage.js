@@ -1,11 +1,23 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./WeeklyPlanPage.css";
+import ConfirmationModal from "../Components/ConfirmationModal";
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 function WeeklyPlanPage({ onBack, onNext }) {
+  const navigate = useNavigate();
   const [workoutDays, setWorkoutDays] = useState(4);
   const [selectedDays, setSelectedDays] = useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const handleLogoClick = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmNavigation = () => {
+    navigate('/');
+  };
 
   const handleSliderChange = (event) => {
     const newValue = parseInt(event.target.value, 10);
@@ -29,7 +41,7 @@ function WeeklyPlanPage({ onBack, onNext }) {
     <div className="weekly-plan-page">
       <div className="weekly-header">
         <button className="back-button" onClick={onBack}>Back</button>
-        <div className="weekly-logo">MasidtAI</div>
+        <div className="weekly-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
 
       <h1>Set Your Weekly Workout Plan</h1>
@@ -66,6 +78,13 @@ function WeeklyPlanPage({ onBack, onNext }) {
           Next
         </button>
       </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={handleConfirmNavigation}
+      />
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Model, { IExerciseData } from "react-body-highlighter";
 import "./BodyFocusPage.css";
+import ConfirmationModal from "../Components/ConfirmationModal";
 
 // Define muscle mappings for each body part
 const bodyPartsMap = {
@@ -51,7 +53,17 @@ const filterObject = (obj) => {
 const bodyParts = Object.keys(bodyPartsMap);
 
 function BodyFocusPage({ onBack, onNext }) {
+  const navigate = useNavigate();
   const [selectedParts, setSelectedParts] = useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const handleLogoClick = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmNavigation = () => {
+    navigate('/');
+  };
 
   const togglePart = (part) => {
     let newSelection = [...selectedParts];
@@ -118,7 +130,7 @@ function BodyFocusPage({ onBack, onNext }) {
       {/* Header */}
       <div className="body-header">
         <button className="back-button" onClick={onBack}>Back</button>
-        <div className="body-logo">MasidtAI</div>
+        <div className="body-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
 
       <h1>What body parts are you focusing?</h1>
@@ -147,6 +159,13 @@ function BodyFocusPage({ onBack, onNext }) {
           Next
         </button>
       </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={handleConfirmNavigation}
+      />
     </div>
   );
 }

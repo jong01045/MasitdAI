@@ -3,6 +3,7 @@ import './MainChatPage.css';
 import MiniPopup from './MainChatPages/MiniPopup';
 import CreateWorkoutRoutine from './MainChatPages/CreateWorkoutRoutine';
 import Sidebar from './Components/Sidebar';
+import UserMenu from './Components/UserMenu';
 
 import {
   DndContext,
@@ -32,11 +33,14 @@ const MainChatPage = () => {
   const [modalContent, setModalContent] = useState(null);
   const [message, setMessage] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const textareaRef = useRef();
   const [showCreateWorkout, setShowCreateWorkout] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [muscleToDelete, setMuscleToDelete] = useState(null);
   const closeSidebar = () => setSidebarOpen(false);
+  const toggleUserMenu = () => setUserMenuOpen(!userMenuOpen);
+  const closeUserMenu = () => setUserMenuOpen(false);
 
   const handleInput = () => {
     const el = textareaRef.current;
@@ -149,6 +153,10 @@ const MainChatPage = () => {
           if (isMobile && sidebarOpen) {
             toggleSidebar();
           }
+          // Close user menu if clicking elsewhere
+          if (userMenuOpen) {
+            closeUserMenu();
+          }
         }}
       >
         {/* HEADER */}
@@ -158,7 +166,10 @@ const MainChatPage = () => {
             <div className="sidebar-icon" onClick={toggleSidebar}>☰</div>
           )}
           <div className="chat-logo">MasidAI</div>
-          <div className="user-icon">👤</div>
+          <div className="user-icon" onClick={toggleUserMenu}>👤</div>
+          
+          {/* User Menu */}
+          <UserMenu isOpen={userMenuOpen} onClose={closeUserMenu} />
         </div>
         {/* SCROLLABLE MIDDLE PANE */}
         <div className="scroll-pane">

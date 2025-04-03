@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ExercisePrefPage.css";
 import { Card, Button, TextField, Autocomplete } from "@mui/material";
 import { motion } from "framer-motion";
+import ConfirmationModal from "../Components/ConfirmationModal";
 
 const muscleGroups = {
   Back: { emoji: "🦻", exercises: ["Pull-Ups", "Lat Pulldown", "Bent-over Rows", "Deadlift"] },
@@ -14,7 +16,9 @@ const muscleGroups = {
 };
 
 const ExercisePrefPage = ({ focusMuscleGroups = [], onBack, onNext }) => {
+  const navigate = useNavigate();
   const [selectedExercises, setSelectedExercises] = useState({});
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     setSelectedExercises((prev) => {
@@ -25,6 +29,14 @@ const ExercisePrefPage = ({ focusMuscleGroups = [], onBack, onNext }) => {
       );
     });
   }, [focusMuscleGroups]);
+
+  const handleLogoClick = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmNavigation = () => {
+    navigate('/');
+  };
 
   const handleExerciseSelect = (muscle, exercise) => {
     setSelectedExercises((prev) => ({
@@ -39,7 +51,7 @@ const ExercisePrefPage = ({ focusMuscleGroups = [], onBack, onNext }) => {
     <div className="workout-survey-container">
       <div className="weekly-header">
         <button className="back-button" onClick={onBack}>Back</button>
-        <div className="weekly-logo">MasidtAI</div>
+        <div className="weekly-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
       <h1>Select Your Preferred Exercises</h1>
       <div className="workout-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', justifyContent: 'center', gap: '1.5rem', maxWidth: '900px', margin: '0 auto' }}>
@@ -86,6 +98,13 @@ const ExercisePrefPage = ({ focusMuscleGroups = [], onBack, onNext }) => {
       <div className="weekly-footer">
         <Button onClick={() => onNext(selectedExercises)} className="next-button">Next</Button>
       </div>
+
+      {/* Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={handleConfirmNavigation}
+      />
     </div>
   );
 };
