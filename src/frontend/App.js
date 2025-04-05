@@ -49,8 +49,8 @@ function WelcomePage() {
           Achieve your fitness goals with expert guidance, curated resources, and community support.
         </p>
         <div className="cta-buttons">
-          <button className="cta-button" onClick={handleStartNow}>Start Now</button>
-          <button className="cta-button" onClick={handleDownloadApp}>Download App</button>
+          <button className="cta-button primary-cta" onClick={handleStartNow}>Start Now</button>
+          <button className="cta-button secondary-cta" onClick={handleDownloadApp}>Download App</button>
         </div>
         <div className="icon-features">
           <div className="feature-box">
@@ -69,7 +69,7 @@ function WelcomePage() {
       </div>
 
       <div className="extra-content">
-        <p>Below the grey pane, the background is black. You can add more content here.</p>
+        <p>Stay fit, stay healthy with MasidtAI - your personal AI fitness companion</p>
       </div>
 
       {/* Login Modal */}

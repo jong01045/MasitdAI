@@ -1,126 +1,231 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 .demographic-page {
-  background-color: #333;
-  color: #fff;
-  padding: 2rem;
-  text-align: center;
+  background: linear-gradient(160deg, #1d2b45 0%, #1e293b 100%);
+  color: #f5f7fa;
+  padding: 1.5rem;
   min-height: 100vh;
-}
-
-.demographic-page h1 {
-  font-size: 2rem; /* Change this value to increase or decrease size */
-  margin-bottom: 1.5rem;
+  font-family: 'Poppins', 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
 }
 
 .demographic-header {
   display: flex;
-  justify-content: space-between; /* Pushes Back button and Logo apart */
+  justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1200px; /* Keeps consistency across pages */
+  max-width: 700px;
+  margin-bottom: 1rem;
+}
+
+.demographic-content {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.demographic-page h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+  background: linear-gradient(90deg, #f5f7fa 0%, #a3b1cc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
 }
 
 .back-button {
-  background-color: #555;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f5f7fa;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.4rem 0.8rem;
   border-radius: 50px;
   cursor: pointer;
-  font-size: 1.2rem;
-  /* position: absolute;
-  left: 0; */
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.back-icon {
+  font-size: 1rem;
 }
 
 .back-button:hover {
-  background-color: #777;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .demographic-logo {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   cursor: pointer;
+  background: linear-gradient(90deg, #61dafb 0%, #4f91f3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: transform 0.2s ease;
+}
+
+.demographic-logo:hover {
+  transform: scale(1.02);
+}
+
+.demographic-card {
+  background: rgba(30, 41, 59, 0.4);
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 100%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .demographic-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Centers content properly */
-  align-items: left;
-  gap: 2.25rem;
-  max-width: 600px;
   width: 100%;
-  margin: auto;
-  margin-top: 3rem;
-  margin-bottom: 2.3rem;
 }
 
-.demographic-form label {
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
   display: flex;
   flex-direction: column;
-  font-size: 1.5rem;
-  text-align: left;
 }
 
-.demographic-form input,
-.demographic-form select {
-  padding: 0.5rem;
-  font-size: 1.25rem;
-  border: none;
-  border-radius: 4px;
-  margin-top: 0.63rem;
+.form-group label {
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  color: #a3b1cc;
+  font-weight: 500;
 }
 
-.submit-button {
-  background-color: #555;
-  color: #fff;
-  border: none;
-  padding: 0.75rem;
-  border-radius: 4px;
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
   font-size: 1rem;
+  background-color: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #f5f7fa;
+  transition: all 0.2s ease;
+}
+
+.unit-label {
+  position: absolute;
+  right: 10px;
+  color: #a3b1cc;
+  font-size: 0.8rem;
+  pointer-events: none;
+}
+
+.gender-section {
+  margin-bottom: 1.5rem;
+}
+
+.gender-label {
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+  color: #a3b1cc;
+  font-weight: 500;
+  display: block;
+}
+
+.gender-options {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.gender-card {
+  background: linear-gradient(145deg, #293752 0%, #223048 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  text-align: center;
+  min-width: 90px;
 }
 
-.submit-button:hover {
-  background-color: #777;
+.gender-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.demographic-footer {
-  width: 100%;
+.gender-card.selected {
+  background: linear-gradient(145deg, rgba(79, 145, 243, 0.2) 0%, rgba(97, 218, 251, 0.2) 100%);
+  border: 1px solid rgba(79, 145, 243, 0.5);
+  box-shadow: 0 0 0 2px rgba(79, 145, 243, 0.1);
+}
+
+.form-actions {
   display: flex;
   justify-content: flex-end;
-  /* padding: 1rem 2rem; */
-  margin-top: 1rem; /* Adds space after main content */
-  position: relative; 
 }
 
 .next-button {
-  background-color: #555;
-  color: #fff;
+  background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
+  color: #f5f7fa;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.25rem;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
-}
-
-.error-message {
-  color: red;
-  font-size: 0.8rem;
-  margin-top: 4px;
-  margin-bottom: 1px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(79, 145, 243, 0.3);
 }
 
 .next-button:disabled {
-  background-color: #999;
+  background: linear-gradient(90deg, rgba(79, 145, 243, 0.5), rgba(97, 218, 251, 0.5));
   cursor: default;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
 }
 
 .next-button:not(:disabled):hover {
-  background-color: #555;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 145, 243, 0.4);
 }
 
-.next-button:hover {
-  background-color: #777;
+.error-message {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  text-align: left;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .gender-options {
+    justify-content: space-between;
+  }
+  
+  .gender-card {
+    min-width: 75px;
+    padding: 0.6rem 0.8rem;
+  }
 }

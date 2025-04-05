@@ -27,38 +27,45 @@ function GymExperiencePage({ onBack, onNext }) {
     <div className="gym-experience-page">
       {/* Header */}
       <div className="gym-header">
-        <button className="back-button" onClick={onBack}>Back</button>
+        <button className="back-button" onClick={onBack}>
+          <span className="back-icon">←</span>
+          <span className="back-text">Back</span>
+        </button>
         <div className="gym-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
 
-      <h1>What's Your Gym Experience?</h1>
+      <div className="gym-content">
+        <h1>What's Your Gym Experience?</h1>
 
-      {/* Experience Selection Buttons */}
-      <div className="gym-buttons-container">
-        {gymExperienceLevels.map((level) => (
-          <button
-            key={level.title}
-            className={`gym-button ${selectedExperience === level.title ? "selected" : ""}`}
-            onClick={() => setSelectedExperience(level.title)}
-          >
-            <div className="gym-text">
-              <span className="gym-title">{level.title}</span>
-              <span className="gym-subtitle">{level.subtitle}</span>
-            </div>
-            <span className="gym-emoji">{level.emoji}</span>
-          </button>
-        ))}
-      </div>
+        {/* Experience Selection Cards */}
+        <div className="gym-card">
+          <div className="gym-grid">
+            {gymExperienceLevels.map((level) => (
+              <div
+                key={level.title}
+                className={`gym-option ${selectedExperience === level.title ? "selected" : ""}`}
+                onClick={() => setSelectedExperience(level.title)}
+              >
+                <span className="gym-emoji">{level.emoji}</span>
+                <div className="gym-text">
+                  <div className="gym-title">{level.title}</div>
+                  <div className="gym-subtitle">{level.subtitle}</div>
+                </div>
+              </div>
+            ))}
+          </div>
 
-      {/* Next Button */}
-      <div className="gym-footer">
-        <button
-          className="next-button"
-          onClick={() => onNext(selectedExperience)}
-          disabled={!selectedExperience}
-        >
-          Next
-        </button>
+          {/* Next Button */}
+          <div className="gym-footer">
+            <button
+              className="next-button"
+              onClick={() => onNext(selectedExperience)}
+              disabled={!selectedExperience}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Confirmation Modal */}

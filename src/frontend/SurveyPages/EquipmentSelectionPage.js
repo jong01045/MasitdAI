@@ -69,31 +69,45 @@ function EquipmentSelectionPage({ onBack, onNext }) {
   return (
     <div className="equipment-selection-page">
       <div className="equipment-header">
-        <button className="back-button" onClick={onBack}>Back</button>
+        <button className="back-button" onClick={onBack}>
+          <span className="back-icon">←</span>
+          <span className="back-text">Back</span>
+        </button>
         <div className="equipment-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
 
-      <h1>Select Available Equipment</h1>
+      <div className="equipment-content">
+        <h1>Select Available Equipment</h1>
 
-      <div className="equipment-buttons-container">
-        {equipmentOptions.map((equipment) => (
-          <button
-            key={equipment.id}
-            className={`equipment-button ${selectedEquipment.includes(equipment.id) ? "selected" : ""} ${equipment.id === "none" ? "none-button" : ""}`}
-            onClick={() => toggleEquipment(equipment.id)}
-          >
-            <div className="checkbox">
-              {selectedEquipment.includes(equipment.id) && <span className="checkmark">✔</span>}
+        <div className="equipment-card">
+          <div className="equipment-grid">
+            {equipmentOptions.map((equipment) => (
+              <div
+                key={equipment.id}
+                className={`equipment-option ${selectedEquipment.includes(equipment.id) ? "selected" : ""} ${equipment.id === "none" ? "none-option" : ""}`}
+                onClick={() => toggleEquipment(equipment.id)}
+              >
+                <div className="checkbox">
+                  {selectedEquipment.includes(equipment.id) && <span className="checkmark">✓</span>}
+                </div>
+                <span className="equipment-text">{equipment.title}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="equipment-footer">
+            <div className="equipment-selection-count">
+              {selectedEquipment.length > 0 ? `${selectedEquipment.length} selected` : 'Select at least one option'}
             </div>
-            <span className="equipment-text">{equipment.title}</span>
-          </button>
-        ))}
-      </div>
-
-      <div className="equipment-footer">
-        <button className="next-button" onClick={() => onNext(selectedEquipment)} disabled={selectedEquipment.length === 0}>
-          Next
-        </button>
+            <button 
+              className="next-button" 
+              onClick={() => onNext(selectedEquipment)} 
+              disabled={selectedEquipment.length === 0}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Confirmation Modal */}

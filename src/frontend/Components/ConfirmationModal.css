@@ -4,23 +4,25 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(18, 28, 46, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
   animation: fadeIn 0.2s ease;
+  backdrop-filter: blur(5px);
 }
 
 .confirmation-modal {
-  background-color: #333;
+  background: linear-gradient(145deg, #1e293b 0%, #263247 100%);
   border-radius: 12px;
   width: 90%;
   max-width: 400px;
-  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   animation: scaleIn 0.3s ease;
   margin-top: -50px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .confirmation-content {
@@ -31,14 +33,17 @@
 .confirmation-icon {
   font-size: 3rem;
   margin-bottom: 1rem;
-  color: #ffb700;
+  background: linear-gradient(90deg, #ffb700 0%, #ff9500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   animation: pulse 1.5s infinite;
+  display: inline-block;
 }
 
 .confirmation-message {
   font-size: 1.2rem;
   margin-bottom: 1.5rem;
-  color: #fff;
+  color: #f5f7fa;
   line-height: 1.5;
 }
 
@@ -49,33 +54,37 @@
 }
 
 .confirm-button {
-  padding: 0.7rem 2rem;
+  padding: 0.8rem 2rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .yes-button {
-  background-color: #4a90e2;
+  background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
   color: white;
 }
 
 .yes-button:hover {
-  background-color: #3a7bc8;
+  background: linear-gradient(90deg, #61dafb 0%, #4f91f3 100%);
   transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(79, 145, 243, 0.4);
 }
 
 .no-button {
-  background-color: #555;
-  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  color: #f5f7fa;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .no-button:hover {
-  background-color: #666;
+  background: rgba(255, 255, 255, 0.15);
   transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 @keyframes fadeIn {

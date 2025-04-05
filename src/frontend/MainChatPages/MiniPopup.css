@@ -4,9 +4,9 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(10, 10, 10, 0.6);
-    backdrop-filter: blur(4px);
-    z-index: 150;
+    background: rgba(10, 15, 25, 0.7);
+    backdrop-filter: blur(6px);
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -14,16 +14,20 @@
   }
   
   .modal-content {
-    background: #1c1c1c;
-    padding: 24px;
-    border-radius: 12px;
-    color: #fff;
-    max-width: 90%;
-    max-height: 80%;
+    background: linear-gradient(145deg, #293752 0%, #223048 100%);
+    padding: 20px;
+    border-radius: 16px;
+    color: #f5f7fa;
+    width: 90%;
+    max-width: 450px;
+    max-height: 80vh;
     overflow-y: auto;
-    box-shadow: 0 0 20px rgba(0,0,0,0.4);
-    position: relative; /* important for absolute buttons inside */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
     animation: slideUp 0.25s ease-out;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
   }
 
   /* Overlay exit */
@@ -74,53 +78,179 @@
     position: absolute;
     top: 16px;
     left: 16px;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.1);
+    color: #a3b1cc;
     border: none;
-    font-size: 20px;
-    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .popup-back-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #f5f7fa;
+    transform: translateY(-2px);
+  }
+  
+  /* Header section */
+  .popup-header {
+    padding: 15px 15px 5px 50px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 15px;
+  }
+  
+  .popup-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    background: linear-gradient(90deg, #f5f7fa 0%, #a3b1cc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+  }
+  
+  /* Body section */
+  .popup-body {
+    flex: 1;
+    padding: 0 15px 60px 15px;
+  }
+  
+  .popup-description {
+    color: #a3b1cc;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+  }
+  
+  .exercise-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .exercise-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .exercise-bullet {
+    color: #4f91f3;
+    font-size: 18px;
+  }
+  
+  .exercise-name {
+    color: #f5f7fa;
+    font-size: 0.95rem;
+  }
+  
+  /* Footer section */
+  .popup-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background: rgba(30, 41, 59, 0.6);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0 0 16px 16px;
   }
   
   /* Bottom-right Start button */
   .popup-start-button {
-    position: absolute;
-    bottom: 20px;
-    right: 24px;
-    background-color: #00b894;
-    color: white;
+    background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
+    color: #f5f7fa;
     border: none;
     padding: 12px 20px;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(79, 145, 243, 0.3);
+    display: flex;
+    align-items: center;
   }
   
   .popup-start-button:hover {
-    background-color: #019874;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(79, 145, 243, 0.4);
   }
   
-  /* Optional layout spacing inside modal */
-  .popup-body {
-    padding-top: 40px; /* room below the back button */
-    padding-bottom: 60px; /* room above start button */
+  .popup-delete-button {
+    background: linear-gradient(90deg, rgba(231, 76, 60, 0.7) 0%, rgba(192, 57, 43, 0.7) 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2);
+    display: flex;
+    align-items: center;
   }
-
-.popup-delete-button {
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  background-color: #e57373; /* Subtle red color */
-  border: none;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.2s ease;
-}
-
-.popup-delete-button:hover {
-  background-color: #ef5350; /* Slightly darker red on hover */
-}
+  
+  .popup-delete-button:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(90deg, rgba(231, 76, 60, 0.9) 0%, rgba(192, 57, 43, 0.9) 100%);
+    box-shadow: 0 6px 16px rgba(231, 76, 60, 0.3);
+  }
+  
+  /* Delete confirmation popup */
+  .delete-confirmation-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(145deg, #293752 0%, #223048 100%);
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 300px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  
+  .delete-confirmation-popup p {
+    margin-bottom: 20px;
+    color: #f5f7fa;
+  }
+  
+  .confirmation-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .confirmation-buttons button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .confirm-yes {
+    background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+  }
+  
+  .confirm-no {
+    background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
+    color: white;
+  }
+  
+  .confirmation-buttons button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }

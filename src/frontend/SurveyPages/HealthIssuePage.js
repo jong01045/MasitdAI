@@ -45,33 +45,47 @@ function HealthIssuePage({ onBack, onNext }) {
     <div className="health-issue-page">
       {/* Header */}
       <div className="health-header">
-        <button className="back-button" onClick={onBack}>Back</button>
+        <button className="back-button" onClick={onBack}>
+          <span className="back-icon">←</span>
+          <span className="back-text">Back</span>
+        </button>
         <div className="health-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
 
-      <h1>Do you have any Health Issues?</h1>
+      <div className="health-content">
+        <h1>Do you have any Health Issues?</h1>
 
-      {/* Health Issue Selection */}
-      <div className="health-buttons-container">
-        {healthIssues.map((issue) => (
-          <button
-            key={issue.id}
-            className={`health-button ${selectedIssues.includes(issue.id) ? "selected" : ""} ${issue.id === "none" ? "none-button" : ""}`}
-            onClick={() => toggleIssue(issue.id)}
-          >
-            <div className="checkbox">
-              {selectedIssues.includes(issue.id) && <span className="checkmark">✔</span>}
+        {/* Health Issue Selection */}
+        <div className="health-card">
+          <div className="health-grid">
+            {healthIssues.map((issue) => (
+              <div
+                key={issue.id}
+                className={`health-option ${selectedIssues.includes(issue.id) ? "selected" : ""} ${issue.id === "none" ? "none-option" : ""}`}
+                onClick={() => toggleIssue(issue.id)}
+              >
+                <div className="checkbox">
+                  {selectedIssues.includes(issue.id) && <span className="checkmark">✓</span>}
+                </div>
+                <span className="health-text">{issue.title}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Next Button */}
+          <div className="health-footer">
+            <div className="health-selection-count">
+              {selectedIssues.length > 0 ? `${selectedIssues.length} selected` : 'Select at least one option'}
             </div>
-            <span className="health-text">{issue.title}</span>
-          </button>
-        ))}
-      </div>
-
-      {/* Next Button */}
-      <div className="health-footer">
-        <button className="next-button" onClick={() => onNext(selectedIssues)} disabled={selectedIssues.length === 0}>
-          Next
-        </button>
+            <button 
+              className="next-button" 
+              onClick={() => onNext(selectedIssues)} 
+              disabled={selectedIssues.length === 0}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Confirmation Modal */}

@@ -144,11 +144,12 @@ const MainChatPage = () => {
   return (
     <div className="mainchat-wrapper">
       <Sidebar isOpen={sidebarOpen} onClose={toggleSidebar} />
+      
+      {/* Main Container */}
       <div
         className={`mainchat-container 
           ${sidebarOpen && !isMobile? 'sidebar-opened' : ''} 
-          ${sidebarOpen && isMobile ? 'sidebar-blur' : ''} 
-          ${modalContent ? 'modal-blur' : ''}`}
+          ${sidebarOpen && isMobile ? 'sidebar-blur' : ''}`}
         onClick={() => {
           if (isMobile && sidebarOpen) {
             toggleSidebar();
@@ -228,26 +229,31 @@ const MainChatPage = () => {
             </div>
           </div>
         </div>
+      </div>
 
-        {/* MODAL OVERLAY */}
+      {/* MODAL OVERLAY - Moved outside the main container to prevent blur */}
+      {modalContent && (
         <MiniPopup 
           muscleGroup={modalContent} 
           onClose={() => setModalContent(null)} 
           onDelete={handleDeleteMuscle}
         />
-        
-        {showCreateWorkout && (
-          <CreateWorkoutRoutine onClose={() => setShowCreateWorkout(false)} onConfirm={handleCreateWorkoutConfirm} />
-        )}
+      )}
 
-        {showDeleteConfirmation && (
-          <div className="confirmation-popup">
-            <p>Do you really want to delete this workout?</p>
-            <button onClick={() => handleDeleteMuscle(muscleToDelete)}>Yes</button>
-            <button onClick={() => setShowDeleteConfirmation(false)}>No</button>
-          </div>
-        )}
-      </div>
+      {showCreateWorkout && (
+        <CreateWorkoutRoutine 
+          onClose={() => setShowCreateWorkout(false)} 
+          onConfirm={handleCreateWorkoutConfirm} 
+        />
+      )}
+
+      {showDeleteConfirmation && (
+        <div className="confirmation-popup">
+          <p>Do you really want to delete this workout?</p>
+          <button onClick={() => handleDeleteMuscle(muscleToDelete)}>Yes</button>
+          <button onClick={() => setShowDeleteConfirmation(false)}>No</button>
+        </div>
+      )}
     </div>
   );
 };

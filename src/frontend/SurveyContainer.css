@@ -4,6 +4,7 @@
   overflow: hidden; /* Prevent all scrolling on container level */
   width: 100%;
   height: 100vh; /* Fixed height for consistent sizing */
+  background: linear-gradient(160deg, #1d2b45 0%, #1e293b 100%);
 }
   
 .survey-slider {
@@ -22,7 +23,26 @@
   overflow-y: auto; /* Allow content to scroll if needed */
   height: 100%;
   box-sizing: border-box;
-  /* padding-bottom: 80px; Space for navigation dots */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(163, 177, 204, 0.3) rgba(30, 41, 59, 0.3);
+}
+
+.survey-slide::-webkit-scrollbar {
+  width: 6px;
+}
+
+.survey-slide::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.3);
+  border-radius: 10px;
+}
+
+.survey-slide::-webkit-scrollbar-thumb {
+  background: rgba(163, 177, 204, 0.3);
+  border-radius: 10px;
+}
+
+.survey-slide::-webkit-scrollbar-thumb:hover {
+  background: rgba(163, 177, 204, 0.5);
 }
 
 /* Fix for modal display in all slides */
@@ -42,6 +62,23 @@
   cursor: pointer;
   z-index: 100; /* Ensure logo is clickable */
   position: relative; /* Needed for z-index to work */
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #61dafb 0%, #4f91f3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: transform 0.2s ease;
+}
+
+.survey-slide .activity-logo:hover,
+.survey-slide .body-logo:hover,
+.survey-slide .equipment-logo:hover,
+.survey-slide .weekly-logo:hover,
+.survey-slide .gym-logo:hover,
+.survey-slide .health-logo:hover,
+.survey-slide .goal-logo:hover,
+.survey-slide .demographic-logo:hover {
+  transform: scale(1.02);
 }
   
 /* Navigation dots container with gradient background */
@@ -52,15 +89,16 @@
   transform: translateX(-50%);
   margin: 0;
   z-index: 1000; /* Increased z-index */
-  background: linear-gradient(90deg, rgba(74,144,226,0.7) 0%, rgba(46,204,113,0.7) 100%); 
-  padding: 8px 20px;
+  background: linear-gradient(90deg, rgba(79, 145, 243, 0.7) 0%, rgba(97, 218, 251, 0.7) 100%);
+  padding: 10px 24px;
   border-radius: 30px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(8px); /* Enhanced blur effect */
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid rgba(255,255,255,0.2); /* Subtle border */
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Subtle border */
+  transition: all 0.3s ease;
 }
 
 .survey-dots.visible {
@@ -70,19 +108,19 @@
 /* Individual dots */
 .dot {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   margin: 0 6px;
-  background-color: rgba(255,255,255,0.4);
+  background-color: rgba(255, 255, 255, 0.4);
   border-radius: 50%;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
   
 .dot.active {
   background-color: #fff;
-  box-shadow: 0 0 8px rgba(255,255,255,0.6);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
   transform: scale(1.2);
 }
 
@@ -92,6 +130,7 @@
 
 .dot:hover {
   transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.6);
 }
   
 html, body {
@@ -99,7 +138,8 @@ html, body {
   padding: 0;
   overflow-x: hidden; /* Prevent horizontal scroll */
   height: 100%;
-  background-color: #333; /* Ensure consistent background color */
+  background-color: #121c2e; /* Ensure consistent background color */
+  font-family: 'Poppins', 'Roboto', sans-serif;
 }
 
 /* Add some margin to the footer elements to avoid overlap with dots */
@@ -111,7 +151,7 @@ html, body {
 .health-footer,
 .equipment-footer,
 .weekly-footer {
-  margin-bottom: 70px; /* Increased space for dots */
+  margin-bottom: 80px; /* Increased space for dots */
   padding-bottom: 10px; /* Extra padding at bottom */
 }
 

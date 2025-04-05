@@ -116,7 +116,7 @@ function BodyFocusPage({ onBack, onNext }) {
         }
       });
     }
-    console.log(newSelection);
+
     setSelectedParts(newSelection);
   };
 
@@ -129,35 +129,50 @@ function BodyFocusPage({ onBack, onNext }) {
     <div className="body-focus-page">
       {/* Header */}
       <div className="body-header">
-        <button className="back-button" onClick={onBack}>Back</button>
+        <button className="back-button" onClick={onBack}>
+          <span className="back-icon">←</span>
+          <span className="back-text">Back</span>
+        </button>
         <div className="body-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
 
-      <h1>What body parts are you focusing?</h1>
-      {/* Body part selection buttons */}
-      <div className="body-buttons-container">
-        {bodyParts.map((part) => (
-          <button
-            key={part}
-            className={`body-button ${selectedParts.includes(part) ? "selected" : ""}`}
-            onClick={() => togglePart(part)}
-          >
-            {part}
-          </button>
-        ))}
-      </div>
+      <div className="body-content">
+        <h1>What body parts are you focusing?</h1>
+        
+        <div className="body-card">
+          {/* Body part selection buttons */}
+          <div className="body-buttons-container">
+            {bodyParts.map((part) => (
+              <div
+                key={part}
+                className={`body-option ${selectedParts.includes(part) ? "selected" : ""}`}
+                onClick={() => togglePart(part)}
+              >
+                {part}
+              </div>
+            ))}
+          </div>
 
-      {/* Body diagram (Front & Back views) */}
-      <div className="body-diagram">
-        <Model data={highlightedData} style={{ width: "150px", height: "225px" }} />
-        <Model type="posterior" data={highlightedData} style={{ width: "150px", height: "225px" }} />
-      </div>
-
-      {/* Next Button */}
-      <div className="body-footer">
-        <button className="next-button" onClick={() => onNext(filterObject(selectedParts))} disabled={selectedParts.length === 0}>
-          Next
-        </button>
+          {/* Body diagram (Front & Back views) */}
+          <div className="body-diagram">
+            <Model data={highlightedData} style={{ width: "150px", height: "225px" }} />
+            <Model type="posterior" data={highlightedData} style={{ width: "150px", height: "225px" }} />
+          </div>
+          
+          {/* Footer with Next Button */}
+          <div className="body-footer">
+            <div className="body-selection-count">
+              {selectedParts.length > 0 ? `${selectedParts.length} selected` : 'Select at least one body part'}
+            </div>
+            <button 
+              className="next-button" 
+              onClick={() => onNext(filterObject(selectedParts))} 
+              disabled={selectedParts.length === 0}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Confirmation Modal */}

@@ -1,7 +1,9 @@
-.gym-experience-page {
+/* Base styles for all survey pages */
+.survey-page {
   background: linear-gradient(160deg, #1d2b45 0%, #1e293b 100%);
   color: #f5f7fa;
-  padding: 1.5rem;
+  padding: 2rem;
+  text-align: center;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -10,40 +12,26 @@
   font-family: 'Poppins', 'Roboto', sans-serif;
 }
 
-/* Aligns Back button far left and Logo far right */
-.gym-header {
+/* Page header with back button and logo */
+.survey-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 700px;
-  margin-bottom: 1rem;
+  max-width: 1200px;
+  margin-bottom: 1.5rem;
 }
 
-.gym-content {
-  width: 100%;
-  max-width: 700px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* Back button styling */
 .back-button {
   background: rgba(255, 255, 255, 0.1);
   color: #f5f7fa;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 0.4rem 0.8rem;
+  padding: 0.5rem 1.2rem;
   border-radius: 50px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.back-icon {
-  font-size: 1rem;
 }
 
 .back-button:hover {
@@ -52,8 +40,9 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.gym-logo {
-  font-size: 1.8rem;
+/* Logo styling */
+.survey-logo {
+  font-size: 2.2rem;
   font-weight: 700;
   cursor: pointer;
   background: linear-gradient(90deg, #61dafb 0%, #4f91f3 100%);
@@ -62,109 +51,75 @@
   transition: transform 0.2s ease;
 }
 
-.gym-logo:hover {
+.survey-logo:hover {
   transform: scale(1.02);
 }
 
-h1 {
-  font-size: 1.8rem;
+/* Page title styling */
+.survey-title {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
   font-weight: 600;
-  margin-bottom: 1.2rem;
   background: linear-gradient(90deg, #f5f7fa 0%, #a3b1cc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-align: center;
 }
 
-.gym-card {
-  background: rgba(30, 41, 59, 0.4);
-  border-radius: 16px;
-  padding: 1.5rem;
+/* Buttons container */
+.survey-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   width: 100%;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  max-width: 450px;
+  margin-bottom: 2rem;
 }
 
-/* Grid Layout for Experience Options */
-.gym-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-/* Experience Option Card */
-.gym-option {
+/* Button styling for options */
+.survey-button {
   background: linear-gradient(145deg, #293752 0%, #223048 100%);
   color: #f5f7fa;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 0.9rem;
+  padding: 1.2rem;
   border-radius: 12px;
   cursor: pointer;
+  font-size: 1rem;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  width: 100%;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.gym-option.selected {
+.survey-button.selected {
   background: linear-gradient(145deg, rgba(46, 204, 113, 0.2) 0%, rgba(39, 174, 96, 0.2) 100%);
   border: 1px solid rgba(46, 204, 113, 0.5);
   box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
 }
 
-.gym-option:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+.survey-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Emoji (Intensity Indicator) */
-.gym-emoji {
-  font-size: 1.8rem;
-  background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 32px;
-}
-
-/* Text Inside Option */
-.gym-text {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.gym-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #f5f7fa;
-}
-
-.gym-subtitle {
-  font-size: 0.8rem;
-  color: #a3b1cc;
-  margin-top: 2px;
-}
-
-/* Footer (Next Button) */
-.gym-footer {
+/* Footer with next button */
+.survey-footer {
+  width: 100%;
   display: flex;
   justify-content: flex-end;
-  margin-top: 0.5rem;
+  margin-top: 2rem;
+  max-width: 450px;
 }
 
+/* Next button styling */
 .next-button {
   background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
   color: #f5f7fa;
   border: none;
-  padding: 0.6rem 1.5rem;
+  padding: 0.8rem 2rem;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 500;
   transition: all 0.2s ease;
   box-shadow: 0 4px 12px rgba(79, 145, 243, 0.3);
@@ -183,17 +138,44 @@ h1 {
   opacity: 0.7;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .gym-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .gym-option {
-    padding: 0.7rem;
-  }
-  
-  .gym-emoji {
-    font-size: 1.5rem;
-  }
+/* Card styling for options */
+.survey-card {
+  background: linear-gradient(145deg, #293752 0%, #223048 100%);
+  color: #f5f7fa;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: left;
 }
+
+.survey-card.selected {
+  background: linear-gradient(145deg, rgba(46, 204, 113, 0.2) 0%, rgba(39, 174, 96, 0.2) 100%);
+  border: 1px solid rgba(46, 204, 113, 0.5);
+  box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.2);
+}
+
+.survey-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Form fields */
+.survey-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background-color: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #f5f7fa;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.survey-input:focus {
+  outline: none;
+  border-color: #4f91f3;
+  box-shadow: 0 0 0 3px rgba(79, 145, 243, 0.25);
+} 

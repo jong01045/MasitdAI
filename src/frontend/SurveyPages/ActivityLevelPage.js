@@ -28,38 +28,45 @@ function ActivityLevelPage({ onBack, onNext }) {
     <div className="activity-level-page">
       {/* Header */}
       <div className="activity-header">
-        <button className="back-button" onClick={onBack}>Back</button>
+        <button className="back-button" onClick={onBack}>
+          <span className="back-icon">←</span>
+          <span className="back-text">Back</span>
+        </button>
         <div className="activity-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
 
-      <h1>How active are you?</h1>
+      <div className="activity-content">
+        <h1>How active are you?</h1>
 
-      {/* Activity Level Selection */}
-      <div className="activity-buttons-container">
-        {activityLevels.map((level) => (
-          <button
-            key={level.title}
-            className={`activity-button ${selectedLevel === level.title ? "selected" : ""}`}
-            onClick={() => setSelectedLevel(level.title)}
-          >
-            <div className="activity-text">
-              <span className="activity-title">{level.title}</span>
-              <span className="activity-subtitle">{level.subtitle}</span>
-            </div>
-            <span className="activity-emoji">{level.emoji}</span>
-          </button>
-        ))}
-      </div>
+        {/* Activity Level Selection Card */}
+        <div className="activity-card">
+          <div className="activity-grid">
+            {activityLevels.map((level) => (
+              <div
+                key={level.title}
+                className={`activity-option ${selectedLevel === level.title ? "selected" : ""}`}
+                onClick={() => setSelectedLevel(level.title)}
+              >
+                <span className="activity-emoji">{level.emoji}</span>
+                <div className="activity-text">
+                  <div className="activity-title">{level.title}</div>
+                  <div className="activity-subtitle">{level.subtitle}</div>
+                </div>
+              </div>
+            ))}
+          </div>
 
-      {/* Next Button */}
-      <div className="activity-footer">
-        <button
-          className="next-button"
-          onClick={() => onNext(selectedLevel)}
-          disabled={!selectedLevel}
-        >
-          Next
-        </button>
+          {/* Next Button */}
+          <div className="activity-footer">
+            <button
+              className="next-button"
+              onClick={() => onNext(selectedLevel)}
+              disabled={!selectedLevel}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Confirmation Modal */}

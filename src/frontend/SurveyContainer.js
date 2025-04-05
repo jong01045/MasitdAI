@@ -30,6 +30,11 @@ function SurveyContainer({onBack, onComplete}) {
     setVisitedPages(prev => prev.includes(currentPage) ? prev : [...prev, currentPage]);
   }, [currentPage]);
 
+  useEffect(() => {
+    // Apply smooth scroll to top when changing slides
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentPage]);
+
   const handlePageChange = (pageIndex) => {
     console.log("Changing to page:", pageIndex);
     navigate(`/survey/${pageIndex}`);
@@ -45,10 +50,10 @@ function SurveyContainer({onBack, onComplete}) {
     const isMovingBackward = index < currentPage;
 
     if (isMovingBackward) {
-        console.log("Hey! Backward")
+        console.log("Moving backward");
         setTempDotIndex(index); // Snap briefly to where the user clicked
     } else if (isMovingForward) {
-        console.log("Hey! Forward")
+        console.log("Moving forward");
         setTempDotIndex(index); // Snap briefly forward
     }
 
@@ -113,13 +118,13 @@ function SurveyContainer({onBack, onComplete}) {
   return (
     <div className="survey-container">
       <div className="survey-slider" style={{ transform: `translateX(-${currentPage * 100}%)` }}>
-        <div className={`survey-slide ${currentPage === 0 ? 'active' : ''}`}>
+        <div className={`survey-slide ${currentPage === 0 ? 'active' : ''}`} data-slide-index="0">
           <DemographicPage onBack={onBack} onNext={() => handlePageChange(1)} demographicData = {surveyData.demographic} updateDemographic={updateDemographic} updateDemoError = {updateDemoError} isEmptyObject = {isEmptyObject} />
         </div>
-        <div className={`survey-slide ${currentPage === 1 ? 'active' : ''}`}>
+        <div className={`survey-slide ${currentPage === 1 ? 'active' : ''}`} data-slide-index="1">
           <GymExperiencePage onBack={() => handlePageChange(0)} onNext={() => handlePageChange(2)} gymExpData = {surveyData.gymExperience} updateGymExperience={updateGymExperience} updateGymError = {updateGymError} isEmptyObject = {isEmptyObject} />
         </div>
-        <div className={`survey-slide ${currentPage === 2 ? 'active' : ''}`}>
+        <div className={`survey-slide ${currentPage === 2 ? 'active' : ''}`} data-slide-index="2">
           <GoalPage 
             onBack={() => handlePageChange(1)} 
             onNext={(selectedGoals) => {
@@ -128,7 +133,7 @@ function SurveyContainer({onBack, onComplete}) {
             }}
           />
         </div>
-        <div className={`survey-slide ${currentPage === 3 ? 'active' : ''}`}>
+        <div className={`survey-slide ${currentPage === 3 ? 'active' : ''}`} data-slide-index="3">
           <BodyFocusPage
             onBack={() => handlePageChange(2)}
             onNext={(selectedParts) => {
@@ -140,7 +145,7 @@ function SurveyContainer({onBack, onComplete}) {
             focusMuscleGroups = {surveyData.focusMuscleGroups}
           />
         </div>
-        <div className={`survey-slide ${currentPage === 4 ? 'active' : ''}`}>
+        <div className={`survey-slide ${currentPage === 4 ? 'active' : ''}`} data-slide-index="4">
           <ActivityLevelPage
             onBack={() => handlePageChange(3)}
             onNext={(selectedLevel) => {
@@ -149,7 +154,7 @@ function SurveyContainer({onBack, onComplete}) {
             }}
           />
         </div>
-        <div className={`survey-slide ${currentPage === 5 ? 'active' : ''}`}>
+        <div className={`survey-slide ${currentPage === 5 ? 'active' : ''}`} data-slide-index="5">
           <HealthIssuePage
             onBack={() => handlePageChange(4)}
             onNext={(selectedIssues) => {
@@ -158,7 +163,7 @@ function SurveyContainer({onBack, onComplete}) {
             }}
           />
         </div>
-        <div className={`survey-slide ${currentPage === 6 ? 'active' : ''}`}>
+        <div className={`survey-slide ${currentPage === 6 ? 'active' : ''}`} data-slide-index="6">
             <EquipmentSelectionPage
                 onBack={() => handlePageChange(5)}  // Go back to HealthIssuePage
                 onNext={(selectedEquipment) => {
@@ -168,7 +173,7 @@ function SurveyContainer({onBack, onComplete}) {
                 }}
             />
         </div>
-        <div className={`survey-slide ${currentPage === 7 ? 'active' : ''}`}>
+        <div className={`survey-slide ${currentPage === 7 ? 'active' : ''}`} data-slide-index="7">
             <WeeklyPlanPage
                 onBack={() => handlePageChange(6)} // Navigate back to EquipmentSelectionPage
                 onNext={(selectedDays) => {
@@ -178,7 +183,7 @@ function SurveyContainer({onBack, onComplete}) {
                 }}
             />
         </div>
-        <div className={`survey-slide ${currentPage === 8 ? 'active' : ''}`}>
+        <div className={`survey-slide ${currentPage === 8 ? 'active' : ''}`} data-slide-index="8">
             <ExercisePrefPage
                 focusMuscleGroups={surveyData.focusMuscleGroups}
                 onBack={() => handlePageChange(7)} // Adjust this index if needed
@@ -192,14 +197,14 @@ function SurveyContainer({onBack, onComplete}) {
       </div>
       <div className={`survey-dots ${showDots ? 'visible' : ''}`}>
         {(() => {
-          const totalPages = 9; // Adjust dynamically based on the total survey pages
-          const dotsToShow = Math.min(visitedPages.length, totalPages); // Show only visited dots
+          const totalPages = 9; // Total number of survey pages
+          const dotsToShow = Math.min(visitedPages.length, totalPages); 
 
           let startPage = Math.max(0, currentPage - 2); // Try to center currentPage
-          let endPage = startPage + 4; // Keep 4 dots max
+          let endPage = startPage + 4; // Keep 5 dots visible at a time
 
           if (dotsToShow <= 5) {
-            startPage = 0; // Show all visited dots when under 4 pages
+            startPage = 0; // Show all visited dots when under 5 pages
             endPage = dotsToShow - 1;
           } else if (endPage >= dotsToShow) {
             endPage = dotsToShow - 1;
@@ -211,6 +216,9 @@ function SurveyContainer({onBack, onComplete}) {
               key={page}
               className={`dot ${currentPage === page ? 'active' : ''} ${tempDotIndex === page ? 'temp-active' : ''}`}
               onClick={() => handleDotClick(page)}
+              aria-label={`Go to page ${page + 1}`}
+              role="button"
+              tabIndex={0}
             />
           ));
         })()}

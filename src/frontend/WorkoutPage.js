@@ -40,13 +40,12 @@ const WorkoutPage = () => {
           }
         }}
       >
-        {/* Main Chat Page */}
         {/* Header */}
         <div className="chat-header">
           {!sidebarOpen && (
             <div className="sidebar-icon" onClick={toggleSidebar}>☰</div>
           )}
-          <div className="chat-logo">MasidAI</div>
+          <div className="chat-logo">MasitdAI</div>
           <div className="user-icon" onClick={toggleUserMenu}>👤</div>
           
           {/* User Menu */}

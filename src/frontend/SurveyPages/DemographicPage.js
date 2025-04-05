@@ -25,11 +25,8 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
     Object.keys(errors).length === 0;
 
   const handleChange = (e) => {
-    console.log("Change occured");
-
     const { name, value } = e.target;
 
-    console.log(e.target)
     // Error check
     let newErrors = {...errors};
 
@@ -50,17 +47,12 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
     updateDemoError(newErrors);
     
     const newData = { ...demographicData, [name]: value }
-
     updateDemographic(newData);
-    
-    
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // // Additional processing here if needed.
-
     let newErrors = {};
 
     Object.entries(demographicData).forEach(([key, value]) => {
@@ -70,70 +62,132 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
     });
 
     if (Object.keys(newErrors).length > 0) {
-      console.log("Errors found:", newErrors);
       setErrors(newErrors);
     } else {
-      console.log("All fields are filled");
-      console.log("Demographic Data Submitted:", demographicData);
       onNext();
     }
   };
+
+  // Gender options presented as cards
+  const genderOptions = [
+    { value: "female", label: "Female" },
+    { value: "male", label: "Male" },
+    { value: "other", label: "Other" }
+  ];
 
   return (
     <div className="demographic-page">
       {/* Header with Back button and clickable logo */}
       <div className="demographic-header">
-        <button className="back-button" onClick={onBack}>Back</button>
-        <div className="demographic-logo" onClick={handleLogoClick}>MasidtAI</div>
+        <button className="back-button" onClick={onBack}>
+          <span className="back-icon">←</span>
+          <span className="back-text">Back</span>
+        </button>
+        <div className="demographic-logo" onClick={handleLogoClick}>MasitdAI</div>
       </div>
 
-      <h1>Tell me about yourself!</h1>
-      <form onSubmit={handleSubmit} className="demographic-form">
-        <label>
-          Age:
-          <input type="number" name="age" value={demographicData?.age || ""} onChange={handleChange} required 
-          onKeyDown={(e) => {
-            if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
-              e.preventDefault();
-            }
-          }} />
-          {errors.age && <p className="error-message">{errors.age}</p>}
-        </label>
-        <label>
-          Gender:
-          <select name="gender" value={demographicData?.gender || ""} onChange={handleChange} required>
-            <option value="">Select Gender</option>
-            <option value="female">Female</option>
-            <option value="male">Male</option>
-            <option value="other">Other</option>
-          </select>
-          {errors.gender && <p className="error-message">{errors.gender}</p>}
-        </label>
-        <label>
-          Height (cm):
-          <input type="number" name="height" value={demographicData?.height || ""} onChange={handleChange} required 
-          onKeyDown={(e) => {
-            if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
-              e.preventDefault();
-            }
-          }} />
-          {errors.height && <p className="error-message">{errors.height}</p>}
-        </label>
-        <label>
-          Weight (kg):
-          <input type="number" name="weight" value={demographicData?.weight || ""} onChange={handleChange} required 
-          onKeyDown={(e) => {
-            if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
-              e.preventDefault();
-            }
-          }} />
-          {errors.weight && <p className="error-message">{errors.weight}</p>}
-        </label>
-      </form>
-
-      {/* Footer with Next button */}
-      <div className="demographic-footer">
-        <button className="next-button" onClick={handleSubmit} disabled={!isFormValid} >Next</button>
+      <div className="demographic-content">
+        <h1>Tell me about yourself</h1>
+        
+        <div className="demographic-card">
+          <form className="demographic-form">
+            <div className="form-grid">
+              <div className="form-group">
+                <label htmlFor="age">Age</label>
+                <div className="input-wrapper">
+                  <input 
+                    type="number" 
+                    id="age" 
+                    name="age" 
+                    value={demographicData?.age || ""} 
+                    onChange={handleChange} 
+                    required 
+                    min="1"
+                    onKeyDown={(e) => {
+                      if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
+                        e.preventDefault();
+                      }
+                    }} 
+                  />
+                  <span className="unit-label">years</span>
+                </div>
+                {errors.age && <p className="error-message">{errors.age}</p>}
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="height">Height</label>
+                <div className="input-wrapper">
+                  <input 
+                    type="number" 
+                    id="height" 
+                    name="height" 
+                    value={demographicData?.height || ""} 
+                    onChange={handleChange} 
+                    required 
+                    min="1"
+                    onKeyDown={(e) => {
+                      if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
+                        e.preventDefault();
+                      }
+                    }} 
+                  />
+                  <span className="unit-label">cm</span>
+                </div>
+                {errors.height && <p className="error-message">{errors.height}</p>}
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="weight">Weight</label>
+                <div className="input-wrapper">
+                  <input 
+                    type="number" 
+                    id="weight" 
+                    name="weight" 
+                    value={demographicData?.weight || ""} 
+                    onChange={handleChange} 
+                    required 
+                    min="1"
+                    onKeyDown={(e) => {
+                      if (e.key === "e" || e.key === "E" || e.key === "-" || e.key === "+") {
+                        e.preventDefault();
+                      }
+                    }} 
+                  />
+                  <span className="unit-label">kg</span>
+                </div>
+                {errors.weight && <p className="error-message">{errors.weight}</p>}
+              </div>
+            </div>
+            
+            <div className="gender-section">
+              <label className="gender-label">Gender</label>
+              <div className="gender-options">
+                {genderOptions.map(option => (
+                  <div 
+                    key={option.value}
+                    className={`gender-card ${demographicData?.gender === option.value ? 'selected' : ''}`}
+                    onClick={() => handleChange({
+                      target: { name: 'gender', value: option.value }
+                    })}
+                  >
+                    {option.label}
+                  </div>
+                ))}
+              </div>
+              {errors.gender && <p className="error-message">{errors.gender}</p>}
+            </div>
+          </form>
+          
+          <div className="form-actions">
+            <button 
+              className="next-button" 
+              onClick={handleSubmit} 
+              disabled={!isFormValid}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Confirmation Modal */}

@@ -10,9 +10,9 @@ function GoalPage({ onBack, onNext }) {
   
   const goals = [
     "Improve fitness", "Build muscle", "Burn fat",
-    "Increase endurance", "Boost mental strength", "Weight loss",
+    "Increase endurance", "Mental strength", "Weight loss",
     "Balance", "Flexibility", "Relieve stress",
-    "Optimise workouts", "Agility", "Reduce back pain"
+    "Optimize workouts", "Agility", "Reduce pain"
   ];
 
   const [selectedGoals, setSelectedGoals] = useState([]);
@@ -32,39 +32,49 @@ function GoalPage({ onBack, onNext }) {
   };
 
   const handleNext = () => {
-    console.log("Goals selected:", selectedGoals);
-    onNext(selectedGoals); // Pass selected goals to parent component if needed
+    onNext(selectedGoals);
   };
 
   return (
     <div className="goal-page">
       <div className="goal-header">
-        <button className="back-button" onClick={onBack}>Back</button>
+        <button className="back-button" onClick={onBack}>
+          <span className="back-icon">←</span>
+          <span className="back-text">Back</span>
+        </button>
         <div className="goal-logo" onClick={handleLogoClick}>MasidtAI</div>
       </div>
 
-      <h1>Choose your goals</h1>
+      <div className="goal-content">
+        <h1>Choose your goals</h1>
 
-      <div className="goal-buttons-container">
-        {goals.map((goal) => (
-          <button
-            key={goal}
-            className={`goal-button ${selectedGoals.includes(goal) ? 'selected' : ''}`}
-            onClick={() => toggleGoal(goal)}
-          >
-            {goal}
-          </button>
-        ))}
-      </div>
-
-      <div className="goal-footer">
-        <button
-          className="next-button"
-          onClick={handleNext}
-          disabled={selectedGoals.length === 0}
-        >
-          Next
-        </button>
+        <div className="goal-card">
+          <div className="goal-grid">
+            {goals.map((goal) => (
+              <div
+                key={goal}
+                className={`goal-option ${selectedGoals.includes(goal) ? 'selected' : ''}`}
+                onClick={() => toggleGoal(goal)}
+              >
+                {goal}
+                {selectedGoals.includes(goal) && <span className="check-icon">✓</span>}
+              </div>
+            ))}
+          </div>
+          
+          <div className="goal-footer">
+            <div className="goal-selection-count">
+              {selectedGoals.length > 0 ? `${selectedGoals.length} selected` : 'Select at least one goal'}
+            </div>
+            <button
+              className="next-button"
+              onClick={handleNext}
+              disabled={selectedGoals.length === 0}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Confirmation Modal */}
