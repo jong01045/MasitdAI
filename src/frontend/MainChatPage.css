@@ -10,10 +10,37 @@
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: linear-gradient(160deg, #1d2b45 0%, #1e293b 100%);
   color: #f5f7fa;
   font-family: 'Poppins', 'Segoe UI', sans-serif;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.mainchat-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.mainchat-container::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.3);
+  border-radius: 10px;
+}
+
+.mainchat-container::-webkit-scrollbar-thumb {
+  background: rgba(163, 177, 204, 0.3);
+  border-radius: 10px;
+}
+
+.mainchat-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(163, 177, 204, 0.5);
+}
+
+/* Firefox support for main container */
+.mainchat-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(163, 177, 204, 0.3) rgba(30, 41, 59, 0.3);
 }
 
 .chat-body {
@@ -21,11 +48,41 @@
   overflow-y: auto;
   padding: 20px;
   background-color: transparent;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 100px; /* Space between chat body and input area */
+}
+
+.chat-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-body::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.3);
+  border-radius: 10px;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+  background: rgba(163, 177, 204, 0.3);
+  border-radius: 10px;
+}
+
+.chat-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(163, 177, 204, 0.5);
+}
+
+/* Firefox support for chat body */
+.chat-body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(163, 177, 204, 0.3) rgba(30, 41, 59, 0.3);
 }
 
 .chat-placeholder {
   color: #a3b1cc;
   font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .chat-input-area {
@@ -33,20 +90,30 @@
   background: rgba(30, 41, 59, 0.8);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
-  position: sticky;
-  bottom: 0;
-  z-index: 10;
+  width: 90%;
+  margin: 0 auto;
+  /* margin-bottom: 0; */
+  min-height: 50px;
+  display: flex;
+  align-items: center;
 }
 
 .chat-input-wrapper {
-  max-width: 720px;
+  width: 100%;
+  max-width: 840px;
   margin: 0 auto;
+}
+
+.chat-input-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .chat-input {
   width: 100%;
-  max-height: 120px;
   min-height: 40px;
+  max-height: 120px;
   resize: none;
   padding: 12px 16px;
   border-radius: 20px;
@@ -68,12 +135,6 @@
   color: #a3b1cc;
 }
 
-.chat-input-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 8px;
-}
-
 .chat-input::-webkit-scrollbar {
   width: 6px;
 }
@@ -92,11 +153,11 @@
   background: rgba(163, 177, 204, 0.5);
 }
 
-/* Firefox support */
+/* Firefox support for chat input */
 .chat-input {
   scrollbar-width: thin;
   scrollbar-color: rgba(163, 177, 204, 0.3) rgba(30, 41, 59, 0.3);
-}  
+}
 
 .chat-send-button {
   background: linear-gradient(135deg, #4f91f3 0%, #61dafb 100%);
@@ -170,66 +231,109 @@
   color: #f5f7fa;
 }
 
+/* Workout Routines Section */
 .scroll-pane {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow-x: auto;
-  padding: 25px 16px;
-  height: 220px;
+  flex-direction: column;
+  padding: 16px;
   background: linear-gradient(160deg, #263247 0%, #1e293b 100%);
-  width: fit-content(100%);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  max-height: 320px;
+}
+
+.workout-routines-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.workout-routines-header h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #f5f7fa;
+  margin: 0;
+}
+
+.add-routine-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(79, 145, 243, 0.2);
+}
+
+.add-routine-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 145, 243, 0.3);
 }
 
 .scroll-content {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 25px;
-  height: 100%;
+  flex-wrap: nowrap;
+  gap: 15px;
   width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 10px;
+  max-height: 260px;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
 
-/* SCROLLBAR STYLING for .scroll-pane */
-.scroll-pane::-webkit-scrollbar {
-  height: 8px;
+/* For WebKit browsers */
+.scroll-content::-webkit-scrollbar {
+  width: 6px;
 }
 
-.scroll-pane::-webkit-scrollbar-track {
+.scroll-content::-webkit-scrollbar-track {
   background: rgba(30, 41, 59, 0.3);
   border-radius: 10px;
 }
 
-.scroll-pane::-webkit-scrollbar-thumb {
+.scroll-content::-webkit-scrollbar-thumb {
   background: rgba(163, 177, 204, 0.3);
   border-radius: 10px;
-  transition: background 0.3s ease;
 }
 
-.scroll-pane::-webkit-scrollbar-thumb:hover {
+.scroll-content::-webkit-scrollbar-thumb:hover {
   background: rgba(163, 177, 204, 0.5);
 }
 
-/* Optional: Firefox support */
-.scroll-pane {
-  scrollbar-color: rgba(163, 177, 204, 0.3) rgba(30, 41, 59, 0.3);
+/* Firefox support */
+.scroll-content {
   scrollbar-width: thin;
+  scrollbar-color: rgba(163, 177, 204, 0.3) rgba(30, 41, 59, 0.3);
 }
 
+/* Muscle Box Design */
 .muscle-box {
-  min-width: 180px;
-  height: 160px;
   background: linear-gradient(145deg, #293752 0%, #223048 100%);
   border-radius: 12px;
-  padding: 15px;
   position: relative;
   color: #f5f7fa;
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+  height: 240px;
+  width: 260px;
+  min-width: 200px;
+  max-width: 300px;
+  min-height: 250px;
+  max-height: 300px;
+  flex-shrink: 0;
 }
 
 .muscle-box:hover {
@@ -237,51 +341,138 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.muscle-box h4 {
-  margin: 0 0 10px 0;
-  padding-right: 24px;
-  color: #f5f7fa;
-  font-weight: 600;
+.muscle-box-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
 }
 
-.muscle-box ul {
-  list-style: none;
-  padding: 0;
+.muscle-box-header h4 {
   margin: 0;
-  font-size: 14px;
-  height: 70%;
-  overflow-y: auto;
+  font-size: 1.1rem;
+  font-weight: 600;
+  flex-grow: 1;
+  padding-left: 10px;
+}
+
+.drag-handle {
   color: #a3b1cc;
+  cursor: grab;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.muscle-box li {
-  margin: 4px 0;
+.drag-handle:hover {
+  color: #f5f7fa;
 }
 
-.muscle-box ul::-webkit-scrollbar {
+.delete-button {
+  background: rgba(231, 76, 60, 0.15);
+  color: #e74c3c;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-button:hover {
+  background: rgba(231, 76, 60, 0.25);
+  transform: scale(1.05);
+}
+
+.muscle-box-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  padding-top: 8px;
+  overflow: hidden;
+}
+
+
+.exercise-list {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 6px;
+  margin-top: 0;
+  max-height: 175px;
+  padding-left: 2px;
+  font-size: 0.3rem;
+}
+
+.exercise-list::-webkit-scrollbar {
   width: 4px;
 }
 
-.muscle-box ul::-webkit-scrollbar-track {
+.exercise-list::-webkit-scrollbar-track {
   background: rgba(30, 41, 59, 0.3);
 }
 
-.muscle-box ul::-webkit-scrollbar-thumb {
+.exercise-list::-webkit-scrollbar-thumb {
   background: rgba(163, 177, 204, 0.3);
   border-radius: 2px;
 }
 
-.muscle-box ul::-webkit-scrollbar-thumb:hover {
+.exercise-list::-webkit-scrollbar-thumb:hover {
   background: rgba(163, 177, 204, 0.5);
 }
 
-.drag-handle {
-  position: absolute;
-  left: 5px;
-  top: 5px;
-  cursor: grab;
-  font-size: 14px;
-  opacity: 0.5;
+.exercise-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  padding: 3px 0;
+  font-size: 0.3rem;
+}
+
+.exercise-bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
+  margin-right: 8px;
+  flex-shrink: 0;
+  font-size: 0.3rem;
+}
+
+.exercise-name {
+  font-size: 0.3rem;
+  color: #f5f7fa;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.muscle-box-footer {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.start-workout-btn {
+  width: 100%;
+  background: linear-gradient(90deg, rgba(46, 204, 113, 0.2) 0%, rgba(39, 174, 96, 0.2) 100%);
+  border: 1px solid rgba(46, 204, 113, 0.3);
+  border-radius: 8px;
+  color: #f5f7fa;
+  padding: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.start-workout-btn:hover {
+  background: linear-gradient(90deg, rgba(46, 204, 113, 0.3) 0%, rgba(39, 174, 96, 0.3) 100%);
+  transform: translateY(-2px);
 }
 
 .sidebar {
@@ -331,7 +522,13 @@
   .mainchat-container.sidebar-opened {
     margin-left: 280px;
     width: calc(100% - 280px);
-    transition: margin 0.3s ease, width 0.3s ease;
+    transition: all 0.3s ease;
+  }
+  
+  .mainchat-container.sidebar-opened .chat-input-area {
+    margin-left: 280px;
+    width: calc(100% - 280px);
+    transition: all 0.3s ease;
   }
 }
 
@@ -340,94 +537,166 @@
   pointer-events: none;
 }
 
-.add-own-box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(145deg, rgba(41, 55, 82, 0.6) 0%, rgba(34, 48, 72, 0.6) 100%);
-  border: 2px dashed rgba(79, 145, 243, 0.5);
-  min-width: 180px;
-  height: 160px;
-  border-radius: 12px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.add-own-box:hover {
-  background: linear-gradient(145deg, rgba(41, 55, 82, 0.8) 0%, rgba(34, 48, 72, 0.8) 100%);
-  border-color: rgba(79, 145, 243, 0.8);
-}
-
-.add-icon {
-  font-size: 2rem;
-  margin-bottom: 5px;
-  color: #4f91f3;
-}
-
-.add-text {
-  color: #a3b1cc;
-  text-align: center;
-}
-
-.delete-button {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: none;
-  background-color: rgba(255, 107, 107, 0.2);
-  color: #ff6b6b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 10px;
-  transition: all 0.2s;
-}
-
-.delete-button:hover {
-  background-color: #ff6b6b;
-  color: white;
-}
-
+/* Delete confirmation */
 .confirmation-popup {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(145deg, #293752 0%, #223048 100%);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 15, 25, 0.7);
+  backdrop-filter: blur(5px);
   z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.confirmation-content {
+  background: linear-gradient(145deg, #293752 0%, #223048 100%);
+  padding: 24px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.confirmation-popup button {
-  margin: 10px;
-  padding: 8px 15px;
-  cursor: pointer;
-  border-radius: 6px;
+.confirmation-content h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: #f5f7fa;
+}
+
+.confirmation-content p {
+  margin-bottom: 20px;
+  color: #a3b1cc;
+  font-size: 1rem;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.cancel-btn, .confirm-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
   border: none;
   font-weight: 500;
-  transition: all 0.2s;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
 }
 
-.confirmation-popup button:first-of-type {
-  background-color: #ff6b6b;
+.cancel-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f5f7fa;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.confirm-btn {
+  background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%);
   color: white;
 }
 
-.confirmation-popup button:last-of-type {
-  background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
-  color: white;
-}
-
-.confirmation-popup button:hover {
+.cancel-btn:hover, .confirm-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .scroll-pane {
+    max-height: 280px;
+  }
+  
+  .muscle-box {
+    height: 200px;
+    width: 200px;
+    min-width: 200px;
+  }
+  
+  .chat-body {
+    min-height: 300px;
+    margin-bottom: 80px;
+  }
+  
+  .chat-input-area {
+    padding: 12px;
+    width: 90%;
+    min-height: 40px;
+  }
+  
+  .chat-input {
+    min-height: 35px;
+    max-height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-pane {
+    max-height: 240px;
+    padding: 12px;
+  }
+  
+  .muscle-box {
+    height: 180px;
+    width: 180px;
+    min-width: 180px;
+  }
+  
+  .muscle-box-header {
+    padding: 12px;
+  }
+  
+  .muscle-box-content {
+    padding: 12px;
+  }
+  
+  .muscle-box-footer {
+    padding: 12px;
+  }
+  
+  .chat-body {
+    min-height: 300px;
+    margin-bottom: 60px;
+  }
+  
+  .chat-input-area {
+    padding: 10px;
+    width: 95%;
+    min-height: 20px;
+  }
+  
+  .chat-input {
+    min-height: 16px;
+    max-height: 80px;
+  }
+}
+
+/* Add styles for chat messages */
+.chat-message {
+  padding: 12px 16px;
+  border-radius: 12px;
+  max-width: 80%;
+  word-wrap: break-word;
+  margin-bottom: 8px;
+}
+
+.user-message {
+  background: rgba(79, 145, 243, 0.2);
+  align-self: flex-end;
+  border: 1px solid rgba(79, 145, 243, 0.3);
+  margin-left: auto;
+}
+
+.assistant-message {
+  background: rgba(30, 41, 59, 0.6);
+  align-self: flex-start;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-right: auto;
 }

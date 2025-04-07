@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './MainChatPage.css';
 import MiniPopup from './MainChatPages/MiniPopup';
 import CreateWorkoutRoutine from './MainChatPages/CreateWorkoutRoutine';
 import Sidebar from './Components/Sidebar';
 import UserMenu from './Components/UserMenu';
+import { GripVertical, X, Plus } from 'lucide-react';
 
 import {
   DndContext,
@@ -38,9 +39,32 @@ const MainChatPage = () => {
   const [showCreateWorkout, setShowCreateWorkout] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [muscleToDelete, setMuscleToDelete] = useState(null);
+  const [messages, setMessages] = useState([]);
   const closeSidebar = () => setSidebarOpen(false);
   const toggleUserMenu = () => setUserMenuOpen(!userMenuOpen);
   const closeUserMenu = () => setUserMenuOpen(false);
+  const chatBodyRef = useRef(null);
+  const mainContainerRef = useRef(null);
+
+  // Function to scroll chat body to bottom
+  const scrollChatToBottom = () => {
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  };
+
+  // Function to scroll main container to bottom
+  const scrollMainToBottom = () => {
+    if (mainContainerRef.current) {
+      mainContainerRef.current.scrollTop = mainContainerRef.current.scrollHeight;
+    }
+  };
+
+  // Scroll both when messages change
+  useEffect(() => {
+    scrollChatToBottom();
+    scrollMainToBottom();
+  }, [messages]);
 
   const handleInput = () => {
     const el = textareaRef.current;
@@ -50,9 +74,34 @@ const MainChatPage = () => {
 
   const handleSend = () => {
     if (message.trim()) {
-      console.log('Sending:', message);
+      // Add user message
+      const newUserMessage = {
+        text: message,
+        isUser: true,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, newUserMessage]);
       setMessage('');
       textareaRef.current.style.height = 'auto';
+
+      // Add dummy assistant response after a short delay
+      setTimeout(() => {
+        const dummyResponses = [
+          "I understand your question about workouts. Let me help you with that.",
+          "That's a great question! Here's what I recommend for your workout routine.",
+          "I can help you create a personalized workout plan based on your goals.",
+          "Let me analyze your request and provide a detailed response.",
+          "I'll help you optimize your workout routine for better results."
+        ];
+        const randomResponse = dummyResponses[Math.floor(Math.random() * dummyResponses.length)];
+        
+        const newAssistantMessage = {
+          text: randomResponse,
+          isUser: false,
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, newAssistantMessage]);
+      }, 1000); // 1 second delay to simulate response time
     }
   };
 
@@ -104,25 +153,38 @@ const MainChatPage = () => {
         className="muscle-box"
         onClick={onClick}
       >
-        <div
-          className="drag-handle"
-          {...attributes}
-          {...listeners}
-          onClick={(e) => e.stopPropagation()}
-        >
-          🟰
+        <div className="muscle-box-header">
+          <div
+            className="drag-handle"
+            {...attributes}
+            {...listeners}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <GripVertical size={16} />
+          </div>
+          <h4>{muscle.name}</h4>
+          <button 
+            className="delete-button" 
+            onClick={(e) => {
+              e.stopPropagation();
+              setMuscleToDelete(muscle.id);
+              setShowDeleteConfirmation(true);
+            }}
+          >
+            <X size={14} />
+          </button>
         </div>
-        <button className="delete-button" onClick={(e) => {
-          e.stopPropagation();
-          setMuscleToDelete(muscle.id);
-          setShowDeleteConfirmation(true);
-        }}>X</button>
-        <h4>{muscle.name}</h4>
-        <ul>
-          {muscle.exercises.map((ex, i) => (
-            <li key={i}>{ex}</li>
-          ))}
-        </ul>
+        
+        <div className="muscle-box-content">
+          <div className="exercise-list">
+            {muscle.exercises.map((ex, i) => (
+              <div key={i} className="exercise-item">
+                <div className="exercise-bullet"></div>
+                <div className="exercise-name">{ex}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   };
@@ -147,6 +209,7 @@ const MainChatPage = () => {
       
       {/* Main Container */}
       <div
+        ref={mainContainerRef}
         className={`mainchat-container 
           ${sidebarOpen && !isMobile? 'sidebar-opened' : ''} 
           ${sidebarOpen && isMobile ? 'sidebar-blur' : ''}`}
@@ -172,8 +235,20 @@ const MainChatPage = () => {
           {/* User Menu */}
           <UserMenu isOpen={userMenuOpen} onClose={closeUserMenu} />
         </div>
+        
         {/* SCROLLABLE MIDDLE PANE */}
         <div className="scroll-pane">
+          <div className="workout-routines-header">
+            <h3>Your Workout Routines (Press any to start the workout)</h3>
+            <button 
+              className="add-routine-button"
+              onClick={() => setShowCreateWorkout(true)}
+            >
+              <Plus size={18} />
+              <span>New Routine</span>
+            </button>
+          </div>
+          
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <SortableContext
               items={targetMuscles.map((m) => m.id)}
@@ -187,21 +262,25 @@ const MainChatPage = () => {
                     onClick={() => setModalContent(muscle)}
                   />
                 ))}
-                <div
-                  className="muscle-box add-own-box"
-                  onClick={() => setShowCreateWorkout(true)}
-                >
-                  <div className="add-icon">＋</div>
-                  <p className="add-text">Add your own workout</p>
-                </div>
               </div>
             </SortableContext>
           </DndContext>
         </div>
 
         {/* CHAT MESSAGES */}
-        <div className="chat-body">
-          <p className="chat-placeholder">Chat messages will appear here...</p>
+        <div className="chat-body" ref={chatBodyRef}>
+          {messages.length === 0 ? (
+            <p className="chat-placeholder">Chat messages will appear here...</p>
+          ) : (
+            messages.map((msg, index) => (
+              <div 
+                key={index} 
+                className={`chat-message ${msg.isUser ? 'user-message' : 'assistant-message'}`}
+              >
+                {msg.text}
+              </div>
+            ))
+          )}
         </div>
 
         {/* CHAT INPUT */}
@@ -249,9 +328,24 @@ const MainChatPage = () => {
 
       {showDeleteConfirmation && (
         <div className="confirmation-popup">
-          <p>Do you really want to delete this workout?</p>
-          <button onClick={() => handleDeleteMuscle(muscleToDelete)}>Yes</button>
-          <button onClick={() => setShowDeleteConfirmation(false)}>No</button>
+          <div className="confirmation-content">
+            <h3>Delete Workout Routine</h3>
+            <p>Are you sure you want to delete this workout routine?</p>
+            <div className="confirmation-actions">
+              <button 
+                className="cancel-btn" 
+                onClick={() => setShowDeleteConfirmation(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="confirm-btn" 
+                onClick={() => handleDeleteMuscle(muscleToDelete)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

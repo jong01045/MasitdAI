@@ -6,11 +6,11 @@ import ConfirmationModal from "../Components/ConfirmationModal";
 
 // Define muscle mappings for each body part
 const bodyPartsMap = {
-  Back: ["upper-back", "lower-back", "trapezius"],
-  Arm: ["biceps", "triceps", "forearm"],
-  Shoulder: ["front-deltoids", "back-deltoids", "neck"],
-  Abs: ["abs", "obliques"],
   Chest: ["chest"],
+  Back: ["upper-back", "lower-back", "trapezius"],
+  Shoulder: ["front-deltoids", "back-deltoids", "neck"],
+  Arm: ["biceps", "triceps", "forearm"],
+  Abs: ["abs", "obliques"],
   Quads: ["quadriceps", "abductors"],
   "Glutes and Hamstring": ["gluteal", "hamstring", "adductor"],
   Legs: ["quadriceps", "adductor", "gluteal", "hamstring", "abductors", "calves", "knees", "left-soleus", "right-soleus"],

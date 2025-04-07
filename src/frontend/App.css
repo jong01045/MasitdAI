@@ -119,7 +119,7 @@ body, html, #root {
 .hero-section {
   background: linear-gradient(160deg, #1e293b 0%, #263247 100%);
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 2rem 1rem;
   margin-bottom: 2rem;
   border-radius: 0 0 20px 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -139,14 +139,14 @@ body, html, #root {
   line-height: 1.6;
   margin-bottom: 2.5rem;
   color: #a3b1cc;
-  max-width: 800px;
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
 }
 
 /* CTA Buttons */
 .cta-buttons {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   display: flex;
   justify-content: center;
   gap: 1.5rem;
@@ -219,7 +219,7 @@ body, html, #root {
 
 .feature-icon {
   font-size: 2rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.3rem;
   background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -227,7 +227,7 @@ body, html, #root {
 
 /* Extra content */
 .extra-content {
-  padding: 2rem;
+  padding: 1rem;
   color: #a3b1cc;
   text-align: center;
   font-size: 1.1rem;

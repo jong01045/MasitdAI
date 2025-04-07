@@ -16,11 +16,12 @@
   
   /* Login Modal */
   .login-modal {
-    background: linear-gradient(145deg, #1e293b 0%, #263247 100%);
+    background: linear-gradient(145deg, #1a2436 0%, #212b3d 100%);
     border-radius: 12px;
     width: 100%;
-    max-width: 450px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    max-width: 420px;
+    box-sizing: border-box;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
     overflow: hidden;
     animation: slideIn 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -31,13 +32,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
+    padding: 1.25rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     background: linear-gradient(90deg, rgba(79, 145, 243, 0.15) 0%, rgba(97, 218, 251, 0.15) 100%);
   }
   
   .modal-logo {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     background: linear-gradient(90deg, #61dafb 0%, #4f91f3 100%);
     -webkit-background-clip: text;
@@ -62,7 +63,7 @@
   .modal-tabs {
     display: flex;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background-color: rgba(30, 41, 59, 0.5);
+    background-color: rgba(26, 36, 54, 0.8);
   }
   
   .tab-button {
@@ -70,8 +71,8 @@
     background: none;
     border: none;
     color: #a3b1cc;
-    padding: 1rem;
-    font-size: 1rem;
+    padding: 0.9rem;
+    font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.2s;
     position: relative;
@@ -100,14 +101,28 @@
   
   /* Modal Content */
   .modal-content {
-    padding: 1.8rem;
-    max-height: 400px;
+    padding: 1.5rem;
+    max-height: 380px;
     overflow-y: auto;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  
+  .login-form, 
+  .new-user {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Ensure the form fits within the modal */
+  form {
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .login-form h2, 
   .new-user h2 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     margin-bottom: 1.2rem;
     text-align: center;
     color: #f5f7fa;
@@ -115,16 +130,16 @@
   
   .new-user p {
     text-align: center;
-    line-height: 1.6;
+    line-height: 1.5;
     margin-bottom: 1.5rem;
     color: #a3b1cc;
   }
   
   /* Welcome Icon */
   .welcome-icon {
-    font-size: 3.2rem;
+    font-size: 2.8rem;
     text-align: center;
-    margin: 0.5rem 0 1.5rem;
+    margin: 0.5rem 0 1.2rem;
     animation: pulse 2s infinite;
     background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
     -webkit-background-clip: text;
@@ -133,84 +148,87 @@
   
   .survey-info {
     background: rgba(79, 145, 243, 0.08);
-    border-radius: 10px;
-    padding: 1rem;
+    border-radius: 8px;
+    padding: 0.9rem;
     font-size: 0.9rem;
-    color: #a3b1cc;
-    margin-bottom: 1.5rem;
+    color: #b3c1dc;
+    margin-bottom: 1.2rem;
     border-left: 4px solid #4f91f3;
   }
   
   @keyframes pulse {
     0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    50% { transform: scale(1.05); }
     100% { transform: scale(1); }
   }
   
   /* Form Elements */
   .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   .form-group label {
     display: block;
-    margin-bottom: 0.5rem;
-    color: #a3b1cc;
+    margin-bottom: 0.4rem;
+    color: #b3c1dc;
     font-weight: 500;
   }
   
   .form-group input {
-    width: 95%;
-    max-width: 400px;
-    padding: 0.8rem 1rem;
-    background-color: rgba(30, 41, 59, 0.5);
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    background-color: rgba(22, 31, 46, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
+    border-radius: 6px;
     color: #f5f7fa;
-    font-size: 1rem;
+    font-size: 0.95rem;
     transition: all 0.2s ease;
+    box-sizing: border-box;
   }
   
   .form-group input:focus {
     outline: none;
     border-color: #4f91f3;
-    box-shadow: 0 0 0 3px rgba(79, 145, 243, 0.25);
+    box-shadow: 0 0 0 2px rgba(79, 145, 243, 0.25);
   }
   
   /* Buttons */
   .login-submit-btn,
   .start-survey-btn {
-    display: block;
     width: 100%;
-    padding: 0.8rem;
+    box-sizing: border-box;
+    display: block;
+    padding: 0.7rem;
     background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
     color: #f5f7fa;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
-    margin-top: 1.5rem;
-    box-shadow: 0 4px 12px rgba(79, 145, 243, 0.3);
+    margin-top: 1.2rem;
+    box-shadow: 0 4px 10px rgba(79, 145, 243, 0.3);
   }
   
   .login-submit-btn:hover,
   .start-survey-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(79, 145, 243, 0.4);
+    box-shadow: 0 5px 12px rgba(79, 145, 243, 0.4);
   }
   
   /* Forgot Password */
   .forgot-password {
     text-align: center;
-    margin-top: 1.2rem;
+    margin-top: 1rem;
   }
   
   .forgot-password a {
     color: #a3b1cc;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     transition: color 0.2s;
   }
   
@@ -222,10 +240,10 @@
   .error-message {
     background-color: rgba(255, 107, 107, 0.1);
     color: #ff6b6b;
-    padding: 0.8rem;
-    border-radius: 8px;
-    margin-bottom: 1.2rem;
-    font-size: 0.9rem;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
     text-align: center;
     border-left: 4px solid #ff6b6b;
   }

@@ -180,10 +180,8 @@ const ExercisePrefPage = ({ focusMuscleGroups = [], onBack, onNext }) => {
                 onChange={(event, newValue) => {
                   if (newValue) {
                     handleExerciseSelect(muscle, newValue);
-                    setTimeout(() => {
-                      const inputElement = document.querySelector(`#autocomplete-${muscle} .MuiAutocomplete-input`);
-                      if (inputElement) inputElement.value = "";
-                    }, 0);
+                    // Clear the input value after selection
+                    event.target.value = "";
                   }
                 }}
                 renderInput={(params) => (
@@ -208,6 +206,7 @@ const ExercisePrefPage = ({ focusMuscleGroups = [], onBack, onNext }) => {
                 ListboxProps={{
                   style: { maxHeight: '200px' }
                 }}
+                key={`${muscle}-${selectedExercises[muscle]?.length || 0}`}
               />
               
               <motion.div className="separator" />

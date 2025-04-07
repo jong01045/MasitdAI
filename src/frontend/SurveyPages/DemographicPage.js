@@ -8,6 +8,10 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [units, setUnits] = useState({
+    height: 'cm',
+    weight: 'kg'
+  });
 
   const handleLogoClick = () => {
     setShowConfirmModal(true);
@@ -32,7 +36,7 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
 
     // Validate numeric fields (age, weight, height)
     if (["age", "weight", "height"].includes(name)) {
-      if (isNaN(value) || parseInt(value) <= 0) {  //Checks for any not number or negative
+      if (isNaN(value) || parseFloat(value) <= 0) {  //Checks for any not number or negative
         newErrors[name] = `Please enter a valid ${name}.`;
       } else {
         delete newErrors[name]; // Remove error if input is valid
@@ -50,6 +54,60 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
     updateDemographic(newData);
   };
 
+  const handleUnitSwitch = (field) => {
+    let newValue;
+    let newUnit;
+
+    // For height: switch between cm and ft/in
+    if (field === 'height') {
+      if (units.height === 'cm') {
+        // Convert cm to feet/inches (stored as decimal feet)
+        newValue = demographicData.height ? (parseFloat(demographicData.height) / 30.48).toFixed(2) : '';
+        newUnit = 'ft';
+      } else {
+        // Convert feet to cm
+        newValue = demographicData.height ? (parseFloat(demographicData.height) * 30.48).toFixed(0) : '';
+        newUnit = 'cm';
+      }
+    }
+    
+    // For weight: switch between kg and lbs
+    if (field === 'weight') {
+      if (units.weight === 'kg') {
+        // Convert kg to lbs
+        newValue = demographicData.weight ? (parseFloat(demographicData.weight) * 2.20462).toFixed(1) : '';
+        newUnit = 'lbs';
+      } else {
+        // Convert lbs to kg
+        newValue = demographicData.weight ? (parseFloat(demographicData.weight) / 2.20462).toFixed(1) : '';
+        newUnit = 'kg';
+      }
+    }
+
+    // Update the units state
+    setUnits({
+      ...units,
+      [field]: newUnit
+    });
+
+    // Update the value in the form
+    const newData = { ...demographicData, [field]: newValue };
+    updateDemographic(newData);
+  };
+
+  const displayHeightValue = () => {
+    if (!demographicData.height) return '';
+    
+    if (units.height === 'ft') {
+      const totalFeet = parseFloat(demographicData.height);
+      const feet = Math.floor(totalFeet);
+      const inches = Math.round((totalFeet - feet) * 12);
+      return `${feet}'${inches}"`;
+    }
+    
+    return demographicData.height;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -61,9 +119,24 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
       } 
     });
 
+    // Convert all measurements to metric before submitting if they're not already
+    let finalData = { ...demographicData };
+    
+    // Convert height to cm if it's in feet
+    if (units.height === 'ft') {
+      finalData.height = (parseFloat(demographicData.height) * 30.48).toFixed(0);
+    }
+    
+    // Convert weight to kg if it's in pounds
+    if (units.weight === 'lbs') {
+      finalData.weight = (parseFloat(demographicData.weight) / 2.20462).toFixed(1);
+    }
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
+      // Update the demographic data with converted values
+      updateDemographic(finalData);
       onNext();
     }
   };
@@ -96,7 +169,7 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
                 <label htmlFor="age">Age</label>
                 <div className="input-wrapper">
                   <input 
-                    type="number" 
+                    type="text" 
                     id="age" 
                     name="age" 
                     value={demographicData?.age || ""} 
@@ -109,7 +182,7 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
                       }
                     }} 
                   />
-                  <span className="unit-label">years</span>
+                  <div className="unit-display">years</div>
                 </div>
                 {errors.age && <p className="error-message">{errors.age}</p>}
               </div>
@@ -118,10 +191,10 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
                 <label htmlFor="height">Height</label>
                 <div className="input-wrapper">
                   <input 
-                    type="number" 
+                    type="text" 
                     id="height" 
                     name="height" 
-                    value={demographicData?.height || ""} 
+                    value={units.height === 'ft' ? displayHeightValue() : demographicData?.height || ""} 
                     onChange={handleChange} 
                     required 
                     min="1"
@@ -131,7 +204,14 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
                       }
                     }} 
                   />
-                  <span className="unit-label">cm</span>
+                  <button 
+                    type="button" 
+                    className="unit-switch" 
+                    onClick={() => handleUnitSwitch('height')}
+                    title="Click to toggle units"
+                  >
+                    {units.height}
+                  </button>
                 </div>
                 {errors.height && <p className="error-message">{errors.height}</p>}
               </div>
@@ -140,7 +220,7 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
                 <label htmlFor="weight">Weight</label>
                 <div className="input-wrapper">
                   <input 
-                    type="number" 
+                    type="text" 
                     id="weight" 
                     name="weight" 
                     value={demographicData?.weight || ""} 
@@ -153,7 +233,14 @@ function DemographicPage({ onBack, onNext, demographicData, updateDemographic, u
                       }
                     }} 
                   />
-                  <span className="unit-label">kg</span>
+                  <button 
+                    type="button" 
+                    className="unit-switch" 
+                    onClick={() => handleUnitSwitch('weight')}
+                    title="Click to toggle units"
+                  >
+                    {units.weight}
+                  </button>
                 </div>
                 {errors.weight && <p className="error-message">{errors.weight}</p>}
               </div>

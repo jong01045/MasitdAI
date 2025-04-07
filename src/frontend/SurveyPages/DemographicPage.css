@@ -119,20 +119,77 @@
 .input-wrapper input {
   width: 100%;
   padding: 0.6rem 0.8rem;
+  padding-right: 60px; /* Space for the unit display/switch */
   font-size: 1rem;
   background-color: rgba(30, 41, 59, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   color: #f5f7fa;
   transition: all 0.2s ease;
+  -moz-appearance: textfield; /* Firefox */
 }
 
-.unit-label {
+/* Remove spinner buttons for WebKit browsers */
+.input-wrapper input::-webkit-outer-spin-button,
+.input-wrapper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-wrapper input:focus {
+  border-color: #4f91f3;
+  box-shadow: 0 0 0 2px rgba(79, 145, 243, 0.15);
+  outline: none;
+}
+
+.unit-display {
   position: absolute;
   right: 10px;
   color: #a3b1cc;
   font-size: 0.8rem;
   pointer-events: none;
+  background-color: rgba(30, 41, 59, 0.7);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.unit-switch {
+  position: absolute;
+  right: 10px;
+  color: #4f91f3;
+  font-size: 0.85rem;
+  background-color: rgba(79, 145, 243, 0.15);
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(79, 145, 243, 0.3);
+  font-weight: 500;
+}
+
+.unit-switch:hover {
+  background-color: rgba(79, 145, 243, 0.3);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.unit-switch:active {
+  transform: translateY(0);
+  background-color: rgba(79, 145, 243, 0.4);
+}
+
+.unit-switch::after {
+  content: '⇄';
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.unit-switch:hover::after {
+  opacity: 1;
 }
 
 .gender-section {

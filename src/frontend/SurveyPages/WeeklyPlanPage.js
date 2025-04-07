@@ -87,72 +87,77 @@ function WeeklyPlanPage({ onBack, onNext }) {
       <div className="weekly-content">
         <h1>Choose Your Workout Days</h1>
         
-        <div className="info-cards">
-          <div className="info-card">
-            <div className="info-card-icon">
-              <FitnessCenterIcon />
-            </div>
-            <div className="info-card-content">
-              <div className="info-card-value">{workoutDays}</div>
-              <div className="info-card-label">Workouts per week</div>
-            </div>
-          </div>
-          
-          <div className="info-card">
-            <div className="info-card-icon">
-              <TodayIcon />
-            </div>
-            <div className="info-card-content">
-              <div className="info-card-value">{selectedDays.length}</div>
-              <div className="info-card-label">Days selected</div>
-            </div>
-          </div>
-          
-          <div className="info-card">
-            <div className="info-card-icon status-icon">
-              {remainingSlots === 0 ? (
-                <CheckCircleIcon className="complete-icon" />
-              ) : (
-                <span className="remaining-count">{remainingSlots}</span>
-              )}
-            </div>
-            <div className="info-card-content">
-              <div className="info-card-value">{remainingSlots === 0 ? "Complete" : `${remainingSlots} more`}</div>
-              <div className="info-card-label">{remainingSlots === 0 ? "Ready to continue" : "Days to select"}</div>
-            </div>
-          </div>
-        </div>
-        
-        <div className="slider-container">
-          <div className="slider-label">Adjust workout frequency:</div>
-          <input
-            type="range"
-            min="1"
-            max="7"
-            value={workoutDays}
-            onChange={handleSliderChange}
-            className="workout-slider"
-          />
-          <div className="slider-values">
-            <span>1 day</span>
-            <span>7 days</span>
-          </div>
-        </div>
-
-        <div className="calendar-container">
-          {daysOfWeek.map((day) => (
-            <div 
-              key={day.id}
-              className={`calendar-day ${selectedDays.includes(day.id) ? "selected" : ""} ${animatingDay === day.id ? "animating" : ""}`}
-              onClick={() => toggleDay(day)}
-              disabled={selectedDays.length >= workoutDays && !selectedDays.includes(day.id)}
-            >
-              <div className="day-name">{day.short}</div>
-              <div className="day-circle">
-                {selectedDays.includes(day.id) && <CheckCircleIcon className="check-icon" />}
+        <div className="weekly-card">
+          <div className="info-cards">
+            <div className="info-card">
+              <div className="info-card-icon">
+                <FitnessCenterIcon />
+              </div>
+              <div className="info-card-content">
+                <div className="info-card-value">{workoutDays}</div>
+                <div className="info-card-label">Workouts per week</div>
               </div>
             </div>
-          ))}
+            
+            <div className="info-card">
+              <div className="info-card-icon">
+                <TodayIcon />
+              </div>
+              <div className="info-card-content">
+                <div className="info-card-value">{selectedDays.length}</div>
+                <div className="info-card-label">Days selected</div>
+              </div>
+            </div>
+            
+            <div className="info-card">
+              <div className="info-card-icon status-icon">
+                {remainingSlots === 0 ? (
+                  <CheckCircleIcon className="complete-icon" />
+                ) : (
+                  <span className="remaining-count">{remainingSlots}</span>
+                )}
+              </div>
+              <div className="info-card-content">
+                <div className="info-card-value">{remainingSlots === 0 ? "Complete" : `${remainingSlots} more`}</div>
+                <div className="info-card-label">{remainingSlots === 0 ? "Ready to continue" : "Days to select"}</div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="slider-container">
+            <div className="slider-label">Adjust workout frequency:</div>
+            <input
+              type="range"
+              min="1"
+              max="7"
+              value={workoutDays}
+              onChange={handleSliderChange}
+              className="workout-slider"
+            />
+            <div className="slider-values">
+              <span>1 day</span>
+              <span>7 days</span>
+            </div>
+          </div>
+
+          <div className="calendar-container">
+            {daysOfWeek.map((day) => (
+              <div 
+                key={day.id}
+                className={`calendar-day ${selectedDays.includes(day.id) ? "selected" : ""} ${animatingDay === day.id ? "animating" : ""}`}
+                onClick={() => toggleDay(day)}
+                disabled={selectedDays.length >= workoutDays && !selectedDays.includes(day.id)}
+              >
+                <div className="day-name">{day.short}</div>
+                <div className="day-circle">
+                  {selectedDays.includes(day.id) && (
+                    <CheckCircleIcon className="check-icon" />
+                  )}
+                </div>
+                {selectedDays.includes(day.id) && <div className="selection-overlay"></div>}
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="weekly-footer">

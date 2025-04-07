@@ -16,14 +16,7 @@ function WelcomePage() {
     setShowLoginModal(true);
   };
   
-  const handleDownloadApp = () => console.log("Download App clicked");
-  
   const handleSignIn = () => {
-    setActiveLoginTab('login');
-    setShowLoginModal(true);
-  };
-  
-  const handleUserIcon = () => {
     setActiveLoginTab('login');
     setShowLoginModal(true);
   };
@@ -35,22 +28,17 @@ function WelcomePage() {
         <div className="banner-icons">
           <div className="icon-search">🔍</div>
           <button className="login-button" onClick={handleSignIn}>Sign in</button>
-          <div className="icon-user" onClick={handleUserIcon}>
-            👤
-            <div className="tooltip">Log in</div>
-          </div>
         </div>
       </div>
 
       <div className="hero-section">
-        <h1>We Train Smart. We Find Top Resources. We Gather Tips from Pros.</h1>
+        <h1>We Train Smart. We Find Top Resources. <br /> We Gather Tips from Pros.</h1>
         <p>
-          MasidtAI is your ultimate workout recommendation system, powered by advanced LLM.<br />
+          MasidtAI is your ultimate workout recommendation system, powered by advanced LLM. <br />
           Achieve your fitness goals with expert guidance, curated resources, and community support.
         </p>
         <div className="cta-buttons">
           <button className="cta-button primary-cta" onClick={handleStartNow}>Start Now</button>
-          <button className="cta-button secondary-cta" onClick={handleDownloadApp}>Download App</button>
         </div>
         <div className="icon-features">
           <div className="feature-box">

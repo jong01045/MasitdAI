@@ -11,6 +11,25 @@ function LoginModal({ isOpen, onClose, initialTab = 'login' }) {
     setActiveTab(initialTab);
   }, [initialTab]);
 
+  // Handle ESC key press to close modal
+  useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+
+    // Add event listener when the modal is open
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscKey);
+    }
+
+    // Clean up event listener
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+    };
+  }, [isOpen, onClose]);
+
   // Dummy user data for testing
   const dummyUsers = [
     { email: 'user@example.com', password: 'password123' },

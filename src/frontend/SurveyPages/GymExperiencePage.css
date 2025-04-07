@@ -79,10 +79,11 @@ h1 {
 .gym-card {
   background: rgba(30, 41, 59, 0.4);
   border-radius: 16px;
-  padding: 1.5rem;
+  padding: 2rem;
   width: 100%;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 0;
 }
 
 /* Grid Layout for Experience Options */
@@ -90,7 +91,7 @@ h1 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 3rem;
 }
 
 /* Experience Option Card */

@@ -57,7 +57,6 @@ function GoalPage({ onBack, onNext }) {
                 onClick={() => toggleGoal(goal)}
               >
                 {goal}
-                {selectedGoals.includes(goal) && <span className="check-icon">✓</span>}
               </div>
             ))}
           </div>

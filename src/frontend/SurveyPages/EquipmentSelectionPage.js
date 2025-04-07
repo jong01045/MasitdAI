@@ -47,7 +47,7 @@ function EquipmentSelectionPage({ onBack, onNext }) {
           return [id];
         }
         
-        const updatedSelection = prev.includes(id)
+        let updatedSelection = prev.includes(id)
           ? prev.filter((item) => item !== id)
           : [...prev, id];
         
@@ -55,10 +55,15 @@ function EquipmentSelectionPage({ onBack, onNext }) {
           .filter((eq) => eq.id !== "full_gym" && eq.id !== "none")
           .map((eq) => eq.id);
         
+        // If all specific equipment is selected, add 'full_gym'
         if (
           allOptionsExceptFullAndNone.every((eq) => updatedSelection.includes(eq))
         ) {
           updatedSelection.push("full_gym");
+        } 
+        // If deselecting an item and 'full_gym' is selected, remove 'full_gym' too
+        else if (prev.includes(id) && prev.includes("full_gym")) {
+          updatedSelection = updatedSelection.filter(item => item !== "full_gym");
         }
 
         return updatedSelection;
