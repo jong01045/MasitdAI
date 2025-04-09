@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './CreateWorkoutRoutine.css';
 import { 
-  X, Plus, Minus, Search, Dumbbell, Save, ChevronLeft, 
-  ChevronRight, GripVertical, BarChart3, ArrowRight
+  X, Plus, Search, Dumbbell, Save, ChevronLeft, 
+  ChevronRight, GripVertical, BarChart3, XCircle
 } from 'lucide-react';
 
 import {
@@ -108,6 +108,7 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
   const [exiting, setExiting] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [exerciseToDelete, setExerciseToDelete] = useState(null);
+  const [showExitConfirmation, setShowExitConfirmation] = useState(false);
   
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -124,6 +125,22 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
     }, 250);
   };
 
+  // Show exit confirmation
+  const promptExit = () => {
+    setShowExitConfirmation(true);
+  };
+
+  // Confirm exit
+  const confirmExit = () => {
+    setShowExitConfirmation(false);
+    handleClose();
+  };
+
+  // Cancel exit
+  const cancelExit = () => {
+    setShowExitConfirmation(false);
+  };
+
   // Go to next step
   const goToNextStep = () => {
     if (currentStep === 1 && !routineName.trim()) {
@@ -136,6 +153,8 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
     
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
+      // Scroll to top when changing steps
+      document.querySelector('.workout-modal-content')?.scrollTo(0, 0);
     } else {
       handleSubmit();
     }
@@ -145,6 +164,8 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
   const goToPreviousStep = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
+      // Scroll to top when changing steps
+      document.querySelector('.workout-modal-content')?.scrollTo(0, 0);
     }
   };
   
@@ -263,17 +284,18 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
     switch (currentStep) {
       case 1:
         return (
-          <div className="step-content">
+          <div className="workout-step">
             <h3>Name Your Workout Routine</h3>
             <p>Give your workout routine a name that helps you identify it.</p>
             
-            <div className="form-group">
+            <div className="workout-form-group">
               <input
                 type="text"
                 placeholder="e.g., Monday Upper Body"
                 value={routineName}
                 onChange={(e) => setRoutineName(e.target.value)}
-                className="routine-name-input"
+                className="workout-name-input"
+                autoFocus
               />
             </div>
           </div>
@@ -281,29 +303,29 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
         
       case 2:
         return (
-          <div className="step-content">
+          <div className="workout-step">
             <h3>Select Muscle Groups & Exercises</h3>
             <p>Choose the muscle groups and exercises for your routine.</p>
             
-            <div className="muscle-exercise-container">
-              <div className="muscle-groups-section">
-                <h4>Muscle Groups</h4>
-                <div className="muscle-groups-grid">
-                  {muscleGroups.map((muscleGroup) => (
-                    <div
-                      key={muscleGroup.id}
-                      className={`muscle-group-card ${selectedMuscleGroups.includes(muscleGroup.id) ? 'selected' : ''}`}
-                      onClick={() => toggleMuscleGroup(muscleGroup)}
-                    >
-                      <div className="muscle-group-icon">{muscleGroup.icon}</div>
-                      <div className="muscle-group-name">{muscleGroup.name}</div>
-                    </div>
-                  ))}
-                </div>
+            <div className="workout-muscle-section">
+              <h4>Muscle Groups</h4>
+              <div className="workout-muscle-grid">
+                {muscleGroups.map((muscleGroup) => (
+                  <div
+                    key={muscleGroup.id}
+                    className={`workout-muscle-card ${selectedMuscleGroups.includes(muscleGroup.id) ? 'selected' : ''}`}
+                    onClick={() => toggleMuscleGroup(muscleGroup)}
+                  >
+                    <div className="workout-muscle-icon">{muscleGroup.icon}</div>
+                    <div className="workout-muscle-name">{muscleGroup.name}</div>
+                  </div>
+                ))}
               </div>
-              
-              <div className="exercises-section">
-                <div className="exercises-search">
+            </div>
+            
+            {selectedMuscleGroups.length > 0 && (
+              <div className="workout-exercise-section">
+                <div className="workout-search-bar">
                   <Search size={18} />
                   <input
                     type="text"
@@ -313,27 +335,29 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
                   />
                 </div>
                 
-                <div className="available-exercises">
-                  {selectedMuscleGroups.length === 0 ? (
-                    <div className="no-selection-message">
-                      <Dumbbell size={24} />
-                      <p>Select muscle groups to see available exercises</p>
-                    </div>
-                  ) : getFilteredExercises().length === 0 ? (
-                    <div className="no-exercises-message">
+                <div className="workout-available-exercises">
+                  {getFilteredExercises().length === 0 ? (
+                    <div className="workout-no-exercises">
                       <p>No exercises match your search</p>
                     </div>
                   ) : (
-                    <div className="exercises-list">
+                    <div className="workout-exercise-list">
                       {getFilteredExercises().map((exercise) => (
-                        <div key={exercise.id} className="exercise-item">
-                          <div className="exercise-info">
-                            <div className="exercise-name">{exercise.name}</div>
-                            <div className="exercise-equipment">{exercise.equipment}</div>
+                        <div key={exercise.id} className="workout-exercise-item">
+                          <div className="workout-exercise-info">
+                            <div className="workout-exercise-name">{exercise.name}</div>
+                            <div className="workout-exercise-details">
+                              <span className="workout-exercise-equipment">{exercise.equipment}</span>
+                              <span className="workout-exercise-muscle-group">
+                                {muscleGroups.find(mg => mg.id === exercise.muscleGroup)?.icon} 
+                                {muscleGroups.find(mg => mg.id === exercise.muscleGroup)?.name}
+                              </span>
+                            </div>
                           </div>
                           <button 
-                            className="add-exercise-btn"
+                            className="workout-add-btn"
                             onClick={() => addExercise(exercise, exercise.muscleGroup)}
+                            title="Add exercise"
                           >
                             <Plus size={18} />
                           </button>
@@ -343,20 +367,27 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
                   )}
                 </div>
               </div>
-            </div>
+            )}
             
-            <div className="selected-exercises-section">
-              <h4>
-                Selected Exercises
-                <span className="exercise-count">{selectedExercises.length} exercises</span>
-              </h4>
+            {selectedMuscleGroups.length === 0 && (
+              <div className="workout-select-prompt">
+                <Dumbbell size={24} />
+                <p>Select muscle groups to see available exercises</p>
+              </div>
+            )}
+            
+            <div className="workout-selected-section">
+              <div className="workout-selected-header">
+                <h4>Selected Exercises</h4>
+                <span className="workout-exercise-count">{selectedExercises.length}</span>
+              </div>
               
               {selectedExercises.length === 0 ? (
-                <div className="no-exercises-selected">
+                <div className="workout-no-selected">
                   <p>No exercises selected yet</p>
                 </div>
               ) : (
-                <div className="selected-exercises-list">
+                <div className="workout-selected-list">
                   <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                     <SortableContext items={selectedExercises.map(ex => ex.id)} strategy={verticalListSortingStrategy}>
                       {selectedExercises.map((exercise) => (
@@ -377,17 +408,33 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
         
       case 3:
         return (
-          <div className="step-content">
+          <div className="workout-step">
             <h3>Review & Confirm</h3>
             <p>Review your workout routine before creating it.</p>
             
-            <div className="review-container">
-              <div className="review-routine-name">
+            <div className="workout-review">
+              <div className="workout-review-header">
                 <BarChart3 size={24} />
                 <h4>{routineName || 'Untitled Workout'}</h4>
               </div>
               
-              <div className="review-exercises">
+              <div className="workout-review-tags">
+                {selectedMuscleGroups
+                  .filter(muscleGroupId => 
+                    selectedExercises.some(ex => ex.muscleGroup === muscleGroupId)
+                  )
+                  .map(muscleGroupId => {
+                    const muscleGroupData = muscleGroups.find(mg => mg.id === muscleGroupId);
+                    return (
+                      <div key={muscleGroupId} className="workout-review-tag">
+                        <span className="workout-review-tag-icon">{muscleGroupData.icon}</span>
+                        <span className="workout-review-tag-name">{muscleGroupData.name}</span>
+                      </div>
+                    );
+                  })}
+              </div>
+              
+              <div className="workout-review-content">
                 {selectedMuscleGroups.map(muscleGroup => {
                   const groupExercises = selectedExercises.filter(ex => ex.muscleGroup === muscleGroup);
                   if (groupExercises.length === 0) return null;
@@ -395,20 +442,20 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
                   const muscleGroupData = muscleGroups.find(mg => mg.id === muscleGroup);
                   
                   return (
-                    <div key={muscleGroup} className="review-muscle-group">
-                      <div className="review-muscle-group-header">
-                        <span className="review-muscle-icon">{muscleGroupData.icon}</span>
+                    <div key={muscleGroup} className="workout-review-group">
+                      <div className="workout-review-group-header">
+                        <div className="workout-review-icon">{muscleGroupData.icon}</div>
                         <h5>{muscleGroupData.name}</h5>
-                        <span className="review-exercise-count">{groupExercises.length} exercises</span>
+                        <div className="workout-review-count">{groupExercises.length}</div>
                       </div>
                       
-                      <div className="review-exercise-list">
-                        {groupExercises.map(exercise => (
-                          <div key={exercise.id} className="review-exercise-item">
-                            <div className="review-exercise-name">{exercise.name}</div>
-                            <div className="review-exercise-details">
-                              <span className="review-equipment">{exercise.equipment}</span>
-                              <span className="review-sets">{exercise.sets} sets</span>
+                      <div className="workout-review-exercises">
+                        {groupExercises.map((exercise, index) => (
+                          <div key={exercise.id} className="workout-review-exercise">
+                            <div className="workout-review-name">{exercise.name}</div>
+                            <div className="workout-review-details">
+                              <span className="workout-review-equipment">{exercise.equipment}</span>
+                              <span className="workout-review-sets">{exercise.sets} sets</span>
                             </div>
                           </div>
                         ))}
@@ -417,6 +464,10 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
                   );
                 })}
               </div>
+              
+              <button className="workout-create-btn" onClick={handleSubmit}>
+                Create Workout
+              </button>
             </div>
           </div>
         );
@@ -429,18 +480,25 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
   if (!visible) return null;
 
   return (
-    <div className={`modal-overlay ${exiting ? 'fade-out' : ''}`} onClick={handleClose}>
-      <div className={`modal-content create-workout-modal ${exiting ? 'slide-down' : ''}`} onClick={(e) => e.stopPropagation()}>
-        <div className="modal-fixed-header">
-          <button className="close-button" onClick={handleClose}>
-            <X size={20} />
-          </button>
-          
-          <div className="steps-indicator">
+    <div className={`workout-overlay ${exiting ? 'workout-fade-out' : ''}`} onClick={(e) => e.stopPropagation()}>
+      <div 
+        className={`workout-modal ${exiting ? 'workout-slide-down' : ''}`} 
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className="workout-exit-btn" onClick={promptExit} aria-label="Close modal">
+          <XCircle size={26} strokeWidth={2} />
+        </button>
+        
+        <div className="workout-header">
+          <div className="workout-steps">
             {[1, 2, 3].map(step => (
-              <div key={step} className={`step ${currentStep === step ? 'active' : ''} ${currentStep > step ? 'completed' : ''}`}>
-                <div className="step-number">{step}</div>
-                <div className="step-name">
+              <div 
+                key={step} 
+                className={`workout-step-indicator ${currentStep === step ? 'active' : ''} 
+                ${currentStep > step ? 'completed' : ''}`}
+              >
+                <div className="workout-step-number">{step}</div>
+                <div className="workout-step-label">
                   {step === 1 ? 'Name' : step === 2 ? 'Exercises' : 'Review'}
                 </div>
               </div>
@@ -448,60 +506,87 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
           </div>
         </div>
         
-        <div className="modal-scrollable-content">
+        <div className="workout-modal-content">
           {renderStepContent()}
         </div>
         
-        <div className="modal-fixed-footer">
+        <div className="workout-footer">
           <button 
-            className="secondary-button" 
+            className="workout-back-btn" 
             onClick={currentStep === 1 ? handleClose : goToPreviousStep}
           >
             {currentStep === 1 ? 'Cancel' : (
               <>
                 <ChevronLeft size={18} />
-                Back
+                <span>Back</span>
               </>
             )}
           </button>
           
           <button 
-            className="primary-button" 
+            className="workout-next-btn" 
             onClick={goToNextStep}
-            disabled={(currentStep === 1 && !routineName.trim()) || (currentStep === 2 && selectedExercises.length === 0)}
+            disabled={(currentStep === 1 && !routineName.trim()) || 
+                     (currentStep === 2 && selectedExercises.length === 0)}
           >
             {currentStep < 3 ? (
               <>
-                Next
+                <span>Next</span>
                 <ChevronRight size={18} />
               </>
             ) : (
               <>
-                Create Workout
+                <span>Create Workout</span>
                 <Save size={18} />
               </>
             )}
           </button>
         </div>
         
-        {/* Delete Confirmation Modal */}
+        {/* Delete Exercise Confirmation Modal */}
         {showDeleteConfirmation && (
-          <div className="delete-confirmation-overlay" onClick={cancelRemoveExercise}>
-            <div className="delete-confirmation-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="workout-delete-overlay" onClick={(e) => e.stopPropagation()}>
+            <div className="workout-delete-modal" onClick={(e) => e.stopPropagation()}>
               <h4>Remove Exercise</h4>
               <p>Are you sure you want to remove this exercise from your routine?</p>
-              <div className="delete-confirmation-actions">
+              
+              <div className="workout-delete-actions">
                 <button 
-                  className="delete-cancel-button" 
+                  className="workout-delete-cancel" 
                   onClick={cancelRemoveExercise}
                 >
                   Cancel
                 </button>
                 <button 
-                  className="delete-confirm-button" 
+                  className="workout-delete-confirm" 
                   onClick={confirmRemoveExercise}
                 >
                   Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Exit Confirmation Modal */}
+        {showExitConfirmation && (
+          <div className="workout-delete-overlay" onClick={(e) => e.stopPropagation()}>
+            <div className="workout-delete-modal" onClick={(e) => e.stopPropagation()}>
+              <h4 className="exit-title">Quit Workout Creation</h4>
+              <p>Do you want to quit creating routine?</p>
+              
+              <div className="workout-delete-actions">
+                <button 
+                  className="workout-delete-cancel" 
+                  onClick={cancelExit}
+                >
+                  No
+                </button>
+                <button 
+                  className="workout-delete-confirm" 
+                  onClick={confirmExit}
+                >
+                  Yes
                 </button>
               </div>
             </div>
@@ -526,7 +611,6 @@ const SortableExerciseItem = ({ exercise, onRemove, onUpdateSets }) => {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1,
   };
 
   // Array of possible set values
@@ -536,39 +620,39 @@ const SortableExerciseItem = ({ exercise, onRemove, onUpdateSets }) => {
     <div 
       ref={setNodeRef} 
       style={style} 
-      className="selected-exercise-item"
+      className="workout-selected-item"
       data-dragging={isDragging}
     >
-      <div className="drag-handle" {...attributes} {...listeners}>
+      <div className="workout-selected-drag" {...attributes} {...listeners}>
         <GripVertical size={16} />
       </div>
       
-      <div className="selected-exercise-info">
-        <div className="selected-exercise-name">{exercise.name}</div>
-        <div className="selected-exercise-details">
-          <span className="selected-muscle-group">
+      <div className="workout-selected-info">
+        <div className="workout-selected-name">{exercise.name}</div>
+        <div className="workout-selected-details">
+          <span className="workout-selected-group">
+            {muscleGroups.find(mg => mg.id === exercise.muscleGroup)?.icon} 
             {muscleGroups.find(mg => mg.id === exercise.muscleGroup)?.name}
           </span>
-          <span className="selected-equipment">{exercise.equipment}</span>
+          <span className="workout-selected-equipment">{exercise.equipment}</span>
         </div>
       </div>
       
-      <div className="selected-exercise-sets">
-        <div className="sets-dropdown-container">
-          <select
-            className="sets-dropdown"
-            value={exercise.sets}
-            onChange={(e) => onUpdateSets(exercise.id, e.target.value)}
-          >
-            {setPossibilities.map(num => (
-              <option key={num} value={num}>{num} sets</option>
-            ))}
-          </select>
-        </div>
+      <div className="workout-selected-sets">
+        <select
+          className="workout-sets-dropdown"
+          value={exercise.sets}
+          onChange={(e) => onUpdateSets(exercise.id, e.target.value)}
+          aria-label="Number of sets"
+        >
+          {setPossibilities.map(num => (
+            <option key={num} value={num}>{num} sets</option>
+          ))}
+        </select>
       </div>
       
       <button
-        className="remove-exercise-btn"
+        className="workout-remove-btn"
         onClick={() => onRemove(exercise.id)}
         title="Remove exercise"
       >
