@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './MiniPopup.css';
 import ConfirmStartWorkout from './ConfirmStartWorkout';
-import { ArrowLeft, Play, Trash2 } from 'lucide-react';
+import { ArrowLeft, Play, Trash2, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const MiniPopup = ({ muscleGroup, onClose, onDelete }) => {
@@ -42,7 +42,6 @@ const MiniPopup = ({ muscleGroup, onClose, onDelete }) => {
     <div 
       className={`modal-overlay ${exiting ? 'fade-out' : ''}`} 
       onClick={handleClose}
-      // Stop event propagation
       onMouseDown={(e) => e.stopPropagation()}
     >
       <div
@@ -61,10 +60,10 @@ const MiniPopup = ({ muscleGroup, onClose, onDelete }) => {
         <div className="popup-body">
           <p className="popup-description">Here are some recommended exercises for <strong>{muscleGroup.name}</strong>:</p>
           
-          <div className="exercise-list">
+          <div className="exercise-list-container">
             {muscleGroup.exercises.map((ex, i) => (
               <div key={i} className="exercise-item">
-                <span className="exercise-bullet">•</span>
+                <div className="exercise-bullet"></div>
                 <span className="exercise-name">{ex}</span>
               </div>
             ))}
@@ -74,34 +73,63 @@ const MiniPopup = ({ muscleGroup, onClose, onDelete }) => {
         <div className="popup-footer">
           {/* Delete button */}
           <button className="popup-delete-button" onClick={handleDelete}>
-            <Trash2 size={16} style={{ marginRight: '6px' }} />
-            Delete
+            <Trash2 size={16} />
+            <span>Delete</span>
           </button>
 
           {/* Start Workout button */}
           <button className="popup-start-button" onClick={() => setShowConfirm(true)}>
-            <Play size={16} style={{ marginRight: '6px' }} />
-            Start Workout
+            <Play size={16} />
+            <span>Start Workout</span>
           </button>
         </div>
 
         {showConfirm && (
-          <ConfirmStartWorkout
-            onConfirm={() => {
-              setShowConfirm(false);
-              onClose(); // Close the modal
-              navigate("/workout", { state: { muscleGroup } }); // ✅ Pass data to WorkoutPage
-            }}
-            onCancel={() => setShowConfirm(false)}
-          />
+          <div className="confirmation-popup">
+            <div className="confirmation-content">
+              <h3>Start Workout</h3>
+              <p>Are you ready to start your {muscleGroup.name} workout?</p>
+              <div className="confirmation-actions">
+                <button 
+                  className="cancel-btn" 
+                  onClick={() => setShowConfirm(false)}
+                >
+                  Cancel
+                </button>
+                <button 
+                  className="confirm-btn" 
+                  onClick={() => {
+                    setShowConfirm(false);
+                    onClose(); // Close the modal
+                    navigate("/workout", { state: { muscleGroup } }); // Pass data to WorkoutPage
+                  }}
+                >
+                  Start Now
+                </button>
+              </div>
+            </div>
+          </div>
         )}
 
         {showDeleteConfirm && (
-          <div className="delete-confirmation-popup">
-            <p>Do you really want to delete this workout?</p>
-            <div className="confirmation-buttons">
-              <button className="confirm-yes" onClick={confirmDelete}>Yes, Delete</button>
-              <button className="confirm-no" onClick={() => setShowDeleteConfirm(false)}>Cancel</button>
+          <div className="confirmation-popup">
+            <div className="confirmation-content">
+              <h3>Delete Workout</h3>
+              <p>Are you sure you want to delete this workout?</p>
+              <div className="confirmation-actions">
+                <button 
+                  className="cancel-btn" 
+                  onClick={() => setShowDeleteConfirm(false)}
+                >
+                  Cancel
+                </button>
+                <button 
+                  className="confirm-btn delete-btn" 
+                  onClick={confirmDelete}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         )}

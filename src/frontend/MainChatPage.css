@@ -246,6 +246,63 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 14px;
+  padding: 0 10px;
+}
+
+.folder-navigation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.folder-options-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #293752 0%, #223048 100%);
+  border: none;
+  color: #a3b1cc;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.folder-options-button:hover {
+  transform: translateY(-2px);
+  color: #f5f7fa;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(145deg, #293752 0%, #223048 100%);
+  border: none;
+  color: #f5f7fa;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.back-button svg {
+  transition: transform 0.2s ease;
+}
+
+.back-button:hover svg {
+  transform: translateX(-2px);
 }
 
 .workout-routines-header h3 {
@@ -255,6 +312,12 @@
   margin: 0;
 }
 
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.add-folder-button,
 .add-routine-button {
   display: flex;
   align-items: center;
@@ -262,18 +325,53 @@
   background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
   border: none;
   color: white;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 0.85rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 4px 12px rgba(79, 145, 243, 0.2);
 }
 
+.add-folder-button:hover,
 .add-routine-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(79, 145, 243, 0.3);
+}
+
+.folder-item {
+  background: linear-gradient(145deg, #293752 0%, #223048 100%);
+  border-radius: 12px;
+  color: #f5f7fa;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.folder-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.folder-item h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.folder-item .folder-icon {
+  font-size: 1.5rem;
+  color: #a3b1cc;
+  transition: color 0.2s ease;
+}
+
+.folder-item .folder-icon:hover {
+  color: #f5f7fa;
 }
 
 .scroll-content {
@@ -699,4 +797,215 @@
   align-self: flex-start;
   border: 1px solid rgba(255, 255, 255, 0.1);
   margin-right: auto;
+}
+
+/* Create Folder Popup Styles */
+.folder-popup-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+}
+
+.create-folder-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(145deg, #1a1f2e 0%, #151a28 100%);
+  border-radius: 12px;
+  width: 280px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: popupSlideIn 0.2s ease-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes popupSlideIn {
+  from {
+    transform: translate(-50%, -48%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+.create-folder-popup .popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+.create-folder-popup .popup-header h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f5f7fa;
+}
+
+.create-folder-popup .close-button {
+  background: none;
+  border: none;
+  color: #a3b1cc;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.create-folder-popup .close-button:hover {
+  color: #f5f7fa;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.create-folder-popup .popup-content {
+  padding: 16px;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 50px;
+}
+
+.create-folder-popup .folder-name-input {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #f5f7fa;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.create-folder-popup .folder-name-input:focus {
+  outline: none;
+  border-color: #4f91f3;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.create-folder-popup .popup-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+.create-folder-popup .cancel-button,
+.create-folder-popup .create-button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 70px;
+}
+
+.create-folder-popup .cancel-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #a3b1cc;
+}
+
+.create-folder-popup .cancel-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #f5f7fa;
+}
+
+.create-folder-popup .create-button {
+  background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 4px 12px rgba(79, 145, 243, 0.2);
+}
+
+.create-folder-popup .create-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 145, 243, 0.3);
+}
+
+.create-folder-popup .create-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Remove old modal styles */
+.modal-overlay,
+.create-folder-modal,
+.modal-header,
+.modal-content,
+.modal-footer {
+  display: none;
+}
+
+/* Folder Options Popup Styles */
+.folder-options-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(145deg, #1a1f2e 0%, #151a28 100%);
+  border-radius: 12px;
+  width: 280px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: popupSlideIn 0.2s ease-out;
+  z-index: 1000;
+}
+
+.folder-action-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: none;
+  border: none;
+  color: #f5f7fa;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.folder-action-button:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.folder-action-button.delete-action {
+  color: #ff6b6b;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 8px;
+  padding-top: 16px;
+}
+
+.folder-action-button.delete-action:hover {
+  background-color: rgba(255, 107, 107, 0.08);
+}
+
+.folder-action-button svg {
+  opacity: 0.8;
+}
+
+.confirmation-btn.delete-btn {
+  background: linear-gradient(90deg, #ff6b6b 0%, #ff9797 100%);
+  color: white;
 }

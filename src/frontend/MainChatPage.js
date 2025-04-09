@@ -4,7 +4,8 @@ import MiniPopup from './MainChatPages/MiniPopup';
 import CreateWorkoutRoutine from './MainChatPages/CreateWorkoutRoutine';
 import Sidebar from './Components/Sidebar';
 import UserMenu from './Components/UserMenu';
-import { GripVertical, X, Plus } from 'lucide-react';
+import { GripVertical, X, Plus, ChevronLeft, MoreVertical, Edit, Trash2, Settings } from 'lucide-react';
+import { FolderIcon } from 'lucide-react';
 
 import {
   DndContext,
@@ -43,8 +44,19 @@ const MainChatPage = () => {
   const closeSidebar = () => setSidebarOpen(false);
   const toggleUserMenu = () => setUserMenuOpen(!userMenuOpen);
   const closeUserMenu = () => setUserMenuOpen(false);
-  const chatBodyRef = useRef(null);
+  const chatBodyRef = useRef();
   const mainContainerRef = useRef(null);
+  const [folders, setFolders] = useState({
+    'Initial Recommendations': initialMuscles,
+  });
+  const [currentFolder, setCurrentFolder] = useState('Initial Recommendations');
+  const [showCreateFolder, setShowCreateFolder] = useState(false);
+  const [newFolderName, setNewFolderName] = useState('');
+  const [showFolderOptions, setShowFolderOptions] = useState(false);
+  const [folderToRename, setFolderToRename] = useState('');
+  const [newRenameFolderName, setNewRenameFolderName] = useState('');
+  const [showFolderDeleteConfirmation, setShowFolderDeleteConfirmation] = useState(false);
+  const [folderToDelete, setFolderToDelete] = useState('');
 
   // Function to scroll chat body to bottom
   const scrollChatToBottom = () => {
@@ -126,7 +138,20 @@ const MainChatPage = () => {
   
   const handleDeleteMuscle = (muscleId) => {
     console.log(`Deleting muscle group with ID: ${muscleId}`);
-    setTargetMuscles((prev) => prev.filter((muscle) => muscle.id !== muscleId));
+    
+    // Remove from folders structure
+    if (currentFolder) {
+      setFolders(prev => {
+        const updatedFolders = {...prev};
+        if (updatedFolders[currentFolder]) {
+          updatedFolders[currentFolder] = updatedFolders[currentFolder].filter(
+            muscle => muscle.id !== muscleId
+          );
+        }
+        return updatedFolders;
+      });
+    }
+    
     setShowDeleteConfirmation(false);
   };
 
@@ -195,12 +220,107 @@ const MainChatPage = () => {
     const combinedName = newWorkouts.map(workout => workout.muscle).join(', ');
     const allExercises = newWorkouts.flatMap(workout => workout.exercises.map(ex => ex.name));
     const newMuscle = {
-      id: `${targetMuscles.length + 1}`,
+      id: `${Date.now()}`,  // Use timestamp to ensure unique ID
       name: combinedName,
       exercises: allExercises,
     };
-    setTargetMuscles((prev) => [...prev, newMuscle]);
+    
+    // Add the new routine to the current folder
+    setFolders(prev => {
+      // Create a copy of the folders object
+      const updatedFolders = {...prev};
+      
+      // Add the new routine to the current folder's array
+      if (currentFolder && updatedFolders[currentFolder]) {
+        updatedFolders[currentFolder] = [...updatedFolders[currentFolder], newMuscle];
+      } else {
+        // Fallback to default folder if no current folder
+        updatedFolders['Initial Recommendations'] = [
+          ...updatedFolders['Initial Recommendations'] || [],
+          newMuscle
+        ];
+      }
+      
+      return updatedFolders;
+    });
+    
     setShowCreateWorkout(false);
+  };
+
+  const handleCreateFolder = () => {
+    if (newFolderName.trim()) {
+      setFolders((prev) => ({ ...prev, [newFolderName.trim()]: [] }));
+      setNewFolderName('');
+      setShowCreateFolder(false);
+    }
+  };
+
+  const handleEnterFolder = (folderName) => {
+    setCurrentFolder(folderName);
+  };
+
+  const handleBackToParent = () => {
+    setCurrentFolder(''); // Assuming '' is the root
+  };
+
+  const handleFolderOptions = (e) => {
+    e.stopPropagation();
+    setShowFolderOptions(true);
+  };
+
+  const handleRenameFolder = () => {
+    if (newRenameFolderName.trim() && newRenameFolderName.trim() !== folderToRename) {
+      setFolders(prev => {
+        const updatedFolders = { ...prev };
+        
+        // Copy the folder contents to the new name
+        updatedFolders[newRenameFolderName.trim()] = [...updatedFolders[folderToRename]];
+        
+        // Delete the old folder
+        delete updatedFolders[folderToRename];
+        
+        return updatedFolders;
+      });
+      
+      // If we're in the renamed folder, update currentFolder
+      if (currentFolder === folderToRename) {
+        setCurrentFolder(newRenameFolderName.trim());
+      }
+      
+      // Reset states
+      setNewRenameFolderName('');
+      setFolderToRename('');
+      setShowFolderOptions(false);
+    } else {
+      // Just close if name is the same or empty
+      setNewRenameFolderName('');
+      setFolderToRename('');
+      setShowFolderOptions(false);
+    }
+  };
+
+  const openFolderRenameDialog = () => {
+    setFolderToRename(currentFolder);
+    setNewRenameFolderName(currentFolder);
+    setShowFolderOptions(false);
+  };
+
+  const openFolderDeleteConfirmation = () => {
+    setFolderToDelete(currentFolder);
+    setShowFolderDeleteConfirmation(true);
+    setShowFolderOptions(false);
+  };
+
+  const handleDeleteFolder = () => {
+    setFolders(prev => {
+      const updatedFolders = { ...prev };
+      delete updatedFolders[folderToDelete];
+      return updatedFolders;
+    });
+    
+    setCurrentFolder('');  // Navigate back to root
+    setShowFolderDeleteConfirmation(false);
+    setFolderToDelete('');
   };
 
   return (
@@ -239,32 +359,69 @@ const MainChatPage = () => {
         {/* SCROLLABLE MIDDLE PANE */}
         <div className="scroll-pane">
           <div className="workout-routines-header">
-            <h3>Your Workout Routines (Press any to start the workout)</h3>
-            <button 
-              className="add-routine-button"
-              onClick={() => setShowCreateWorkout(true)}
-            >
-              <Plus size={18} />
-              <span>New Routine</span>
-            </button>
+            <div className="folder-navigation">
+              {currentFolder && (
+                <button 
+                  className="back-button"
+                  onClick={handleBackToParent}
+                >
+                  <ChevronLeft size={20} />
+                  <span>Back</span>
+                </button>
+              )}
+              <h3>{currentFolder || 'Folders'}</h3>
+              {currentFolder && (
+                <button 
+                  className="folder-options-button"
+                  onClick={handleFolderOptions}
+                >
+                  <Settings size={18} />
+                </button>
+              )}
+            </div>
+            <div className="header-actions">
+              {currentFolder ? (
+                <button 
+                  className="add-routine-button"
+                  onClick={() => setShowCreateWorkout(true)}
+                >
+                  <Plus size={18} />
+                  <span>New Routine</span>
+                </button>
+              ) : (
+                <button 
+                  className="add-folder-button"
+                  onClick={() => setShowCreateFolder(true)}
+                >
+                  <Plus size={18} />
+                  <span>New Folder</span>
+                </button>
+              )}
+            </div>
           </div>
           
-          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-            <SortableContext
-              items={targetMuscles.map((m) => m.id)}
-              strategy={horizontalListSortingStrategy}
-            >
-              <div className="scroll-content">
-                {targetMuscles.map((muscle) => (
-                  <SortableMuscleBox
-                    key={muscle.id}
-                    muscle={muscle}
-                    onClick={() => setModalContent(muscle)}
-                  />
-                ))}
-              </div>
-            </SortableContext>
-          </DndContext>
+          <div className="scroll-content">
+            {currentFolder ? (
+              folders[currentFolder].map((muscle) => (
+                <SortableMuscleBox
+                  key={muscle.id}
+                  muscle={muscle}
+                  onClick={() => setModalContent(muscle)}
+                />
+              ))
+            ) : (
+              Object.keys(folders).map((folderName) => (
+                <div 
+                  key={folderName} 
+                  className="folder-item" 
+                  onClick={() => handleEnterFolder(folderName)}
+                >
+                  <h4>{folderName}</h4>
+                  <FolderIcon className="folder-icon" />
+                </div>
+              ))
+            )}
+          </div>
         </div>
 
         {/* CHAT MESSAGES */}
@@ -341,6 +498,160 @@ const MainChatPage = () => {
               <button 
                 className="confirm-btn" 
                 onClick={() => handleDeleteMuscle(muscleToDelete)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Create Folder Popup */}
+      {showCreateFolder && (
+        <>
+          <div className="folder-popup-backdrop"></div>
+          <div className="create-folder-popup">
+            <div className="popup-header">
+              <h3>Create New Folder</h3>
+              <button 
+                className="close-button"
+                onClick={() => setShowCreateFolder(false)}
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="popup-content">
+              <input
+                type="text"
+                value={newFolderName}
+                onChange={(e) => setNewFolderName(e.target.value)}
+                placeholder="Enter folder name"
+                className="folder-name-input"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleCreateFolder();
+                  }
+                }}
+                autoFocus
+              />
+            </div>
+            <div className="popup-footer">
+              <button 
+                className="cancel-button"
+                onClick={() => setShowCreateFolder(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="create-button"
+                onClick={handleCreateFolder}
+                disabled={!newFolderName.trim()}
+              >
+                Create
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Folder Options Popup */}
+      {showFolderOptions && (
+        <>
+          <div className="folder-popup-backdrop" onClick={() => setShowFolderOptions(false)}></div>
+          <div className="folder-options-popup">
+            <div className="popup-header">
+              <h3>Folder Options</h3>
+              <button 
+                className="close-button"
+                onClick={() => setShowFolderOptions(false)}
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="popup-content">
+              <button className="folder-action-button" onClick={openFolderRenameDialog}>
+                <Edit size={18} />
+                <span>Rename Folder</span>
+              </button>
+              <button className="folder-action-button delete-action" onClick={openFolderDeleteConfirmation}>
+                <Trash2 size={18} />
+                <span>Delete Folder</span>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Rename Folder Popup */}
+      {folderToRename && (
+        <>
+          <div className="folder-popup-backdrop"></div>
+          <div className="create-folder-popup">
+            <div className="popup-header">
+              <h3>Rename Folder</h3>
+              <button 
+                className="close-button"
+                onClick={() => {
+                  setFolderToRename('');
+                  setNewRenameFolderName('');
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <div className="popup-content">
+              <input
+                type="text"
+                value={newRenameFolderName}
+                onChange={(e) => setNewRenameFolderName(e.target.value)}
+                placeholder="Enter new folder name"
+                className="folder-name-input"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleRenameFolder();
+                  }
+                }}
+                autoFocus
+              />
+            </div>
+            <div className="popup-footer">
+              <button 
+                className="cancel-button"
+                onClick={() => {
+                  setFolderToRename('');
+                  setNewRenameFolderName('');
+                }}
+              >
+                Cancel
+              </button>
+              <button 
+                className="create-button"
+                onClick={handleRenameFolder}
+                disabled={!newRenameFolderName.trim() || newRenameFolderName.trim() === folderToRename}
+              >
+                Rename
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Delete Folder Confirmation */}
+      {showFolderDeleteConfirmation && (
+        <div className="confirmation-popup">
+          <div className="confirmation-content">
+            <h3>Delete Folder</h3>
+            <p>Are you sure you want to delete this folder? This will permanently delete all workout routines within the folder.</p>
+            <div className="confirmation-actions">
+              <button 
+                className="cancel-btn" 
+                onClick={() => setShowFolderDeleteConfirmation(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="confirm-btn delete-btn" 
+                onClick={handleDeleteFolder}
               >
                 Delete
               </button>

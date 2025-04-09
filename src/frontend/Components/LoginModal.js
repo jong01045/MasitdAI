@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginModal.css';
+import { X } from 'lucide-react';
 
 function LoginModal({ isOpen, onClose, initialTab = 'login' }) {
   const navigate = useNavigate();
@@ -95,27 +96,31 @@ function LoginModal({ isOpen, onClose, initialTab = 'login' }) {
   return (
     <div className="modal-overlay">
       <div className="login-modal">
-        <div className="modal-header">
-          <div className="modal-logo">MasidtAI</div>
-          <button className="close-button" onClick={onClose}>×</button>
+        <div className="modal-fixed-section">
+          <div className="modal-header">
+            <div className="modal-logo">MasidtAI</div>
+            <button className="close-button" onClick={onClose}>
+              <X size={20} />
+            </button>
+          </div>
+
+          <div className="modal-tabs">
+            <button 
+              className={`tab-button ${activeTab === 'login' ? 'active' : ''}`}
+              onClick={() => setActiveTab('login')}
+            >
+              Already registered
+            </button>
+            <button 
+              className={`tab-button ${activeTab === 'new' ? 'active' : ''}`}
+              onClick={() => setActiveTab('new')}
+            >
+              New user
+            </button>
+          </div>
         </div>
 
-        <div className="modal-tabs">
-          <button 
-            className={`tab-button ${activeTab === 'login' ? 'active' : ''}`}
-            onClick={() => setActiveTab('login')}
-          >
-            Already registered
-          </button>
-          <button 
-            className={`tab-button ${activeTab === 'new' ? 'active' : ''}`}
-            onClick={() => setActiveTab('new')}
-          >
-            New user
-          </button>
-        </div>
-
-        <div className="modal-content">
+        <div className="modal-scrollable-content">
           {activeTab === 'login' ? (
             <div className="login-form">
               <h2>Welcome back!</h2>
@@ -190,9 +195,9 @@ function LoginModal({ isOpen, onClose, initialTab = 'login' }) {
                   />
                 </div>
                 
-                <p className="survey-info">
+                <div className="survey-info">
                   After registration, we'll ask a few questions to personalize your workout plan.
-                </p>
+                </div>
                 
                 <button type="submit" className="start-survey-btn">
                   Register & Start Survey
