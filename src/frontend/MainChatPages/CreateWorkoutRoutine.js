@@ -431,24 +431,28 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
   return (
     <div className={`modal-overlay ${exiting ? 'fade-out' : ''}`} onClick={handleClose}>
       <div className={`modal-content create-workout-modal ${exiting ? 'slide-down' : ''}`} onClick={(e) => e.stopPropagation()}>
-        <button className="close-button" onClick={handleClose}>
-          <X size={20} />
-        </button>
-        
-        <div className="steps-indicator">
-          {[1, 2, 3].map(step => (
-            <div key={step} className={`step ${currentStep === step ? 'active' : ''} ${currentStep > step ? 'completed' : ''}`}>
-              <div className="step-number">{step}</div>
-              <div className="step-name">
-                {step === 1 ? 'Name' : step === 2 ? 'Exercises' : 'Review'}
-                  </div>
-            </div>
-          ))}
+        <div className="modal-fixed-header">
+          <button className="close-button" onClick={handleClose}>
+            <X size={20} />
+          </button>
+          
+          <div className="steps-indicator">
+            {[1, 2, 3].map(step => (
+              <div key={step} className={`step ${currentStep === step ? 'active' : ''} ${currentStep > step ? 'completed' : ''}`}>
+                <div className="step-number">{step}</div>
+                <div className="step-name">
+                  {step === 1 ? 'Name' : step === 2 ? 'Exercises' : 'Review'}
+                </div>
+              </div>
+            ))}
           </div>
+        </div>
         
-        {renderStepContent()}
+        <div className="modal-scrollable-content">
+          {renderStepContent()}
+        </div>
         
-        <div className="modal-footer">
+        <div className="modal-fixed-footer">
           <button 
             className="secondary-button" 
             onClick={currentStep === 1 ? handleClose : goToPreviousStep}
@@ -500,7 +504,7 @@ const CreateWorkoutRoutine = ({ onClose, onConfirm }) => {
                   Remove
                 </button>
               </div>
-          </div>
+            </div>
           </div>
         )}
       </div>
@@ -551,25 +555,25 @@ const SortableExerciseItem = ({ exercise, onRemove, onUpdateSets }) => {
       
       <div className="selected-exercise-sets">
         <div className="sets-dropdown-container">
-        <select
-          className="sets-dropdown"
-          value={exercise.sets}
+          <select
+            className="sets-dropdown"
+            value={exercise.sets}
             onChange={(e) => onUpdateSets(exercise.id, e.target.value)}
-        >
+          >
             {setPossibilities.map(num => (
-            <option key={num} value={num}>{num} sets</option>
-          ))}
-        </select>
+              <option key={num} value={num}>{num} sets</option>
+            ))}
+          </select>
         </div>
       </div>
       
-              <button
+      <button
         className="remove-exercise-btn"
         onClick={() => onRemove(exercise.id)}
         title="Remove exercise"
       >
         <X size={16} />
-              </button>
+      </button>
     </div>
   );
 };

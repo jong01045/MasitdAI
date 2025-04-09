@@ -126,9 +126,17 @@ const MainChatPage = () => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (active.id !== over.id) {
-      const oldIndex = targetMuscles.findIndex((m) => m.id === active.id);
-      const newIndex = targetMuscles.findIndex((m) => m.id === over.id);
-      setTargetMuscles((items) => arrayMove(items, oldIndex, newIndex));
+      if (currentFolder) {
+        setFolders(prev => {
+          const updatedFolders = {...prev};
+          const currentItems = [...updatedFolders[currentFolder]];
+          const oldIndex = currentItems.findIndex((m) => m.id === active.id);
+          const newIndex = currentItems.findIndex((m) => m.id === over.id);
+          
+          updatedFolders[currentFolder] = arrayMove(currentItems, oldIndex, newIndex);
+          return updatedFolders;
+        });
+      }
     }
   };
 
@@ -168,7 +176,6 @@ const MainChatPage = () => {
     const style = {
       transform: CSS.Transform.toString(transform),
       transition,
-      opacity: isDragging ? 0.5 : 1,
     };
   
     return (
@@ -177,6 +184,7 @@ const MainChatPage = () => {
         style={style}
         className="muscle-box"
         onClick={onClick}
+        data-dragging={isDragging}
       >
         <div className="muscle-box-header">
           <div
@@ -402,13 +410,24 @@ const MainChatPage = () => {
           
           <div className="scroll-content">
             {currentFolder ? (
-              folders[currentFolder].map((muscle) => (
-                <SortableMuscleBox
-                  key={muscle.id}
-                  muscle={muscle}
-                  onClick={() => setModalContent(muscle)}
-                />
-              ))
+              <DndContext 
+                sensors={sensors} 
+                collisionDetection={closestCenter} 
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext 
+                  items={folders[currentFolder].map(muscle => muscle.id)} 
+                  strategy={horizontalListSortingStrategy}
+                >
+                  {folders[currentFolder].map((muscle) => (
+                    <SortableMuscleBox
+                      key={muscle.id}
+                      muscle={muscle}
+                      onClick={() => setModalContent(muscle)}
+                    />
+                  ))}
+                </SortableContext>
+              </DndContext>
             ) : (
               Object.keys(folders).map((folderName) => (
                 <div 

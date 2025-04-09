@@ -432,6 +432,8 @@
   min-height: 250px;
   max-height: 300px;
   flex-shrink: 0;
+  transform: translate3d(0, 0, 0); /* Enable hardware acceleration for smoother animations */
+  will-change: transform, opacity; /* Hint for browser to optimize */
 }
 
 .muscle-box:hover {
@@ -462,10 +464,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
 }
 
 .drag-handle:hover {
   color: #f5f7fa;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .delete-button {
@@ -1008,4 +1018,13 @@
 .confirmation-btn.delete-btn {
   background: linear-gradient(90deg, #ff6b6b 0%, #ff9797 100%);
   color: white;
+}
+
+/* Enhanced muscle box dragging styles */
+.muscle-box[data-dragging="true"] {
+  z-index: 100;
+  opacity: 0.8;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(145deg, #304165 0%, #263556 100%);
+  border: 1px solid rgba(79, 145, 243, 0.3);
 }

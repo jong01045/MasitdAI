@@ -4,12 +4,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background: linear-gradient(160deg, rgba(29, 43, 69, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
   transition: opacity 0.3s ease;
+  backdrop-filter: blur(8px);
 }
 
 .modal-overlay.fade-out {
@@ -18,26 +19,24 @@
 
 .modal-content {
   position: relative;
-  background: #1c1c1c;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(160deg, #263247 0%, #1e293b 100%);
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
   max-width: 850px;
   width: 95%;
-  max-height: 600px;
-  min-height: 500px;
-  overflow-y: auto;
-  padding: 2rem 1.5rem;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
   transition: transform 0.3s ease, opacity 0.3s ease;
   color: #f5f7fa;
   margin: auto;
-  display: flex;
-  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
 }
 
 .create-workout-modal {
   display: flex;
   flex-direction: column;
-  background: #1e2936;
 }
 
 .modal-content.slide-down {
@@ -45,35 +44,87 @@
   opacity: 0;
 }
 
+/* Fixed header section */
+.modal-fixed-header {
+  padding: 1.5rem 1.5rem 0.5rem;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+/* Scrollable content section */
+.modal-scrollable-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0 1.5rem;
+  max-height: calc(90vh - 180px); /* Adjust for header and footer height */
+}
+
+/* Fixed footer section */
+.modal-fixed-footer {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  flex-shrink: 0;
+  background: linear-gradient(160deg, #263247 0%, #1e293b 100%);
+  z-index: 10;
+}
+
+/* Scrollbar styling for the scrollable content */
+.modal-scrollable-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-scrollable-content::-webkit-scrollbar-track {
+  background: rgba(30, 41, 59, 0.3);
+  border-radius: 10px;
+}
+
+.modal-scrollable-content::-webkit-scrollbar-thumb {
+  background: rgba(163, 177, 204, 0.3);
+  border-radius: 10px;
+}
+
+.modal-scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(163, 177, 204, 0.5);
+}
+
+/* Firefox support */
+.modal-scrollable-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(163, 177, 204, 0.3) rgba(30, 41, 59, 0.3);
+}
+
 .close-button {
   position: absolute;
   top: 16px;
   right: 16px;
-  background: none;
+  background: rgba(255, 255, 255, 0.1);
   border: none;
   color: #a3b1cc;
-  font-size: 1.2rem;
-  cursor: pointer;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+  transition: all 0.2s ease;
   z-index: 100;
 }
 
 .close-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   color: #fff;
+  transform: translateY(-2px);
 }
 
 /* Steps indicator */
 .steps-indicator {
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   position: relative;
   z-index: 10;
 }
@@ -85,7 +136,7 @@
   left: calc(16.66% + 20px);
   right: calc(16.66% + 20px);
   height: 2px;
-  background-color: #2c3a4a;
+  background-color: rgba(163, 177, 204, 0.2);
   z-index: 1;
 }
 
@@ -102,8 +153,8 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #2c3a4a;
-  border: 2px solid #3a4a5c;
+  background-color: rgba(30, 41, 59, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -121,10 +172,10 @@
 }
 
 .step.active .step-number {
-  background-color: #3a86ff;
-  border-color: #3a86ff;
+  background-color: #4f91f3;
+  border-color: #4f91f3;
   color: white;
-  box-shadow: 0 0 0 4px rgba(58, 134, 255, 0.2);
+  box-shadow: 0 0 0 4px rgba(79, 145, 243, 0.2);
 }
 
 .step.active .step-name {
@@ -133,8 +184,8 @@
 }
 
 .step.completed .step-number {
-  background-color: #3a86ff;
-  border-color: #3a86ff;
+  background-color: #4f91f3;
+  border-color: #4f91f3;
   color: white;
 }
 
@@ -144,9 +195,8 @@
 
 /* Step content */
 .step-content {
-  padding: 0.5rem;
-  margin-bottom: 3rem;
-  flex-grow: 1;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
 }
@@ -155,6 +205,9 @@
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   color: #f5f7fa;
+  background: linear-gradient(90deg, #f5f7fa 0%, #a3b1cc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .step-content p {
@@ -170,18 +223,18 @@
 .routine-name-input {
   width: 100%;
   padding: 0.8rem 1rem;
-  border: 2px solid #3a4a5c;
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
   font-size: 1rem;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  background: #2c3a4a;
+  background: rgba(30, 41, 59, 0.3);
   color: #f5f7fa;
   text-align: left;
 }
 
 .routine-name-input:focus {
-  border-color: #3a86ff;
-  box-shadow: 0 0 0 2px rgba(58, 134, 255, 0.2);
+  border-color: #4f91f3;
+  box-shadow: 0 0 0 2px rgba(79, 145, 243, 0.2);
   outline: none;
 }
 
@@ -738,41 +791,44 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.7rem 1.2rem;
-  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   border: none;
   gap: 0.5rem;
   font-size: 0.95rem;
-  transform: none !important;
   text-align: center;
 }
 
 .secondary-button {
   background: rgba(255, 255, 255, 0.1);
   color: #f5f7fa;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .secondary-button:hover {
   background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 .primary-button {
-  background: #3a86ff;
+  background: linear-gradient(90deg, #4f91f3 0%, #61dafb 100%);
   color: white;
+  box-shadow: 0 4px 12px rgba(79, 145, 243, 0.3);
 }
 
 .primary-button:hover:not(:disabled) {
-  background: #2a76ef;
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(58, 134, 255, 0.3);
+  background: linear-gradient(90deg, #5a9cf4 0%, #72e0ff 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 145, 243, 0.4);
 }
 
 .primary-button:disabled {
-  background: rgba(58, 134, 255, 0.5);
+  background: rgba(79, 145, 243, 0.4);
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 /* Scrollbar styling */
@@ -826,7 +882,7 @@
   
   .modal-content {
     width: 95%;
-    max-height: 90vh;
+    max-height: 95vh;
     border-radius: 12px;
     margin: auto;
     padding: 1.2rem;
@@ -834,24 +890,22 @@
     min-height: 600px;
   }
   
-  .step-content {
-    padding: 0.5rem;
+  .modal-fixed-header {
+    padding: 1.2rem 1.2rem 0.5rem;
   }
   
-  .review-container {
-    min-height: 350px;
+  .modal-scrollable-content {
+    max-height: calc(95vh - 170px);
+    padding: 0 1.2rem;
   }
-}
-
-@media (max-width: 480px) {
-  .modal-content {
-    padding: 1.5rem 1rem;
-    min-height: 550px;
+  
+  .modal-fixed-footer {
+    padding: 1.2rem;
   }
   
   .step-number {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     font-size: 0.9rem;
   }
   
@@ -859,23 +913,46 @@
     font-size: 0.75rem;
   }
   
+  .steps-indicator {
+    margin-bottom: 1.2rem;
+  }
+  
+  .steps-indicator::before {
+    top: 17px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 95%;
+    max-height: 95vh;
+    border-radius: 12px;
+  }
+  
+  .modal-fixed-header {
+    padding: 1rem 1rem 0.5rem;
+  }
+  
+  .modal-scrollable-content {
+    padding: 0 1rem;
+    max-height: calc(95vh - 160px);
+  }
+  
+  .modal-fixed-footer {
+    padding: 1rem;
+  }
+  
   .secondary-button,
   .primary-button {
-    padding: 0.6rem 1rem;
+    padding: 0.7rem 1rem;
     font-size: 0.9rem;
   }
   
-  .muscle-groups-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  
-  .selected-exercise-item {
-    flex-wrap: wrap;
-  }
-  
-  .selected-exercise-info {
-    width: 100%;
-    margin-bottom: 0.5rem;
+  .close-button {
+    width: 32px;
+    height: 32px;
+    top: 12px;
+    right: 12px;
   }
   
   .step-content h3 {
@@ -1029,24 +1106,24 @@ button:focus,
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(18, 28, 46, 0.85);
+  background: linear-gradient(160deg, rgba(29, 43, 69, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1200;
   animation: fadeIn 0.2s ease;
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(8px);
 }
 
 .delete-confirmation-modal {
-  background: linear-gradient(145deg, #1e293b 0%, #263247 100%);
-  border-radius: 12px;
+  background: linear-gradient(160deg, #263247 0%, #1e293b 100%);
+  border-radius: 16px;
   padding: 1.5rem;
   width: 90%;
   max-width: 400px;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
   animation: slideIn 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   text-align: center;
 }
 
@@ -1055,6 +1132,9 @@ button:focus,
   margin-top: 0;
   color: #f5f7fa;
   margin-bottom: 0.8rem;
+  background: linear-gradient(90deg, #f5f7fa 0%, #a3b1cc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .delete-confirmation-modal p {
@@ -1070,8 +1150,8 @@ button:focus,
 
 .delete-cancel-button,
 .delete-confirm-button {
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  border-radius: 10px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -1082,23 +1162,26 @@ button:focus,
 .delete-cancel-button {
   background: rgba(255, 255, 255, 0.1);
   color: #f5f7fa;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .delete-confirm-button {
   background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%);
   color: white;
-  box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
 }
 
 .delete-cancel-button:hover,
 .delete-confirm-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.delete-cancel-button:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .delete-confirm-button:hover {
-  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+  box-shadow: 0 6px 16px rgba(231, 76, 60, 0.4);
 }
 
 @keyframes fadeIn {
